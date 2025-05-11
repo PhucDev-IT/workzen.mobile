@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MyBottomNavIndicator" parent="">
-        <item name="android:color">@color/secondaryColor</item> <!-- màu gạch đỏ -->
-        <item name="android:width">24dp</item> <!-- chiều dài gạch -->
-        <item name="android:height">2dp</item> <!-- độ dày gạch -->
-        <item name="android:gravity">top</item> <!-- canh trên -->
-        <item name="android:shape">rectangle</item>
-    </style>
+    <!--Text size-->
+    <dimen name="font_very_small">8sp</dimen>
+    <dimen name="font_small">10sp</dimen>
+    <dimen name="font_normal">12sp</dimen>
+    <dimen name="font_medium">15sp</dimen>
+    <dimen name="font_xmedium">16sp</dimen>
+    <dimen name="font_xxmedium">17sp</dimen>
+    <dimen name="font_xxxmedium">18sp</dimen>
+    <dimen name="font_large">20sp</dimen>
+    <dimen name="font_big">25sp</dimen>
+
+
+
 </resources>

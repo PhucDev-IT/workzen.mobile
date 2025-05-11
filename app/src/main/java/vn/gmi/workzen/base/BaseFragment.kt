@@ -13,8 +13,8 @@ import vn.mobile.wallet.utils.Constants
 abstract class BaseFragment<B : ViewBinding> : Fragment(), BaseContract.View,
     View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    protected var binding: B? = null
-    protected val bindingNonNull get() = binding!!
+    protected var mBinding: B? = null
+    protected val binding get() = mBinding!!
     private var mLastClickTime = 0L
 
     abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): B
@@ -27,8 +27,8 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), BaseContract.View,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = getViewBinding(inflater, container)
-        return binding?.root
+        mBinding = getViewBinding(inflater, container)
+        return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +49,6 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), BaseContract.View,
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null // tránh leak
+        mBinding = null // tránh leak
     }
 }

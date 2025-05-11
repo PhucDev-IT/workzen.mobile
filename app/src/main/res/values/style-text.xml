@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TextView Style-->
+    <style name="DefaultTextView" parent="android:Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/textPrimary</item>
+    </style>
+
+    <style name="TextView.Bold.Bold" parent="DefaultTextView">
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:fontFamily">@font/helvetica_neue_bold</item>
+    </style>
+
+    <style name="TextView.Medium.Medium" parent="DefaultTextView">
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:fontFamily">@font/helvetica_neue_medium</item>
+    </style>
+
+</resources>
