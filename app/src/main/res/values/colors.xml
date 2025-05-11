@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="primary">#333A56</color>
+    <color name="onPrimary">#FFFFFFFF</color>
+    <color name="secondaryColor">#ED3237</color>
+    <color name="background">#ffffff</color>
+
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+
+    <color name="borderColor">#E0E0E0</color>
+    <color name="sliverColor">#C0C0C0</color>
+
+    <color name="failed">#B82B30</color>
+    <color name="success">#00A859</color>
+    <color name="warning">#D3B100</color>
+
+    <color name="transparent">#00ffffff</color>
+
+</resources>

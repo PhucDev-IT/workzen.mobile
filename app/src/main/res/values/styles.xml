@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyBottomNavIndicator" parent="">
+        <item name="android:color">@color/secondaryColor</item> <!-- màu gạch đỏ -->
+        <item name="android:width">24dp</item> <!-- chiều dài gạch -->
+        <item name="android:height">2dp</item> <!-- độ dày gạch -->
+        <item name="android:gravity">top</item> <!-- canh trên -->
+        <item name="android:shape">rectangle</item>
+    </style>
+</resources>
