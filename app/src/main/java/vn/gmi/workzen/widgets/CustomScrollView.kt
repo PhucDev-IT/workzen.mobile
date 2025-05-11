@@ -1,4 +1,4 @@
-package vn.mobile.wallet.widgets
+package vn.gmi.workzen.widgets
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,10 +10,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class EScrollView : NestedScrollView {
+class CustomScrollView : NestedScrollView {
     private var job: Job? = null
     private var initialPosition: Int = 0
-    private var listener:ScrollViewListener?=null
+    private var listener: ScrollViewListener?=null
 
     constructor(context: Context) : super(context)
 
@@ -53,7 +53,7 @@ class EScrollView : NestedScrollView {
     }
 
     interface ScrollViewListener{
-        fun onScrollChanged(eScrollView: EScrollView,x:Int,y:Int,oldX:Int,oldY:Int)
+        fun onScrollChanged(eScrollView: CustomScrollView, x:Int, y:Int, oldX:Int, oldY:Int)
         fun onScrollStopped()
     }
 

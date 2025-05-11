@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".ui.worksheet.WorkSheetFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <!-- Toolbar -->
+   <androidx.appcompat.widget.Toolbar
+       android:id="@+id/toolbar"
+       android:layout_width="match_parent"
+       android:layout_height="?attr/actionBarSize"
+       android:background="@color/primary"
+       app:menu="@menu/tool_bar_work_nav_menu"
+       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-</FrameLayout>
+      <TextView
+          android:id="@+id/tvTitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Tháng 5 năm 2025"
+          android:textColor="@color/white"
+          style="@style/TextView.Bold.Bold"
+          android:textSize="@dimen/text_size_large"
+          android:layout_gravity="center" />
+   </androidx.appcompat.widget.Toolbar>
+
+   <!-- TabLayout -->
+   <com.google.android.material.tabs.TabLayout
+       android:id="@+id/tabLayout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/primary"
+       app:tabGravity="fill"
+       app:tabTextColor="@color/white"
+       app:tabIndicatorColor="@color/secondaryColor"
+       app:tabIndicatorFullWidth="true"
+       app:tabMode="fixed">
+
+      <com.google.android.material.tabs.TabItem
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Công tháng" />
+
+      <com.google.android.material.tabs.TabItem
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Thống kê" />
+   </com.google.android.material.tabs.TabLayout>
+
+   <!-- Calendar View -->
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+      android:id="@+id/weekdayHeader"
+      android:orientation="horizontal"/>
+
+</LinearLayout>

@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Text size-->
-    <dimen name="font_very_small">8sp</dimen>
-    <dimen name="font_small">10sp</dimen>
-    <dimen name="font_normal">12sp</dimen>
-    <dimen name="font_medium">15sp</dimen>
-    <dimen name="font_xmedium">16sp</dimen>
-    <dimen name="font_xxmedium">17sp</dimen>
-    <dimen name="font_xxxmedium">18sp</dimen>
-    <dimen name="font_large">20sp</dimen>
-    <dimen name="font_big">25sp</dimen>
 
 
+    <style name="one_rounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+        <item name="cornerSizeTopLeft">50%</item>
+        <item name="cornerSizeBottomLeft">50%</item>
+        <item name="cornerSizeTopRight">50%</item>
+        <item name="cornerSizeBottomRight">50%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_10sdp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Rounded.Small" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_5sdp</item>
+    </style>
+
+    <style name="Theme_Dialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
 
 </resources>

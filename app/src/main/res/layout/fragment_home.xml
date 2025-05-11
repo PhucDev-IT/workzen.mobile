@@ -1,49 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<vn.gmi.workzen.widgets.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <!--    Header-->
-    <LinearLayout
-        android:padding="@dimen/_10sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Buổi sáng, Nguyễn Văn Phúc"
-                style="@style/TextView.Bold.Bold"
-                android:textColor="@color/black"
-                android:layout_marginBottom="@dimen/_3sdp"
-                android:textSize="@dimen/font_xxxmedium"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chủ nhật, 11/05/2025"
-                android:textSize="@dimen/font_normal"
-                android:textColor="@color/textSecondary"
-                style="@style/TextView.Medium.Medium"/>
-        </LinearLayout>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            app:srcCompat="@drawable/noti"/>
-    </LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:padding="@dimen/_10sdp">
+       <!--    Header-->
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:orientation="horizontal">
+           <LinearLayout
+               android:layout_weight="1"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <androidx.appcompat.widget.AppCompatTextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Buổi sáng, Nguyễn Văn Phúc"
+                   style="@style/TextView.Bold.Bold"
+                   android:textColor="@color/black"
 
-    <!--  Time Keeping  -->
-    <androidx.fragment.app.FragmentContainerView
-        android:layout_marginVertical="@dimen/_10sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/timeKeepingFragment"/>
-</LinearLayout>
+                   android:textSize="@dimen/text_size_xxxmedium"/>
+               <androidx.appcompat.widget.AppCompatTextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Chủ nhật, 11/05/2025"
+                   android:textSize="@dimen/text_size_normal"
+                   android:textColor="@color/textSecondary"
+                   style="@style/TextView.Medium.Medium"/>
+           </LinearLayout>
+           <androidx.appcompat.widget.AppCompatImageView
+               android:layout_width="@dimen/_20sdp"
+               android:layout_height="@dimen/_20sdp"
+               app:srcCompat="@drawable/noti"/>
+       </LinearLayout>
+
+       <!--  Time Keeping  -->
+       <androidx.fragment.app.FragmentContainerView
+           android:layout_marginVertical="@dimen/_10sdp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/timeKeepingFragment"/>
+
+       <!--  Lịch và sự kiện  -->
+       <TextView
+
+           android:layout_marginVertical="@dimen/_5sdp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Lịch &amp; Sự kiện"
+           style="@style/TextView.Bold.Bold"
+           android:textSize="@dimen/text_size_medium"/>
+       <androidx.recyclerview.widget.RecyclerView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/rvNewspaper"/>
+   </LinearLayout>
+</vn.gmi.workzen.widgets.CustomScrollView>

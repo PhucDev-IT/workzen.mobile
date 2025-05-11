@@ -37,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="@id/container_icon"
         android:layout_marginStart="@dimen/_5sdp"
         style="@style/TextView.Medium.Medium"
-        android:textSize="@dimen/font_medium"
+        android:textSize="@dimen/text_size_medium"
         android:textColor="@color/textSecondary"/>
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:text="08:30 am"
         style="@style/TextView.Bold.Bold"
-        android:textSize="@dimen/font_xxxmedium"
+        android:textSize="@dimen/text_size_xxxmedium"
         app:layout_constraintTop_toBottomOf="@id/container_icon"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="@dimen/_5sdp"
@@ -67,14 +67,14 @@
             android:layout_weight="1"
             android:text="Muộn giờ"
             android:fontFamily="@font/helvetica_neue_regular"
-            android:textSize="@dimen/font_normal"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/textSecondary"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_reward"
             style="@style/TextView.Medium.Medium"
-            android:textSize="@dimen/font_normal"/>
+            android:textSize="@dimen/text_size_normal"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

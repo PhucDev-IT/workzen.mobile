@@ -1,13 +1,14 @@
 package vn.gmi.workzen.ui.home
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import vn.gmi.workzen.R
+import vn.gmi.workzen.adapter.RvNewspaperAdapter
 import vn.gmi.workzen.base.BaseFragment
+import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.FragmentHomeBinding
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
 
@@ -15,7 +16,7 @@ import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
 class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
 
     private lateinit var presenter: HomeContract.Presenter
-
+    private lateinit var adapter:RvNewspaperAdapter
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -25,7 +26,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
     }
 
     override fun initBindingData() {
-
     }
 
     override fun onSingleClick(v: View?) {
@@ -34,10 +34,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
 
     @SuppressLint("CommitTransaction")
     override fun initView() {
+        childFragmentManager.beginTransaction().replace(R.id.timeKeepingFragment, TimeKeepingFragment()).commit()
+        adapter = RvNewspaperAdapter()
+        binding.rvNewspaper.adapter = adapter
+        binding.rvNewspaper.layoutManager = LinearLayoutManager(requireContext())
+
         presenter = HomePresenter()
         presenter.attachView(this)
 
-        childFragmentManager.beginTransaction().replace(R.id.timeKeepingFragment, TimeKeepingFragment()).commit()
+        presenter.getNotificationAndEvent()
     }
 
     override fun showLoading() {
@@ -49,5 +54,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.detachView()
+    }
+
+    //================= PRESENTER========================================
+    override fun onResultNotificationAndEvents(items: List<NewspaperModel>) {
+        adapter.addAll(items)
     }
 }

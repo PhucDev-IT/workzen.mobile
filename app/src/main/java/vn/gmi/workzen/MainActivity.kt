@@ -3,7 +3,9 @@ package vn.gmi.workzen
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -35,24 +37,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListener(){
-        binding.bottomNavigationView.setOnNavigationItemReselectedListener { item->
-            when(item.itemId){
-                R.id.menu_home->{
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_home -> {
                     replaceFragment(HomeFragment())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
-                R.id.menu_payroll ->{
+                R.id.menu_payroll -> {
                     replaceFragment(PayRollFragment())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
-                R.id.menu_worksheet ->{
+                R.id.menu_worksheet -> {
                     replaceFragment(WorkSheetFragment())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
-                R.id.menu_profile ->{
+                R.id.menu_profile -> {
                     replaceFragment(ProfileFragment())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
+                else -> false
             }
         }
     }
@@ -61,5 +64,17 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, obj)
             .commit()
+        if(obj is WorkSheetFragment || obj is PayRollFragment){
+            updateStatusBar(R.color.primary, false)
+        }else{
+            updateStatusBar(R.color.background, true)
+        }
     }
+
+    private fun updateStatusBar(colorRes: Int, isLight: Boolean) {
+        window.statusBarColor = ContextCompat.getColor(this, colorRes)
+        WindowCompat.getInsetsController(window, window.decorView)
+            ?.isAppearanceLightStatusBars = isLight
+    }
+
 }
