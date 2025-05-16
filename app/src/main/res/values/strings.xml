@@ -5,7 +5,47 @@
     <string name="menu_pay_roll">Bảng lương</string>
     <string name="menu_work_sheet">Bảng công</string>
     <string name="menu_profile">Cá nhân</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <string name="permission_camera_rationale" translatable="false">Cần truy cập vào camera để thực hiện tác vụ</string>
+    <string name="label_scan_qrcode">Quét mã QRCODE</string>
+    <string name="nan">Không xác định</string>
+
+    <string name="document_number">Số CCCD</string>
+    <string name="date_of_birth">Ngày sinh</string>
+    <string name="date_of_expiry">Ngày hết hạn</string>
+
+    <!-- NFC   -->
+    <string name="warning_no_nfc">Thiết bị không hỗ trợ NFC</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="label_gender">Giới tính</string>
+    <string name="label_birthday">Ngày sinh</string>
+    <string name="label_age">Tuổi</string>
+    <string name="label_date_of_issue">Ngày cấp</string>
+    <string name="place_of_residence">Thường trú</string>
+    <string name="warning_enable_nfc">Cần kích hoạt NFC</string>
+    <string name="passport_not_support_dg">Hộ chiếu của bạn không hỗ trợ danh mục này</string>
+
+    <string name="nfc_guide">Đặt điện thoại của bạn lên trên thẻ CCCD hoặc hộ chiếu và không di chuyển</string>
+    <string name="waiting_connect">Đang chờ kết nối lại thẻ</string>
+    <string name="tag_lost_connected">Mất kết nối tới thẻ</string>
+    <string name="auth_fail">Cần đọc lại MRZ để xác thực lại thẻ</string>
+    <string name="issuing_state">Nhà nước phát hành</string>
+    <string name="nationality">Quốc gia</string>
+    <string name="authentication">Xác thực</string>
+    <string name="label_pace">PACE</string>
+    <string name="label_passive_authentication">Passive authentication</string>
+    <string name="label_active_auth">Active authentication</string>
+    <string name="label_document_signing">Document Signing</string>
+    <string name="label_csca">CSCA</string>
+    <string name="label_chip_auth">Chip authentication</string>
+    <string name="label_eac">EAC</string>
+    <string name="tab_general">Thông tin chung</string>
+    <string name="tab_person_option">Bổ sung</string>
+    <string name="tab_additional_personDetails">Thông tin chi tiết</string>
+    <string name="tab_document_details">Tài liệu chi tiết</string>
+    <string name="tab_portrait">Chân dung</string>
+    <string name="finger_prints">Vân tay</string>
 </resources>

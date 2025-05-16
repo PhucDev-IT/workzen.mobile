@@ -23,4 +23,13 @@
         <item name="android:fontFamily">@font/helvetica_neue_regular</item>
     </style>
 
+
+    <style name="Text.Header" parent="TextView.Bold.Bold">
+        <item name="android:textSize">@dimen/text_size_xxxmedium</item>
+    </style>
+
+    <style name="Text.Label" parent="TextView.Bold.Bold">
+
+    </style>
+
 </resources>

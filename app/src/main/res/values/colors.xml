@@ -26,4 +26,5 @@
     <color name="purple">#9C27B0</color>
     <color name="orange">#FF9800</color>
     <color name="grey">#9E9E9E</color>
+    <color name="black_50">#80000000</color>
 </resources>
