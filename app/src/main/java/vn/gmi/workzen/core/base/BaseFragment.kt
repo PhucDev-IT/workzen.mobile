@@ -1,4 +1,4 @@
-package vn.gmi.workzen.base
+package vn.gmi.workzen.core.base
 
 import android.os.Bundle
 import android.os.SystemClock
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewbinding.ViewBinding
-import vn.mobile.wallet.utils.Constants
+import vn.gmi.workzen.utils.Constants
 
 abstract class BaseFragment<B : ViewBinding> : Fragment(), BaseContract.View,
     View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {

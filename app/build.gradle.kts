@@ -19,11 +19,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        debug {
+            isMinifyEnabled = false
         }
     }
     compileOptions {
@@ -38,6 +43,16 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+    }
+
+    flavorDimensions.add("dev")
+    productFlavors {
+        create("dev") {
+            buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")
+        }
+        create("production") {
+            buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")
+        }
     }
 }
 
@@ -58,7 +73,7 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("com.karumi:dexter:6.2.3")
     implementation("com.airbnb.android:lottie:6.5.2")
-
+    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
     //Network
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")

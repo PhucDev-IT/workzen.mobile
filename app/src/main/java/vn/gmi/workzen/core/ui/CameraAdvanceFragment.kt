@@ -1,4 +1,4 @@
-package vn.gmi.core.ui
+package vn.gmi.workzen.core.ui
 
 import android.Manifest
 import android.app.AlertDialog
@@ -191,7 +191,8 @@ abstract class CameraAdvanceFragment:androidx.fragment.app.Fragment(), ActivityC
             }
         }
     protected fun showErrorCameraPermissionDenied() {
-        ErrorDialog.newInstance(getString(R.string.permission_camera_rationale)).show(childFragmentManager, FRAGMENT_DIALOG)
+        ErrorDialog.newInstance(getString(R.string.permission_camera_rationale))
+            .show(childFragmentManager, FRAGMENT_DIALOG)
     }
 
 

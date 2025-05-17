@@ -1,4 +1,4 @@
-package vn.gmi.workzen.base
+package vn.gmi.workzen.core.base
 
 interface BaseContract {
     interface View{
@@ -6,7 +6,7 @@ interface BaseContract {
         fun hideLoading()
     }
 
-    interface Presenter<V:View>{
+    interface Presenter<V: View>{
         fun attachView(view : V)
         fun detachView()
         fun getView():V?

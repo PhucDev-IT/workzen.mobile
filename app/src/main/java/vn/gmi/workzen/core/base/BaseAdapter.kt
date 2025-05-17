@@ -1,4 +1,4 @@
-package vn.gmi.workzen.base
+package vn.gmi.workzen.core.base
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.BaseAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<T> : RecyclerView.Adapter<vn.gmi.workzen.base.BaseAdapter.ItemViewHolder>() {
+abstract class BaseAdapter<T> : RecyclerView.Adapter<vn.gmi.workzen.core.base.BaseAdapter.ItemViewHolder>() {
     var list: MutableList<T> = ArrayList()
 
     open class ItemViewHolder(itemView: View) : CoreViewHolder(itemView)

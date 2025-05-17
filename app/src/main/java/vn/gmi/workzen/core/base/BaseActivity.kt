@@ -1,4 +1,4 @@
-package vn.gmi.workzen.base
+package vn.gmi.workzen.core.base
 
 import android.os.Bundle
 import android.os.SystemClock
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import vn.gmi.workzen.R
-import vn.mobile.wallet.utils.Constants
+import vn.gmi.workzen.utils.Constants
 
 abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>> :
     BaseContract.View,

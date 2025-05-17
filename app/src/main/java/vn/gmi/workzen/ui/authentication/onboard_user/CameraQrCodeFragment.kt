@@ -13,16 +13,15 @@ import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.ZoomSuggestionOptions
 import com.google.mlkit.vision.barcode.common.Barcode
-import vn.gemini.passport.R
+
 import vn.mobile.verifysdk.data.BasicInformation
-import vn.gemini.passport.base.CameraAdvanceFragment
-import vn.gemini.passport.databinding.FragmentCameraQrCodeBinding
-import vn.gmi.core.ui.CameraAdvanceFragment
+import vn.gmi.workzen.core.ui.CameraAdvanceFragment
+import vn.gmi.workzen.databinding.FragmentCameraQrCodeBinding
 import vn.gmi.workzen.vision.QRCodeAndBarcodeAnalyzer
 
 
 class CameraQrCodeFragment : CameraAdvanceFragment(), QRCodeAndBarcodeAnalyzer.QRCodeListener {
-    private var binding:FragmentCameraQrCodeBinding?=null
+    private var binding: FragmentCameraQrCodeBinding?=null
     private var basicInformation:BasicInformation?=null
     private var options = BarcodeScannerOptions.Builder()
         .enableAllPotentialBarcodes()

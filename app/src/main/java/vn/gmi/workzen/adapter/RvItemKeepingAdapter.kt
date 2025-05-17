@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import vn.gmi.workzen.R
-import vn.gmi.workzen.base.BaseAdapter
-import vn.gmi.workzen.base.CoreViewHolder
+import vn.gmi.workzen.core.base.BaseAdapter
+import vn.gmi.workzen.core.base.CoreViewHolder
 import vn.gmi.workzen.databinding.ItemTimeKeepingBinding
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel
 

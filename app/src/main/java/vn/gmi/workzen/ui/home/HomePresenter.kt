@@ -1,6 +1,6 @@
 package vn.gmi.workzen.ui.home
 
-import vn.gmi.workzen.base.BasePresenter
+import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.data.models.NewspaperModel
 
 class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter{

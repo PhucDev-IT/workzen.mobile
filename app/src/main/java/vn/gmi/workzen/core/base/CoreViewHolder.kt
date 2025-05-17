@@ -1,4 +1,4 @@
-package vn.gmi.workzen.base
+package vn.gmi.workzen.core.base
 
 import android.view.View
 import androidx.annotation.IdRes

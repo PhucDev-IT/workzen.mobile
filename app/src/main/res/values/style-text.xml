@@ -32,4 +32,8 @@
 
     </style>
 
+    <style name="Text.Input" parent="TextView.Regular.Regular">
+        <item name="android:textSize">@dimen/_12sdp</item>
+    </style>
+
 </resources>

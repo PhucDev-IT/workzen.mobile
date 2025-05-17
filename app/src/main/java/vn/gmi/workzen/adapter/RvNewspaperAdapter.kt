@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import vn.gmi.workzen.R
-import vn.gmi.workzen.base.BaseAdapter
+import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.ItemNewspaperBinding
 

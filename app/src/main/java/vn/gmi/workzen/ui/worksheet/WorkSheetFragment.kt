@@ -14,8 +14,8 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
 import vn.gmi.workzen.R
-import vn.gmi.workzen.base.BaseContract
-import vn.gmi.workzen.base.BaseFragment
+import vn.gmi.workzen.core.base.BaseContract
+import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentWorkSheetBinding
 
 

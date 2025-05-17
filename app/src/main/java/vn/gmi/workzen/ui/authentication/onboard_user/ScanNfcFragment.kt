@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import io.reactivex.disposables.CompositeDisposable
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,10 +33,8 @@ import vn.mobile.verifysdk.data.toPersonDetails
 import vn.mobile.verifysdk.mlkit.TypeMrz
 import vn.mobile.verifysdk.utils.NfcDocumentTag
 import vn.mobile.verifysdk.utils.NfcUtils
-import vn.gemini.passport.R
-import vn.gemini.passport.common.IntentData
-import vn.gemini.passport.databinding.FragmentScanNfcBinding
-import vn.gemini.passport.viewmodel.NfcViewModel
+import vn.gmi.workzen.databinding.FragmentScanNfcBinding
+import vn.gmi.workzen.utils.IntentData
 
 class ScanNfcFragment : Fragment() {
 
@@ -43,13 +42,11 @@ class ScanNfcFragment : Fragment() {
     private val binding get() = _binding
     private var mrzInfo: MRZInfo? = null
     private var basicInformation: BasicInformation? = null
-    private var canKey:String?=null
-    private var modeScan: CardAccessType?=null
+
     private var nfcFragmentListener: NfcFragmentListener? = null
     private var handleNfc: NfcDocumentTag? = null
     private var mHandler = Handler(Looper.getMainLooper())
-    private lateinit var viewModel: NfcViewModel
-    private var typeCard :String  = TypeMrz.TD1.name
+
     private var disposable = CompositeDisposable()
 
 
@@ -59,52 +56,32 @@ class ScanNfcFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentScanNfcBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[NfcViewModel::class.java]
-        binding?.viewModel = viewModel
-        binding?.lifecycleOwner = this
+
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val arguments = arguments
-        modeScan = arguments!!.getSerializable(IntentData.KEY_MODE_SCAN_NFC) as CardAccessType
-        canKey = arguments!!.getSerializable(IntentData.KEY_CAN_KEY) as String?
+
         basicInformation =
-            arguments.getSerializable(IntentData.KEY_QRCODE_INFO) as BasicInformation?
+            arguments?.getSerializable(IntentData.KEY_QRCODE_INFO) as BasicInformation?
         if (arguments!!.containsKey(IntentData.KEY_MRZ_INFO)) {
             mrzInfo = arguments.getSerializable(IntentData.KEY_MRZ_INFO) as MRZInfo?
         }
-        typeCard = arguments.getString(IntentData.KEY_TYPE_MRZ_INFO)?: TypeMrz.TD1.name
 
-        if(typeCard == TypeMrz.PASSPORT.name){
-            binding?.llContainsCardEid?.visibility = View.GONE
-            binding?.llContainsCardPassport?.visibility = View.VISIBLE
-        }else{
-            binding?.llContainsCardEid?.visibility = View.VISIBLE
-            binding?.llContainsCardPassport?.visibility = View.GONE
-        }
 
-        viewModel.isFinish.observe(viewLifecycleOwner){b->
-            if(b){
-                binding!!.lavAnimScan.pauseAnimation()
-            }else{
-                binding!!.lavAnimScan.playAnimation()
-            }
-        }
-
-        handleNfc = NfcDocumentTag(modeScan!!)
+        handleNfc = NfcDocumentTag(CardAccessType.BAC)
     }
 
 
     private var eCallback = object : ECallback {
         override fun onReadStart() {
-            viewModel.setGuide(getString(R.string.nfc_guide))
-            viewModel.setIsFinish(false)
+
         }
 
         override fun onReadFinish() {
-            viewModel.setIsFinish(true)
+
         }
 
         override fun onError(message: String?, code: ECardNfcError) {
@@ -112,13 +89,13 @@ class ScanNfcFragment : Fragment() {
         }
 
         override fun onSuccess(ePassport: EPassport?) {
-            viewModel.setIsFinish(true)
+
             nfcFragmentListener?.onEidRead(ePassport)
         }
 
         override fun onReading(state: StateNfc) {
             super.onReading(state)
-            viewModel.setGuide(state.name)
+
         }
 
         override fun onReadState(state: StateNfc, data: Any?) {
@@ -126,8 +103,6 @@ class ScanNfcFragment : Fragment() {
             mHandler.post {
                 if(state == StateNfc.DG1){
                     disPlayData(data)
-                }else if(state == StateNfc.DG2){
-                    displayDG2(data)
                 }else if(state == StateNfc.DG13){
                     displayDG13(data)
                 }
@@ -136,20 +111,13 @@ class ScanNfcFragment : Fragment() {
     }
 
     fun handleNfcTag(tag: Tag) {
-        val subscribe = if(modeScan == CardAccessType.BAC){
-            CardService.readChipNfc(
-                requireContext(),
-                tag,
-                mrzInfo!!,
-                basicInformation,
-                CardAccessType.MRZ,
-                eCallback)
-        }else{
-            CardService.readChipNfc(
-                requireContext(),
-                tag,
-                canKey?:"",eCallback)
-        }
+        val subscribe =  CardService.readChipNfc(
+            requireContext(),
+            tag,
+            mrzInfo!!,
+            basicInformation,
+            CardAccessType.MRZ,
+            eCallback)
         disposable.add(subscribe)
 
     }
@@ -157,8 +125,7 @@ class ScanNfcFragment : Fragment() {
 
     private fun handleExceptionNfc(msg:String?){
         Log.e(TAG, "$msg")
-        viewModel.setGuide(getString(R.string.nfc_guide))
-        viewModel.setIsFinish(false)
+
     }
 
 
@@ -168,20 +135,11 @@ class ScanNfcFragment : Fragment() {
         try{
             val dG1File = data as DG1File
             val parser = dG1File.toPersonDetails()
-
-            if(typeCard != TypeMrz.PASSPORT.name){
-                binding!!.llCard.tvDocumentNumber.text = parser.documentNumber
-                binding!!.llCard.tvGender.text = parser.gender?.name
-                binding!!.llCard.tvBirthday.text = parser.dateOfBirth
-                binding!!.llCard.tvDateOfExpiration.text = parser.dateOfExpiry
-                binding!!.llCard.tvFullName.text = "${parser.primaryIdentifier} ${parser.secondaryIdentifier}"
-            }else{
-                binding!!.llCardPassport.tvGender.text = parser.gender?.name
-                binding!!.llCardPassport.tvBirthday.text = parser.dateOfBirth
-                binding!!.llCardPassport.tvNationality.text = parser.nationality
-                binding!!.llCardPassport.tvFullName.text = "${parser.primaryIdentifier} ${parser.secondaryIdentifier}"
-
-            }
+            binding!!.llCard.tvDocumentNumber.text = parser.documentNumber
+            binding!!.llCard.tvGender.text = parser.gender?.name
+            binding!!.llCard.tvBirthday.text = parser.dateOfBirth
+            binding!!.llCard.tvDateOfExpiration.text = parser.dateOfExpiry
+            binding!!.llCard.tvFullName.text = "${parser.primaryIdentifier} ${parser.secondaryIdentifier}"
         }catch (e:Exception){
             Log.e(TAG, "${e.message}")
         }
@@ -193,21 +151,6 @@ class ScanNfcFragment : Fragment() {
             binding!!.llCard.tvPlaceOfResidence.text = dg13.placeOfResidence
         }catch (e:Exception){
 
-        }
-    }
-    private fun displayDG2(data: Any?){
-        try {
-            CoroutineScope(Dispatchers.IO).launch {
-                if(typeCard == TypeMrz.PASSPORT.name){
-                    val dg2 = data as DG2File
-                    val image = NfcUtils.retrieveFaceImage(dg2)
-                    withContext(Dispatchers.Main){
-                        binding!!.llCardPassport.imgDg2.setImageBitmap(image)
-                    }
-                }
-            }
-        }catch (e:Exception){
-            Log.e(TAG, "${e.message}")
         }
     }
 
@@ -264,14 +207,11 @@ class ScanNfcFragment : Fragment() {
         private val TAG = ScanNfcFragment::class.java.simpleName
 
         @JvmStatic
-        fun newInstance(mrzInfo: MRZInfo?, type:String,value: BasicInformation?, canKey:String?,mode:CardAccessType) =
+        fun newInstance(mrzInfo: MRZInfo?,value: BasicInformation?) =
             ScanNfcFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(IntentData.KEY_QRCODE_INFO, value)
                     putSerializable(IntentData.KEY_MRZ_INFO, mrzInfo)
-                    putString(IntentData.KEY_CAN_KEY, canKey)
-                    putSerializable(IntentData.KEY_MODE_SCAN_NFC, mode)
-                    putString(IntentData.KEY_TYPE_MRZ_INFO,type)
                 }
             }
     }

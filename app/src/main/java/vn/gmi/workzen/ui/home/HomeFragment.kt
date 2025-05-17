@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvNewspaperAdapter
-import vn.gmi.workzen.base.BaseFragment
+import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.FragmentHomeBinding
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment

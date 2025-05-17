@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import vn.gmi.workzen.R
-import vn.gmi.workzen.base.BaseAdapter
+import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.data.models.PayRollOfYearModel
 import vn.gmi.workzen.databinding.ItemBalanceMonthInfoBinding
 import vn.gmi.workzen.utils.FormatCurrency

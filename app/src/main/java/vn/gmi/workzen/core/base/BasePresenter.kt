@@ -1,4 +1,4 @@
-package vn.gmi.workzen.base
+package vn.gmi.workzen.core.base
 
 abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> {
     private var attachedView: V? = null

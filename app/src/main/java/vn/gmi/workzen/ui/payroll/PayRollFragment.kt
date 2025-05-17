@@ -14,7 +14,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvBalanceMonthAdapter
-import vn.gmi.workzen.base.BaseFragment
+import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.data.models.PayRollOfYearModel
 import vn.gmi.workzen.databinding.FragmentPayRollBinding
 

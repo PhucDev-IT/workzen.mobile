@@ -1,0 +1,15 @@
+package vn.gmi.workzen.core.constants
+
+class SharedPreferenceKey {
+companion object{
+    const val KEY_BEAR_ACCESS_TOKEN = "KEY_BEAR_ACCESS_TOKEN"
+    const val KEY_USER_ID = "KEY_USER_ID"
+    const val KEY_FULL_NAME = "KEY_FULL_NAME"
+    const val KEY_PHONE = "KEY_PHONE"
+    const val KEY_AVATAR = "KEY_AVATAR"
+    const val KEY_EMAIL = "KEY_EMAIL"
+    const val KEY_ROLES = "KEY_ROLES"
+    const val KEY_IS_LOGIN = "KEY_IS_LOGIN"
+
+}
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.authentication.login.LoginActivity">
+
+    <!--    Header-->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:scaleType="centerCrop"
+            android:id="@+id/logo"
+            app:srcCompat="@drawable/logo"/>
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập"
+            style="@style/TextView.Bold.Bold"
+            android:textSize="@dimen/text_size_big"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hệ thống quản lý chấm công và tiện ích của bạn."
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@color/textSecondary"/>
+    </LinearLayout>
+
+    <!-- Body   -->
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_20sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:layout_below="@id/header">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số điện thoại"
+            style="@style/Text.Label"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtPhone"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_input_text"
+            style="@style/Text.Input"
+            android:hint="Nhập số điện thoại"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_height="@dimen/_45sdp"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mật khẩu"
+            style="@style/Text.Label"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtPassword"
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_input_text"
+            style="@style/Text.Input"
+            android:hint="Nhập mật khẩu"
+            android:inputType="textPassword"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_height="@dimen/_45sdp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quên mật khẩu?"
+            android:layout_marginTop="@dimen/_10sdp"
+            style="@style/TextView.Medium.Medium"
+            android:textColor="@color/textSecondary"
+            android:layout_gravity="end"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập"/>
+    </LinearLayout>
+
+</RelativeLayout>

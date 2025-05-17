@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvItemKeepingAdapter
-import vn.gmi.workzen.base.BaseFragment
+import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentHomeBinding
 import vn.gmi.workzen.databinding.FragmentTimeKeepingBinding
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel

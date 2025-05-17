@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import vn.gmi.workzen.databinding.ActivityMainBinding
+import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
 import vn.gmi.workzen.ui.profile.ProfileFragment
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
             v.updatePadding(bottom = 0)
             insets
         }
+
+        ApiService.instance.initBaseUrl(BuildConfig.API_BASE_URL)
 
         setListener()
         if(savedInstanceState == null){
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, obj)
             .commit()
-        if(obj is WorkSheetFragment || obj is PayRollFragment){
+        if(obj is WorkSheetFragment || obj is PayRollFragment || obj is ProfileFragment){
             updateStatusBar(R.color.primary, false)
         }else{
             updateStatusBar(R.color.background, true)

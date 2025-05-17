@@ -1,6 +1,6 @@
 package vn.gmi.workzen.ui.payroll
 
-import vn.gmi.workzen.base.BasePresenter
+import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.data.models.PayRollOfYearModel
 import java.util.Random
 
