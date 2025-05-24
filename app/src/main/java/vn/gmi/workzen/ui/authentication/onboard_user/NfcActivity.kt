@@ -18,12 +18,15 @@ import androidx.core.view.WindowInsetsCompat
 import org.jmrtd.lds.icao.MRZInfo
 import vn.gmi.workzen.R
 import vn.gmi.workzen.databinding.ActivityNfcBinding
+import vn.gmi.workzen.networks.models.request.OnboardUserReqModel
 import vn.gmi.workzen.utils.IntentData
+import vn.gmi.workzen.utils.Utils
 import vn.mobile.verifysdk.card.CardAccessType
 import vn.mobile.verifysdk.card.CardService
 import vn.mobile.verifysdk.data.BasicInformation
 import vn.mobile.verifysdk.data.EPassport
 import vn.mobile.verifysdk.mlkit.TypeMrz
+import vn.mobile.verifysdk.utils.StringUtils
 
 
 class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
@@ -67,12 +70,10 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
                         basicInformation!!.dateOfExpiry!!
                     )
                 }
-        }else if(intent.hasExtra(IntentData.KEY_MRZ_INFO)){
-            mrzInfo = intent.getSerializableExtra(IntentData.KEY_MRZ_INFO) as MRZInfo
-
+        }else {
+            Toast.makeText(this,"Không thể hoàn thành tác vụ",Toast.LENGTH_SHORT).show()
+            finish()
         }
-
-
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -143,7 +144,7 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
         onDisableNfc()
 //        val intent = Intent(this, VerifyNfcSuccessActivity::class.java)
 //        startActivity(intent)
-        finish()
+     //   finish()
     }
 
 
@@ -172,6 +173,29 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
 
         super.onDestroy()
     }
+
+    private fun verifyData(model:EPassport){
+        val request = OnboardUserReqModel().apply {
+            eidNumber = model.personOptionalDetails?.eidNumber
+            fullName = model.personOptionalDetails?.fullName
+            gender = model.personOptionalDetails?.gender
+            dateOfBirth = model.personOptionalDetails?.dateOfBirth
+            dateOfIssue = model.personOptionalDetails?.dateOfIssue
+            dateOfExpiry = model.personOptionalDetails?.dateOfExpiry
+            nationality = model.personOptionalDetails?.nationality
+            ethnicity = model.personOptionalDetails?.ethnicity
+            religion = model.personOptionalDetails?.religion
+            placeOfOrigin = model.personOptionalDetails?.placeOfOrigin
+            placeOfResidence = model.personOptionalDetails?.placeOfResidence
+            personalIdentification = model.personOptionalDetails?.personalIdentification
+            fatherName = model.personOptionalDetails?.fatherName
+            motherName = model.personOptionalDetails?.motherName
+            spouseName = model.personOptionalDetails?.spouseName
+            oldEidNumber = model.personOptionalDetails?.oldEidNumber
+            dg2 = Utils.bitmapToBase64(model.faceImage!!)
+        }
+    }
+
 
     companion object {
         private val TAG = NfcActivity::class.java.simpleName

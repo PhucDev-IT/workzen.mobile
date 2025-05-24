@@ -9,18 +9,22 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
+import jakarta.inject.Inject
 import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.databinding.ActivityLoginBinding
-import vn.gmi.workzen.networks.models.request.LoginRequestModel
-import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
+import vn.gmi.workzen.data.models.auth.LoginRequestModel
+import vn.gmi.workzen.data.models.auth.AuthResponse
 import vn.gmi.workzen.utils.Constants
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>(),LoginContract.View {
 
     private lateinit var binding:ActivityLoginBinding
-
+    @Inject
+    lateinit var loginPresenter: LoginPresenter
 
     override val layoutView: View
         get() {
@@ -28,9 +32,7 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
             return binding.root
         }
 
-    override fun initPresenter(): LoginContract.Presenter {
-      return LoginPresenter()
-    }
+    override fun initPresenter(): LoginContract.Presenter = loginPresenter
 
     override fun initViews() {
         enableEdgeToEdge()
@@ -64,7 +66,7 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
 
     }
 
-    override fun onLoginSuccess(model: AuthenticationResponse) {
+    override fun onLoginSuccess(model: AuthResponse) {
         Toast.makeText(this@LoginActivity,"OKE",Toast.LENGTH_SHORT).show()
     }
 

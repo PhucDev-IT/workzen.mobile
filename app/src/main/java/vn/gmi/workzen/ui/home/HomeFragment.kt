@@ -1,6 +1,7 @@
 package vn.gmi.workzen.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import vn.gmi.workzen.adapter.RvNewspaperAdapter
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.FragmentHomeBinding
+import vn.gmi.workzen.ui.authentication.onboard_user.ScanQrCodeActivity
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
 
 
@@ -26,10 +28,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
     }
 
     override fun initBindingData() {
+        binding.viewRequestOnboard.btnStartVerify.setOnClickListener(this)
     }
 
     override fun onSingleClick(v: View?) {
-
+        when(v){
+            binding.viewRequestOnboard.btnStartVerify-> {
+                val intent = Intent(requireContext(),ScanQrCodeActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     @SuppressLint("CommitTransaction")

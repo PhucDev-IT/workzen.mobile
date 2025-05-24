@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.base.CoreActivity
 import vn.gmi.workzen.utils.IntentData
 import vn.mobile.verifysdk.data.BasicInformation
 
-class ScanQrCodeActivity : AppCompatActivity() {
+class ScanQrCodeActivity : CoreActivity() {
+    private var isDetected = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,9 +34,17 @@ class ScanQrCodeActivity : AppCompatActivity() {
     }
 
     private fun onResultQrCode(basicInformation: BasicInformation){
-        val intent = Intent()
+        if(isDetected) return
+        isDetected = true
+        val intent = Intent(this,NfcActivity::class.java)
         intent.putExtra(IntentData.KEY_QRCODE_INFO,basicInformation)
-        setResult(RESULT_OK,intent)
-        finish()
+        startActivity(intent)
     }
+
+    override fun onResume() {
+        super.onResume()
+        isDetected = false
+        //requestPermission(listOf())
+    }
+
 }

@@ -50,7 +50,6 @@ class CameraQrCodeFragment : CameraAdvanceFragment(), QRCodeAndBarcodeAnalyzer.Q
             requireActivity().finish()
         }
 
-
         return binding?.root
     }
 

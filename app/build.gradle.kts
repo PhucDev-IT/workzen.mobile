@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("io.realm.kotlin")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -74,6 +77,12 @@ dependencies {
     implementation ("com.karumi:dexter:6.2.3")
     implementation("com.airbnb.android:lottie:6.5.2")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+
+    implementation("io.realm.kotlin:library-base:1.11.0")
+
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+
     //Network
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
@@ -90,7 +99,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1")
     implementation("com.google.guava:guava:33.3.0-android")
     implementation ("androidx.camera:camera-mlkit-vision:1.3.0-beta02")
-    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
+
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
 }

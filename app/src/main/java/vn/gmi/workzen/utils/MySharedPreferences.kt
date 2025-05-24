@@ -54,4 +54,25 @@ object MySharedPreferences {
             editor.apply()
         }
 
+    fun removeKey(key: String) {
+        val sharedPreferences: SharedPreferences = appContext.getSharedPreferences(
+            MY_SHARED_PREFERENCES, Context.MODE_PRIVATE
+        )
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        val exists = sharedPreferences.contains(key)
+        if(exists){
+            editor.remove(key)
+            editor.apply()
+        }
+    }
+
+    fun clearAll(){
+        val sharedPreferences: SharedPreferences = appContext.getSharedPreferences(
+            MY_SHARED_PREFERENCES, Context.MODE_PRIVATE
+        )
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.clear().apply()
+
+    }
+
 }

@@ -13,8 +13,8 @@ import vn.gmi.workzen.utils.Constants
 abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>> :
     BaseContract.View,
     View.OnClickListener,
-    SwipeRefreshLayout.OnRefreshListener,
-    AppCompatActivity() {
+    SwipeRefreshLayout.OnRefreshListener,CoreActivity()
+{
 
     protected lateinit var presenter: P
     abstract val layoutView: View

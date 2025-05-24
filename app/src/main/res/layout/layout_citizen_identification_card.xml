@@ -24,11 +24,11 @@
                 app:layout_constraintTop_toTopOf="parent"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_document_number"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/black"
+                style="@style/TextView.Bold.Bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/label_document_number"
                 />
@@ -43,13 +43,12 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_marginTop="@dimen/_8sdp"
                 android:id="@+id/label_full_name"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/full_name"
                 android:textColor="@color/textSecondary"
                 android:fontFamily="@font/helvetica_neue_medium"
-                android:textSize="@dimen/text_size_medium"
+                style="@style/TextView.Bold.Bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_document_number"/>
             <androidx.appcompat.widget.AppCompatTextView
@@ -81,7 +80,6 @@
                         android:id="@+id/label_gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:text="@string/label_gender"
                         android:textColor="@color/textSecondary"
                         android:fontFamily="@font/helvetica_neue_medium"

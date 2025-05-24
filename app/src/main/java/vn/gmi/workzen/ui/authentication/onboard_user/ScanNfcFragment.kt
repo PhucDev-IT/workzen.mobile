@@ -77,11 +77,11 @@ class ScanNfcFragment : Fragment() {
 
     private var eCallback = object : ECallback {
         override fun onReadStart() {
-
+            mHandler.post { binding?.lavAnimScan?.playAnimation() }
         }
 
         override fun onReadFinish() {
-
+           mHandler.post {  binding?.lavAnimScan?.pauseAnimation() }
         }
 
         override fun onError(message: String?, code: ECardNfcError) {
@@ -89,8 +89,8 @@ class ScanNfcFragment : Fragment() {
         }
 
         override fun onSuccess(ePassport: EPassport?) {
-
-            nfcFragmentListener?.onEidRead(ePassport)
+            binding!!.btnConfirm.visibility = View.VISIBLE
+            mHandler.postDelayed({nfcFragmentListener?.onEidRead(ePassport)},1000)
         }
 
         override fun onReading(state: StateNfc) {
@@ -149,6 +149,12 @@ class ScanNfcFragment : Fragment() {
         try {
             val dg13 = data as DG13File
             binding!!.llCard.tvPlaceOfResidence.text = dg13.placeOfResidence
+            binding!!.llCard.tvGender.text = dg13.gender
+            binding!!.llCard.tvDocumentNumber.text = dg13.eidNumber
+            binding!!.llCard.tvGender.text = dg13.gender
+            binding!!.llCard.tvDateOfExpiration.text = dg13.dateOfExpiry
+            binding!!.llCard.tvBirthday.text = dg13.dateOfBirth
+            binding!!.llCard.tvFullName.text = dg13.fullName
         }catch (e:Exception){
 
         }
@@ -186,6 +192,7 @@ class ScanNfcFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         nfcFragmentListener?.onEnableNfc()
+        binding?.btnConfirm?.visibility = View.GONE
     }
 
 

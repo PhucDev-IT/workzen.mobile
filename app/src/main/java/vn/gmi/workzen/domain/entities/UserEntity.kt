@@ -1,6 +1,6 @@
-package vn.gmi.workzen.networks.models.response.auth
+package vn.gmi.workzen.domain.entities
 
-data class UserResponseModel(
+data class UserEntity (
     val id: String,
     val phone: String,
     val email: String?,
@@ -8,4 +8,4 @@ data class UserResponseModel(
     val fullName: String,
     val isActive: Boolean,
     val roles: List<String>?
-)
+    )

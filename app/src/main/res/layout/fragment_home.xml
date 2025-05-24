@@ -50,9 +50,13 @@
            android:layout_height="wrap_content"
            android:id="@+id/timeKeepingFragment"/>
 
+        <!--   Request view    -->
+       <include
+           android:id="@+id/view_request_onboard"
+           layout="@layout/view_request_onboard_user"/>
+
        <!--  Lịch và sự kiện  -->
        <TextView
-
            android:layout_marginVertical="@dimen/_5sdp"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
