@@ -48,4 +48,13 @@
     <string name="tab_document_details">Tài liệu chi tiết</string>
     <string name="tab_portrait">Chân dung</string>
     <string name="finger_prints">Vân tay</string>
+
+
+    <!--  Sign up  -->
+    <string name="account_empty">Tài khoản hoặc mật khẩu không được để trống</string>
+    <string name="verify_otp">Xác thực mã OTP</string>
+    <string name="guide_input_otp">Nhập mã OTP được gửi đến thiết bị của bạn xuống dưới</string>
+    <string name="enter_otp">Nhập mã OTP:</string>
+    <string name="re_send">Gửi lại</string>
+
 </resources>

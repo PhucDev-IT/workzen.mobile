@@ -1,7 +1,6 @@
 package vn.gmi.workzen.ui.authentication.login
 
 import com.google.gson.Gson
-import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -9,15 +8,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
+import vn.gmi.workzen.networks.models.request.LoginRequestModel
+import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
 import vn.gmi.workzen.networks.ApiService
-import vn.gmi.workzen.data.models.auth.LoginRequestModel
-import vn.gmi.workzen.data.models.auth.AuthResponse
-import vn.gmi.workzen.domain.usecase.LoginUseCase
 import vn.gmi.workzen.utils.MySharedPreferences
 
-class LoginPresenter @Inject constructor(
-    private val loginUseCase: LoginUseCase
-) : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
+class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
     private val presenterJob = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + presenterJob)
 
@@ -27,8 +23,9 @@ class LoginPresenter @Inject constructor(
                 getView()?.showLoading()
                 model.numberPhone = standardizationNumberPhone(model.numberPhone)
                 val auth = withContext(Dispatchers.IO) {
-                    loginUseCase(model)
+                    ApiService.instance.authenticationService.requestLogin(model)
                 }
+                storeData(auth)
                 getView()?.onLoginSuccess(auth)
             } catch (e: Exception) {
                 getView()?.onError(e.message.toString())
@@ -45,7 +42,16 @@ class LoginPresenter @Inject constructor(
         }
     }
 
-    private fun storeData(model: AuthResponse){
+    private fun storeData(model:AuthenticationResponse){
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_USER_ID,model.user!!.id)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_FULL_NAME,model.user.fullName)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_PHONE,model.user.phone)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_EMAIL,model.user.email?:"")
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_AVATAR,model.user.avatar?:"")
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_ROLES,Gson().toJson(model.user.roles))
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_BEAR_ACCESS_TOKEN,model.bearToken)
+
+        MySharedPreferences.setBooleanValue(SharedPreferenceKey.KEY_IS_LOGIN, true)
     }
 
 

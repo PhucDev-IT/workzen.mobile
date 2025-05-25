@@ -64,6 +64,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
         presenter.detachView()
     }
 
+    override fun onError(message: String) {
+
+    }
+
     //================= PRESENTER========================================
     override fun onResultNotificationAndEvents(items: List<NewspaperModel>) {
         adapter.addAll(items)

@@ -1,4 +1,4 @@
-package vn.gmi.workzen.data.models.auth
+package vn.gmi.workzen.networks.models.request
 
 data class LoginRequestModel (
     var numberPhone:String,

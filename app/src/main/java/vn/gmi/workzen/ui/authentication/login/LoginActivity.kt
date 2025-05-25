@@ -15,16 +15,15 @@ import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.databinding.ActivityLoginBinding
-import vn.gmi.workzen.data.models.auth.LoginRequestModel
-import vn.gmi.workzen.data.models.auth.AuthResponse
+import vn.gmi.workzen.networks.models.request.LoginRequestModel
+import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
+import vn.gmi.workzen.ui.authentication.signup.RegisterActivity
 import vn.gmi.workzen.utils.Constants
 
-@AndroidEntryPoint
 class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>(),LoginContract.View {
 
     private lateinit var binding:ActivityLoginBinding
-    @Inject
-    lateinit var loginPresenter: LoginPresenter
+
 
     override val layoutView: View
         get() {
@@ -32,7 +31,9 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
             return binding.root
         }
 
-    override fun initPresenter(): LoginContract.Presenter = loginPresenter
+    override fun initPresenter(): LoginContract.Presenter {
+        return LoginPresenter()
+    }
 
     override fun initViews() {
         enableEdgeToEdge()
@@ -45,17 +46,21 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
     }
 
     override fun setListener() {
-      binding.btnLogin.setOnClickListener(this)
+        binding.btnLogin.setOnClickListener(this)
+        binding.tvSignUp.setOnClickListener(this)
     }
 
     override fun onSingleClick(v: View?) {
-       when(v){
-           binding.btnLogin ->{
-//               validateData()
-               val intent = Intent(this@LoginActivity,MainActivity::class.java)
-               startActivity(intent)
-           }
-       }
+        when(v){
+            binding.btnLogin ->{
+              validateData()
+                val intent = Intent(this@LoginActivity,MainActivity::class.java)
+                startActivity(intent)
+            }
+            binding.tvSignUp->{
+                startActivity(Intent(this@LoginActivity,RegisterActivity::class.java))
+            }
+        }
     }
 
     override fun showLoading() {
@@ -66,12 +71,12 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
 
     }
 
-    override fun onLoginSuccess(model: AuthResponse) {
+    override fun onLoginSuccess(model: AuthenticationResponse) {
         Toast.makeText(this@LoginActivity,"OKE",Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(message: String) {
-       Toast.makeText(this@LoginActivity,message,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@LoginActivity,message,Toast.LENGTH_SHORT).show()
     }
 
     //============================== LOGIC ========================================

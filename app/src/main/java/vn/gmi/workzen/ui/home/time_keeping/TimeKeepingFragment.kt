@@ -60,4 +60,8 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
         presenter.detachView()
         super.onDestroyView()
     }
+
+    override fun onError(message: String) {
+
+    }
 }

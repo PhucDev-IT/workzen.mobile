@@ -68,6 +68,10 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
 
     }
 
+    override fun onError(message: String) {
+
+    }
+
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()

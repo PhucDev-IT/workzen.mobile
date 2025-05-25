@@ -95,4 +95,26 @@
             android:text="Đăng nhập"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_margin="@dimen/margin_normal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn chưa có tài khoản?"
+            style="@style/TextView.Medium.Medium"/>
+        <TextView
+            android:id="@+id/tv_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:textColor="@color/secondaryColor"
+            style="@style/TextView.Bold.Bold"
+            android:layout_marginHorizontal="@dimen/_10sdp"/>
+    </LinearLayout>
+
 </RelativeLayout>

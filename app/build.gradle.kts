@@ -58,7 +58,7 @@ android {
         }
     }
 }
-
+//adb reverse tcp:3000 tcp:3000
 dependencies {
 
     implementation(libs.androidx.core.ktx)

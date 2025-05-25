@@ -4,6 +4,7 @@ interface BaseContract {
     interface View{
         fun showLoading()
         fun hideLoading()
+        fun onError(message:String)
     }
 
     interface Presenter<V: View>{

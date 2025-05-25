@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
-import vn.gmi.workzen.data.apis.AuthenticationService
+import vn.gmi.workzen.networks.api.AuthenticationService
 import vn.gmi.workzen.networks.rest.RestClient
 import vn.gmi.workzen.utils.MySharedPreferences
 

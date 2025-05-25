@@ -100,6 +100,9 @@ class PayRollFragment : BaseFragment<FragmentPayRollBinding>(), PayRollContract.
         adapter.addAll(items)
     }
 
+    override fun onError(message: String) {
+
+    }
 
     override fun onDestroyView() {
         presenter.detachView()

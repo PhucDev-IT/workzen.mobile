@@ -28,6 +28,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     }
 
+    override fun onError(message: String) {
+
+    }
+
     override fun initView() {
         Glide.with(this).load("https://img.freepik.com/free-photo/emotions-people-concept-headshot-serious-looking-handsome-man-with-beard-looking-confident-determined_1258-26730.jpg?size=626&ext=jpg&uid=R118572234&ga=GA1.1.1965375583.1709184711&semt=ais_user").into(binding.imgAvatar)
     }
