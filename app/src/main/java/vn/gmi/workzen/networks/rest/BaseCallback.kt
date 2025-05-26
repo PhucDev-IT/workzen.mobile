@@ -1,5 +1,6 @@
 package vn.gmi.workzen.networks.rest
 
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +37,12 @@ abstract class BaseCallback<T> : Callback<T> {
             return
         }
         try {
-
+            val resError = response.errorBody()!!.string()
+            val resErrorObject = Gson().fromJson(resError,Map::class.java)
+            if(resErrorObject.containsKey("message")){
+                onError(resErrorObject["message"].toString())
+                return
+            }
             onError(response.errorBody()!!.string())
         } catch (e: IOException) {
             onError(e.message?:"Failure to server")

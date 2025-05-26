@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.constants.DialogLoading
 import vn.gmi.workzen.utils.Constants
 
 abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>> :
@@ -73,5 +74,13 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     private fun onAnimation() {
         overridePendingTransition(R.anim.fade_in, R.anim.no_animation)
+    }
+
+    override fun showLoading() {
+        DialogLoading.showLoading(this)
+    }
+
+    override fun hideLoading() {
+        DialogLoading.hideLoading()
     }
 }

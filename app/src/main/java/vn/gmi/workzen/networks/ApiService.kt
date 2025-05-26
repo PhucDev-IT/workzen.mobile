@@ -21,7 +21,6 @@ class ApiService private constructor() {
     private var retrofit: Retrofit? = null
 
     init {
-
         token = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_BEAR_ACCESS_TOKEN) ?: ""
     }
 

@@ -9,17 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import vn.gmi.workzen.MyApplication
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.databinding.FragmentInputOTPBinding
+import vn.gmi.workzen.services.PushNotification
 import vn.gmi.workzen.ui.authentication.signup.RegisterActivity
 import vn.gmi.workzen.ui.authentication.signup.RegisterContract
+import vn.gmi.workzen.utils.Utils
 
 
 class InputOTPFragment : Fragment() {
     private lateinit var _binding: FragmentInputOTPBinding
     private val binding get() = _binding
     private lateinit var presenter: RegisterContract.Presenter
-
+    private var otpCode = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,7 +31,7 @@ class InputOTPFragment : Fragment() {
     ): View? {
         _binding = FragmentInputOTPBinding.inflate(inflater,container,false)
         presenter = (requireActivity() as RegisterActivity).getPresenter()
-
+        sendOTP()
         setListener()
         return binding.root
     }
@@ -45,7 +49,11 @@ class InputOTPFragment : Fragment() {
         onOTPInputComplete(binding.edt6, null, binding.edt5){
             if (isOTPValid()) {
                 val otp = getOtpCode()
-                presenter.requestVerifyOTP(otp)
+                if(otp != otpCode){
+                    AppToast.showError(requireContext(),"Mã xác nhận không chính xác")
+                    return@onOTPInputComplete
+                }
+                (requireActivity() as RegisterActivity).navigateToStep(2)
                 clear()
             }
         }
@@ -101,6 +109,11 @@ class InputOTPFragment : Fragment() {
         binding.edt4.text.clear()
         binding.edt5.text.clear()
         binding.edt6.text.clear()
+    }
+
+    private fun sendOTP(){
+        otpCode = Utils.generateOTP()
+        PushNotification.sendSimpleNotification("OTP Code",otpCode,MyApplication.CHANNEL_NORMAL)
     }
 
 }

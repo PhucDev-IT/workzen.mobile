@@ -12,9 +12,6 @@ import vn.gmi.workzen.utils.MySharedPreferences
 
 class SplashPresenter : BasePresenter<SplashContract.View>(), SplashContract.Presenter {
 
-    private val presenterJob = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.Main + presenterJob)
-
     override fun checkApp() {
         Handler().postDelayed({
             if(checkAccessToken()){
@@ -28,10 +25,5 @@ class SplashPresenter : BasePresenter<SplashContract.View>(), SplashContract.Pre
     private fun checkAccessToken():Boolean{
         val token = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_BEAR_ACCESS_TOKEN)
         return !token.isNullOrEmpty()
-    }
-
-    override fun detachView() {
-        presenterJob.cancel()
-        super.detachView()
     }
 }

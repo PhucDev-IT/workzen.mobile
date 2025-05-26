@@ -17,9 +17,10 @@ import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.core.constants.AppToast
+import vn.gmi.workzen.core.constants.DialogLoading
 import vn.gmi.workzen.databinding.ActivityLoginBinding
 import vn.gmi.workzen.networks.models.request.LoginRequestModel
-import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
+import vn.gmi.workzen.networks.models.response.auth.LoginResponseModel
 import vn.gmi.workzen.ui.authentication.signup.RegisterActivity
 import vn.gmi.workzen.utils.Constants
 
@@ -60,8 +61,6 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
         when(v){
             binding.btnLogin ->{
               validateData()
-                val intent = Intent(this@LoginActivity,MainActivity::class.java)
-                startActivity(intent)
             }
             binding.tvSignUp->{
                 startActivity(Intent(this@LoginActivity,RegisterActivity::class.java))
@@ -69,22 +68,17 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
         }
     }
 
-    override fun showLoading() {
 
-    }
 
-    override fun hideLoading() {
-
-    }
-
-    override fun onLoginSuccess(model: AuthenticationResponse) {
+    override fun onLoginSuccess(model: LoginResponseModel) {
         AppToast.showSuccess(this,"Đăng nhập thành công")
+        startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+        finish()
     }
 
     override fun onError(message: String) {
         AppToast.showError(this,message)
     }
-
     //============================== LOGIC ========================================
     @SuppressLint("HardwareIds")
     private fun validateData(){
@@ -92,7 +86,7 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
         val password = binding.edtPassword.text.toString().trim()
 
         if(phone.length < Constants.MIN_LENGTH_PHONE || password.length < Constants.MIN_LENGTH_PASSWORD){
-            Toast.makeText(this,"Tài khoản hoặc mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show()
+            AppToast.showError(this,"Tài khoản hoặc mật khẩu không hợp lệ")
             return
         }
 

@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        ApiService.instance.initBaseUrl(BuildConfig.API_BASE_URL)
         ReminderScheduler.scheduleAllIfNeeded(this)
         setListener()
         if(savedInstanceState == null){

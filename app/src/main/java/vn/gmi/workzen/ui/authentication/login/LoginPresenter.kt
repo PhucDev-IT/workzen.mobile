@@ -10,40 +10,48 @@ import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.core.extensions.standardizationNumberPhone
 import vn.gmi.workzen.networks.models.request.LoginRequestModel
-import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
 import vn.gmi.workzen.networks.ApiService
+import vn.gmi.workzen.networks.models.response.auth.LoginResponseModel
+import vn.gmi.workzen.networks.rest.ApiResult
+import vn.gmi.workzen.networks.rest.networkCallback
+import vn.gmi.workzen.networks.rest.onError
+import vn.gmi.workzen.networks.rest.onSuccess
 import vn.gmi.workzen.utils.MySharedPreferences
 
 class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
-    private val presenterJob = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.Main + presenterJob)
 
     override fun requestLogin(model: LoginRequestModel) {
         scope.launch {
             try {
                 getView()?.showLoading()
                 model.numberPhone = standardizationNumberPhone(model.numberPhone)
-                val auth = withContext(Dispatchers.IO) {
+
+                networkCallback {
                     ApiService.instance.authenticationService.requestLogin(model)
+                }.onSuccess {
+                    storeData(it)
+                    getView()?.onLoginSuccess(it)
+                }.onError {
+                    getView()?.onError(it)
                 }
-                storeData(auth)
-                getView()?.onLoginSuccess(auth)
+
             } catch (e: Exception) {
-                getView()?.onError(e.message.toString())
+                getView()?.onError(e.message ?: "Unknown error")
             } finally {
                 getView()?.hideLoading()
             }
         }
+
     }
 
 
-    private fun storeData(model:AuthenticationResponse){
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_USER_ID,model.user!!.id)
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_FULL_NAME,model.user.fullName)
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_PHONE,model.user.phone)
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_EMAIL,model.user.email?:"")
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_AVATAR,model.user.avatar?:"")
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_ROLES,Gson().toJson(model.user.roles))
+    private fun storeData(model:LoginResponseModel){
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_USER_ID,model!!.id)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_FULL_NAME,model.fullName)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_PHONE,model.phone)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_EMAIL,model.email?:"")
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_AVATAR,model.avatar?:"")
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_ROLES,Gson().toJson(model.roles))
         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_BEAR_ACCESS_TOKEN,model.bearToken)
 
         MySharedPreferences.setBooleanValue(SharedPreferenceKey.KEY_IS_LOGIN, true)
@@ -51,7 +59,6 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
 
 
     override fun detachView() {
-        presenterJob.cancel()
         super.detachView()
     }
 

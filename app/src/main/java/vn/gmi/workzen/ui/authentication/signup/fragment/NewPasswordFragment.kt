@@ -14,11 +14,13 @@ import androidx.core.content.ContextCompat
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.extensions.enablePasswordToggle
 import vn.gmi.workzen.databinding.FragmentNewPasswordBinding
+import vn.gmi.workzen.ui.authentication.signup.RegisterActivity
+import vn.gmi.workzen.ui.authentication.signup.RegisterContract
 
 class NewPasswordFragment : Fragment() {
     private lateinit var _binding:FragmentNewPasswordBinding
     private val binding get() = _binding
-
+    private lateinit var presenter: RegisterContract.Presenter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +28,7 @@ class NewPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        _binding = FragmentNewPasswordBinding.inflate(inflater,container,false)
+        presenter = (requireActivity() as RegisterActivity).getPresenter()
         initView()
         setListeners()
         return binding.root
@@ -41,6 +44,30 @@ class NewPasswordFragment : Fragment() {
         }
         setupPasswordToggleShared(binding.edtPassword, binding.edtRePassword)
 
+        binding.btnContinue.setOnClickListener{
+            register()
+        }
+
+    }
+
+    private fun register(){
+        val password = binding.edtPassword.text.toString().trim()
+        val rePassword = binding.edtRePassword.text.toString().trim()
+
+        if(password.isEmpty()){
+            binding.edtPassword.error = "Mật khẩu không được để trống"
+            return
+        }
+        if(rePassword.isEmpty()){
+            binding.edtRePassword.error = "Mật khẩu không được để trống"
+            return
+        }
+
+        if(password != rePassword){
+            binding.edtRePassword.error = "Mật khẩu không khớp"
+            return
+        }
+        presenter.register(password)
     }
 
     @SuppressLint("ClickableViewAccessibility")

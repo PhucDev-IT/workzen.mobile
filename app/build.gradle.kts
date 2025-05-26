@@ -51,14 +51,14 @@ android {
     flavorDimensions.add("dev")
     productFlavors {
         create("dev") {
-            buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
         create("production") {
             buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")
         }
     }
 }
-//adb reverse tcp:3000 tcp:3000
+//adb reverse tcp:8080 tcp:8080
 dependencies {
 
     implementation(libs.androidx.core.ktx)

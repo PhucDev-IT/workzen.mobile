@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvNewspaperAdapter
 import vn.gmi.workzen.core.base.BaseFragment
+import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.FragmentHomeBinding
 import vn.gmi.workzen.ui.authentication.onboard_user.ScanQrCodeActivity
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
+import vn.gmi.workzen.utils.MySharedPreferences
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
@@ -51,6 +53,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
         presenter.attachView(this)
 
         presenter.getNotificationAndEvent()
+
+        val name = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_FULL_NAME)
+        binding.tvFullName.text = "Xin chào, $name"
     }
 
     override fun showLoading() {

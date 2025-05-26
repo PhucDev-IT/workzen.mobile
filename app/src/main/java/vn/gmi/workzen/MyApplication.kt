@@ -10,7 +10,6 @@ import dagger.hilt.android.HiltAndroidApp
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.utils.MySharedPreferences
 
-@HiltAndroidApp
 class MyApplication : Application (){
 
     companion object {
@@ -26,6 +25,7 @@ class MyApplication : Application (){
         instance = this
         createNotificationChannels(this)
         MySharedPreferences.init(this)
+        ApiService.instance.initBaseUrl(BuildConfig.API_BASE_URL)
     }
 
 

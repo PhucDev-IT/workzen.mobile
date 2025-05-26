@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
+import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.databinding.ActivityLoginBinding
 import vn.gmi.workzen.databinding.ActivityRegisterBinding
 import vn.gmi.workzen.ui.authentication.signup.fragment.InputOTPFragment
@@ -18,7 +19,6 @@ import vn.gmi.workzen.ui.authentication.signup.fragment.PhoneInputFragment
 class RegisterActivity : BaseActivity<RegisterContract.View, RegisterContract.Presenter>(), RegisterContract.View {
 
     private lateinit var binding: ActivityRegisterBinding
-
     override val layoutView: View
         get() {
             binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -57,20 +57,17 @@ class RegisterActivity : BaseActivity<RegisterContract.View, RegisterContract.Pr
 
     }
 
-    override fun showLoading() {
-
-    }
-
-    override fun hideLoading() {
-
-    }
-
     override fun navigateToStep(step: Int) {
         showStepView(step)
     }
 
     override fun onError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRegisterSuccess() {
+        AppToast.showSuccess(this,"Đăng ký thành công")
+        finish()
     }
 
     fun getPresenter() = presenter

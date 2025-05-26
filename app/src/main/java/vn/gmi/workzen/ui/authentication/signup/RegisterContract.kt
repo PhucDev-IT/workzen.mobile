@@ -5,15 +5,12 @@ import vn.gmi.workzen.core.base.BaseContract
 interface RegisterContract {
     interface View:BaseContract.View{
         fun navigateToStep(step: Int)
-    }
-
-    interface ViewPhoneInput{
-
+        fun onRegisterSuccess()
     }
 
     interface Presenter:BaseContract.Presenter<View>{
         fun requestVerifyPhone(phone:String)
-        fun requestVerifyOTP(otp:String)
-        fun requestGetOTPCode()
+        fun register(password:String)
+
     }
 }
