@@ -2,6 +2,7 @@ package vn.gmi.workzen.ui.authentication.signup
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -69,7 +70,7 @@ class RegisterActivity : BaseActivity<RegisterContract.View, RegisterContract.Pr
     }
 
     override fun onError(message: String) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     fun getPresenter() = presenter

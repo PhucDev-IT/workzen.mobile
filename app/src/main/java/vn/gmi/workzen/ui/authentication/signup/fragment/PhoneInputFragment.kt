@@ -24,9 +24,13 @@ class PhoneInputFragment : Fragment() {
     ): View? {
         _binding = FragmentPhoneInputBinding.inflate(inflater, container, false)
         presenter = (requireActivity() as RegisterActivity).getPresenter()
-
+        initView()
         setListener()
         return binding.root
+    }
+
+    private fun initView(){
+        binding.header.tvHeader.text = "Số điện thoại"
     }
 
     private fun setListener() {
@@ -39,8 +43,10 @@ class PhoneInputFragment : Fragment() {
         }
 
         binding.header.toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().finish()
         }
+
+
     }
 
 }

@@ -13,5 +13,7 @@ interface RegisterContract {
 
     interface Presenter:BaseContract.Presenter<View>{
         fun requestVerifyPhone(phone:String)
+        fun requestVerifyOTP(otp:String)
+        fun requestGetOTPCode()
     }
 }

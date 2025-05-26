@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
+import vn.gmi.workzen.core.extensions.standardizationNumberPhone
 import vn.gmi.workzen.networks.models.request.LoginRequestModel
 import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
 import vn.gmi.workzen.networks.ApiService
@@ -34,13 +35,7 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
             }
         }
     }
-    private fun standardizationNumberPhone(phone: String): String {
-        return if (phone.startsWith("0")) {
-            phone.replaceFirst("0", "+84")
-        } else {
-            phone
-        }
-    }
+
 
     private fun storeData(model:AuthenticationResponse){
         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_USER_ID,model.user!!.id)

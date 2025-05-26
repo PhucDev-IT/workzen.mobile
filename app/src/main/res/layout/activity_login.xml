@@ -113,8 +113,8 @@
             android:layout_height="wrap_content"
             android:text="Đăng ký"
             android:textColor="@color/secondaryColor"
-            style="@style/TextView.Bold.Bold"
-            android:layout_marginHorizontal="@dimen/_10sdp"/>
+            style="@style/TextView.Medium.Medium"
+            android:layout_marginHorizontal="@dimen/_5sdp"/>
     </LinearLayout>
 
 </RelativeLayout>

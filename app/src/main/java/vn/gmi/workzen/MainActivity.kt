@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import vn.gmi.workzen.databinding.ActivityMainBinding
+import vn.gmi.workzen.manager.schedule.ReminderScheduler
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         ApiService.instance.initBaseUrl(BuildConfig.API_BASE_URL)
-
+        ReminderScheduler.scheduleAllIfNeeded(this)
         setListener()
         if(savedInstanceState == null){
             replaceFragment(HomeFragment())

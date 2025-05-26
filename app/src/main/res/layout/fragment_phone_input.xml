@@ -29,6 +29,8 @@
                 android:hint="Số điện thoại">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtPhone"
+                    android:inputType="phone"
+                    android:maxLength="11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>

@@ -1,5 +1,6 @@
 package vn.gmi.workzen.ui.authentication.login
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
@@ -7,6 +8,7 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +16,7 @@ import jakarta.inject.Inject
 import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
+import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.databinding.ActivityLoginBinding
 import vn.gmi.workzen.networks.models.request.LoginRequestModel
 import vn.gmi.workzen.networks.models.response.auth.AuthenticationResponse
@@ -35,6 +38,7 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
         return LoginPresenter()
     }
 
+
     override fun initViews() {
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -42,6 +46,8 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        requestPermission(arrayListOf(Manifest.permission.POST_NOTIFICATIONS)){}
 
     }
 
@@ -72,11 +78,11 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
     }
 
     override fun onLoginSuccess(model: AuthenticationResponse) {
-        Toast.makeText(this@LoginActivity,"OKE",Toast.LENGTH_SHORT).show()
+        AppToast.showSuccess(this,"Đăng nhập thành công")
     }
 
     override fun onError(message: String) {
-        Toast.makeText(this@LoginActivity,message,Toast.LENGTH_SHORT).show()
+        AppToast.showError(this,message)
     }
 
     //============================== LOGIC ========================================

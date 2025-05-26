@@ -24,7 +24,7 @@
                <androidx.appcompat.widget.AppCompatTextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="Buổi sáng, Nguyễn Văn Phúc"
+                   android:text="Xin chào, Nguyễn Văn Phúc"
                    style="@style/TextView.Bold.Bold"
                    android:textColor="@color/black"
 
