@@ -48,3 +48,31 @@ suspend fun <T> networkCallback(
         ApiResult.Error(e.localizedMessage ?: "Unexpected error")
     }
 }
+
+
+suspend fun <T> Response<ApiResponse<T>>.toApiResult(): ApiResult<T> {
+    return try {
+        if (isSuccessful) {
+            val body = body()
+            when {
+                body == null -> ApiResult.Error("Empty response body.")
+                !body.success -> ApiResult.Error(body.message ?: "Unknown API error")
+                body.data == null -> ApiResult.Error("Empty data.")
+                else -> ApiResult.Success(body.data)
+            }
+        } else {
+            val errorMsg = errorBody()?.string()?.let {
+                try {
+                    val json = Gson().fromJson(it, Map::class.java)
+                    json["message"]?.toString() ?: "Unknown server error"
+                } catch (e: Exception) {
+                    it
+                }
+            } ?: "HTTP ${code()}"
+            ApiResult.Error(errorMsg)
+        }
+    } catch (e: Exception) {
+        ApiResult.Error(e.localizedMessage ?: "Unexpected error")
+    }
+}
+

@@ -6,28 +6,25 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
-import jakarta.inject.Inject
 import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.core.constants.AppToast
-import vn.gmi.workzen.core.constants.DialogLoading
 import vn.gmi.workzen.databinding.ActivityLoginBinding
-import vn.gmi.workzen.networks.models.request.LoginRequestModel
-import vn.gmi.workzen.networks.models.response.auth.LoginResponseModel
+import vn.gmi.workzen.data.models.request.auth.LoginRequestModel
+import vn.gmi.workzen.data.models.response.auth.LoginResponseModel
 import vn.gmi.workzen.ui.authentication.signup.RegisterActivity
 import vn.gmi.workzen.utils.Constants
-
+import javax.inject.Inject
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>(),LoginContract.View {
 
     private lateinit var binding:ActivityLoginBinding
-
+    @Inject lateinit var loginPresenter: LoginContract.Presenter
 
     override val layoutView: View
         get() {
@@ -36,7 +33,7 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
         }
 
     override fun initPresenter(): LoginContract.Presenter {
-        return LoginPresenter()
+        return loginPresenter
     }
 
 

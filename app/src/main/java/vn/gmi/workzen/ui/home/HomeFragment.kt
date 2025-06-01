@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvNewspaperAdapter
 import vn.gmi.workzen.core.base.BaseFragment
@@ -13,13 +14,15 @@ import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.FragmentHomeBinding
 import vn.gmi.workzen.ui.authentication.onboard_user.ScanQrCodeActivity
+import vn.gmi.workzen.ui.home.header.HomeHeaderFragment
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
 import vn.gmi.workzen.utils.MySharedPreferences
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
 
-    private lateinit var presenter: HomeContract.Presenter
+    @Inject lateinit var presenter: HomeContract.Presenter
     private lateinit var adapter:RvNewspaperAdapter
 
     override fun getViewBinding(
@@ -45,17 +48,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
     @SuppressLint("CommitTransaction")
     override fun initView() {
         childFragmentManager.beginTransaction().replace(R.id.timeKeepingFragment, TimeKeepingFragment()).commit()
+        childFragmentManager.beginTransaction().replace(R.id.homeHeaderFragmentContainer, HomeHeaderFragment()).commit()
         adapter = RvNewspaperAdapter()
         binding.rvNewspaper.adapter = adapter
         binding.rvNewspaper.layoutManager = LinearLayoutManager(requireContext())
 
-        presenter = HomePresenter()
         presenter.attachView(this)
-
+        presenter.checkOnboardUser()
         presenter.getNotificationAndEvent()
 
-        val name = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_FULL_NAME)
-        binding.tvFullName.text = "Xin chào, $name"
     }
 
     override fun showLoading() {
@@ -76,5 +77,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
     //================= PRESENTER========================================
     override fun onResultNotificationAndEvents(items: List<NewspaperModel>) {
         adapter.addAll(items)
+    }
+
+    override fun onCheckOnboardUser(isOnboarded: Boolean) {
+        if(!isOnboarded){
+            binding.viewRequestOnboard.root.visibility = View.VISIBLE
+        }else{
+            binding.viewRequestOnboard.root.visibility = View.GONE
+        }
     }
 }

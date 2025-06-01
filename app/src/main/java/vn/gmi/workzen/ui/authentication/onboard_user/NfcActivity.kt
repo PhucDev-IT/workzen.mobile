@@ -9,26 +9,36 @@ import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.jmrtd.lds.icao.MRZInfo
+import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.constants.AppToast
+import vn.gmi.workzen.core.constants.DialogLoading
 import vn.gmi.workzen.databinding.ActivityNfcBinding
-import vn.gmi.workzen.networks.models.request.OnboardUserReqModel
+import vn.gmi.workzen.networks.ApiService
+import vn.gmi.workzen.data.models.request.user.OnboardUserReqModel
+import vn.gmi.workzen.domain.usecase.UpdateIdentificationUseCase
+import vn.gmi.workzen.networks.rest.networkCallback
+import vn.gmi.workzen.networks.rest.onError
+import vn.gmi.workzen.networks.rest.onSuccess
 import vn.gmi.workzen.utils.IntentData
 import vn.gmi.workzen.utils.Utils
-import vn.mobile.verifysdk.card.CardAccessType
 import vn.mobile.verifysdk.card.CardService
 import vn.mobile.verifysdk.data.BasicInformation
 import vn.mobile.verifysdk.data.EPassport
-import vn.mobile.verifysdk.mlkit.TypeMrz
-import vn.mobile.verifysdk.utils.StringUtils
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
 
     private var mrzInfo: MRZInfo? = null
@@ -39,6 +49,7 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
     private var mediaPlayer: MediaPlayer? = null
     private var basicInformation: BasicInformation? = null
 
+    @Inject lateinit var userUseCase: UpdateIdentificationUseCase
 
     @SuppressLint("CommitTransaction")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,11 +151,45 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
 
     override fun onEidRead(ePassport: EPassport?) {
         isReadSuccess = true
-       // OnboardManager.ePassport = ePassport
         onDisableNfc()
-//        val intent = Intent(this, VerifyNfcSuccessActivity::class.java)
-//        startActivity(intent)
-     //   finish()
+        verifyUser(ePassport!!)
+    }
+
+    private fun verifyUser(ePassport: EPassport){
+        val model = OnboardUserReqModel().apply {
+            eidNumber = ePassport.personOptionalDetails?.eidNumber
+            fullName = ePassport.personOptionalDetails?.fullName
+            gender = ePassport.personOptionalDetails?.gender
+            dateOfBirth = ePassport.personOptionalDetails?.dateOfBirth
+            dateOfIssue = ePassport.personOptionalDetails?.dateOfIssue
+            dateOfExpiry = ePassport.personOptionalDetails?.dateOfExpiry
+            nationality = ePassport.personOptionalDetails?.nationality
+            ethnicity = ePassport.personOptionalDetails?.ethnicity
+            religion = ePassport.personOptionalDetails?.religion
+            placeOfOrigin = ePassport.personOptionalDetails?.placeOfOrigin
+            placeOfResidence = ePassport.personOptionalDetails?.placeOfResidence
+            personalIdentification = ePassport.personOptionalDetails?.personalIdentification
+            fatherName = ePassport.personOptionalDetails?.fatherName
+            motherName = ePassport.personOptionalDetails?.motherName
+            spouseName = ePassport.personOptionalDetails?.spouseName
+            oldEidNumber = ePassport.personOptionalDetails?.oldEidNumber
+            dg2 = Utils.bitmapToBase64(ePassport.faceImage!!)
+        }
+
+        lifecycleScope.launch {
+            try {
+                DialogLoading.showLoading(this@NfcActivity)
+                val result = userUseCase.invoke(model)
+                AppToast.showSuccess(this@NfcActivity, "Xác thực thành công")
+                startActivity(Intent(this@NfcActivity, MainActivity::class.java))
+                finishAffinity()
+            }catch (e:Exception){
+                Log.e(TAG,"Error: ${e.message}")
+                AppToast.showError(this@NfcActivity,"Xác thực không thành công")
+            }finally {
+                DialogLoading.hideLoading()
+            }
+        }
     }
 
 

@@ -6,9 +6,11 @@ import vn.gmi.workzen.data.models.NewspaperModel
 interface HomeContract {
     interface View : BaseContract.View {
         fun onResultNotificationAndEvents(items:List<NewspaperModel>)
+        fun onCheckOnboardUser(isOnboarded:Boolean)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
         fun getNotificationAndEvent()
+        fun checkOnboardUser()
     }
 }

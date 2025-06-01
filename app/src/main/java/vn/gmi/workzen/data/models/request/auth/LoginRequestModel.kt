@@ -1,4 +1,4 @@
-package vn.gmi.workzen.networks.models.request
+package vn.gmi.workzen.data.models.request.auth
 
 import com.google.gson.annotations.SerializedName
 

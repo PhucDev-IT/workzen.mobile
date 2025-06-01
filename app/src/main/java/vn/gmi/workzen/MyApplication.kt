@@ -7,9 +7,13 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import dagger.hilt.android.HiltAndroidApp
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import vn.gmi.workzen.data.database.RealmProvider
+import vn.gmi.workzen.domain.entity.IdentificationEntity
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.utils.MySharedPreferences
-
+@HiltAndroidApp
 class MyApplication : Application (){
 
     companion object {
@@ -23,6 +27,8 @@ class MyApplication : Application (){
     override fun onCreate() {
         super.onCreate()
         instance = this
+        val realm = RealmProvider.realm
+
         createNotificationChannels(this)
         MySharedPreferences.init(this)
         ApiService.instance.initBaseUrl(BuildConfig.API_BASE_URL)

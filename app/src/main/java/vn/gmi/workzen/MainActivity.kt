@@ -9,6 +9,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.databinding.ActivityMainBinding
 import vn.gmi.workzen.manager.schedule.ReminderScheduler
 import vn.gmi.workzen.networks.ApiService
@@ -16,7 +17,7 @@ import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
 import vn.gmi.workzen.ui.profile.ProfileFragment
 import vn.gmi.workzen.ui.worksheet.WorkSheetFragment
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
 

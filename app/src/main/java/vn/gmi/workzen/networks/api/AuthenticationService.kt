@@ -4,11 +4,13 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Part
 import retrofit2.http.Query
 import vn.gmi.workzen.networks.models.ApiResponse
-import vn.gmi.workzen.networks.models.request.LoginRequestModel
-import vn.gmi.workzen.networks.models.response.auth.LoginResponseModel
+import vn.gmi.workzen.data.models.request.auth.LoginRequestModel
+import vn.gmi.workzen.data.models.response.auth.LoginResponseModel
+import vn.gmi.workzen.data.models.request.auth.RefreshTokenRequest
+import vn.gmi.workzen.data.models.response.auth.TokenResponse
+import java.util.Objects
 
 interface AuthenticationService {
     @POST(EndPoints.LOGIN_ENDPOINT)
@@ -19,4 +21,7 @@ interface AuthenticationService {
 
     @POST(EndPoints.REGISTER_ENDPOINT)
     suspend fun register(@Body request: Map<String,String>):Response<ApiResponse<Boolean>>
+
+    @POST(EndPoints.REFRESH_TOKEN)
+    suspend fun refreshToken(@Body map: Map<String,String>): Response<ApiResponse<TokenResponse>>
 }

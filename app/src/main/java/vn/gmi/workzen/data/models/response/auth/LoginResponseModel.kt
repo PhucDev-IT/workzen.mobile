@@ -1,4 +1,4 @@
-package vn.gmi.workzen.networks.models.response.auth
+package vn.gmi.workzen.data.models.response.auth
 
 
 data class LoginResponseModel(
@@ -8,5 +8,7 @@ data class LoginResponseModel(
     val avatar: String?,
     val fullName: String,
     val roles: List<String>?,
-    val bearToken:String
+    val bearTokens: BearTokens
+
 )
+data class BearTokens(val accessToken:String, val refreshToken:String)

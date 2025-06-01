@@ -46,7 +46,7 @@ class ScanNfcFragment : Fragment() {
     private var nfcFragmentListener: NfcFragmentListener? = null
     private var handleNfc: NfcDocumentTag? = null
     private var mHandler = Handler(Looper.getMainLooper())
-
+    private var ePassport:EPassport?=null
     private var disposable = CompositeDisposable()
 
 
@@ -70,7 +70,7 @@ class ScanNfcFragment : Fragment() {
             mrzInfo = arguments.getSerializable(IntentData.KEY_MRZ_INFO) as MRZInfo?
         }
 
-
+        binding?.btnConfirm?.setOnClickListener { nfcFragmentListener?.onEidRead(ePassport) }
         handleNfc = NfcDocumentTag(CardAccessType.BAC)
     }
 
@@ -89,8 +89,10 @@ class ScanNfcFragment : Fragment() {
         }
 
         override fun onSuccess(ePassport: EPassport?) {
+            this@ScanNfcFragment.ePassport = ePassport
             binding!!.btnConfirm.visibility = View.VISIBLE
-            mHandler.postDelayed({nfcFragmentListener?.onEidRead(ePassport)},1000)
+            mHandler.postDelayed({
+                binding!!.btnConfirm.visibility = View.VISIBLE },1000)
         }
 
         override fun onReading(state: StateNfc) {

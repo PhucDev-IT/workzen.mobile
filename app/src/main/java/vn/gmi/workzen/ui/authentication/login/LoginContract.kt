@@ -1,8 +1,8 @@
 package vn.gmi.workzen.ui.authentication.login
 
 import vn.gmi.workzen.core.base.BaseContract
-import vn.gmi.workzen.networks.models.request.LoginRequestModel
-import vn.gmi.workzen.networks.models.response.auth.LoginResponseModel
+import vn.gmi.workzen.data.models.request.auth.LoginRequestModel
+import vn.gmi.workzen.data.models.response.auth.LoginResponseModel
 
 interface LoginContract {
     interface View : BaseContract.View{

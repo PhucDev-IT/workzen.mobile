@@ -1,4 +1,4 @@
-package vn.gmi.workzen.networks.models.request
+package vn.gmi.workzen.data.models.request.user
 
 data class OnboardUserReqModel(
     var eidNumber: String? = null,

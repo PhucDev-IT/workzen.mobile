@@ -78,7 +78,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.5.2")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
 
-    implementation("io.realm.kotlin:library-base:1.11.0")
+    implementation("io.realm.kotlin:library-base:2.2.0")
 
     implementation("com.google.dagger:hilt-android:2.56.2")
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")

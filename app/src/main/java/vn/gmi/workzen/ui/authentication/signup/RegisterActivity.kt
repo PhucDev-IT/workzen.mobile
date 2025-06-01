@@ -7,17 +7,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.databinding.ActivityLoginBinding
 import vn.gmi.workzen.databinding.ActivityRegisterBinding
+import vn.gmi.workzen.ui.authentication.login.LoginContract
 import vn.gmi.workzen.ui.authentication.signup.fragment.InputOTPFragment
 import vn.gmi.workzen.ui.authentication.signup.fragment.NewPasswordFragment
 import vn.gmi.workzen.ui.authentication.signup.fragment.PhoneInputFragment
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RegisterActivity : BaseActivity<RegisterContract.View, RegisterContract.Presenter>(), RegisterContract.View {
-
+    @Inject lateinit var registerPresenter: RegisterContract.Presenter
     private lateinit var binding: ActivityRegisterBinding
     override val layoutView: View
         get() {
@@ -26,7 +30,7 @@ class RegisterActivity : BaseActivity<RegisterContract.View, RegisterContract.Pr
         }
 
     override fun initPresenter(): RegisterContract.Presenter {
-        return RegisterPresenter()
+        return registerPresenter
     }
 
     override fun initViews() {
