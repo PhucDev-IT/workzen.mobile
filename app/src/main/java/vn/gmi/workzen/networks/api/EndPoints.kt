@@ -9,5 +9,8 @@ class EndPoints {
 
         const val UPDATE_IDENTIFICATION_ENDPOINT = "/api/identification"
         const val GET_IDENTIFICATION_ENDPOINT = "/api/identification"
+
+        const val GET_FIND_USER_ENDPOINT = "/api/users"
+        const val GET_PROFILE = "/api/users/profile"
     }
 }

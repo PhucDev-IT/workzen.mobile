@@ -7,7 +7,9 @@ import vn.gmi.workzen.data.datasource.local.user.UserLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSource
 import vn.gmi.workzen.data.di.IoDispatcher
 import vn.gmi.workzen.data.models.request.user.OnboardUserReqModel
+import vn.gmi.workzen.data.models.response.user.ProfileResponseModel
 import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.ProfileEntity
 import vn.gmi.workzen.domain.repository.UserRepository
 import vn.gmi.workzen.networks.rest.ApiResult
 import vn.gmi.workzen.networks.rest.toApiResult
@@ -29,11 +31,11 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getIdentification(userId: String): IdentificationEntity {
+    override suspend fun getIdentification(params: String): IdentificationEntity {
         return withContext(dispatcher) {
-            var entity: IdentificationEntity? = localDataSource.getIdentification(userId)
+            var entity: IdentificationEntity? = localDataSource.getIdentification()
             if (entity == null) {
-                entity = when (val result = remoteDataSource.getIdentification(userId).toApiResult()) {
+                entity = when (val result = remoteDataSource.getIdentification(params).toApiResult()) {
                     is ApiResult.Success -> {
                         val mapped = result.data.mapToEntity()
                         localDataSource.saveIdentification(mapped)
@@ -42,9 +44,24 @@ class UserRepositoryImpl @Inject constructor(
                     is ApiResult.Error -> throw Exception(result.message)
                 }
             }
-            Log.d("Phuc","getIdentification: $entity")
             entity
         }
     }
 
+    override suspend fun getProfile(userId: String): ProfileEntity? {
+       return withContext(dispatcher) {
+            var entity: ProfileEntity? = localDataSource.getProfile()
+            if (entity == null) {
+                entity = when (val result = remoteDataSource.getProfile(userId).toApiResult()) {
+                    is ApiResult.Success -> {
+                        val mapped = result.data.mapToEntity()
+                        localDataSource.storeProfile(mapped)
+                        mapped
+                    }
+                    is ApiResult.Error -> throw Exception(result.message)
+                }
+            }
+            entity
+        }
+    }
 }

@@ -1,11 +1,15 @@
 package vn.gmi.workzen.ui.profile
 
 import vn.gmi.workzen.core.base.BaseContract
+import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.ProfileEntity
 
 interface ProfileContract {
-    interface View:BaseContract.View{}
+    interface View:BaseContract.View{
+        fun onGetProfileSuccess(profile: ProfileEntity)
+    }
 
     interface Presenter:BaseContract.Presenter<View>{
-
+        fun getProfile()
     }
 }

@@ -5,7 +5,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FormatCurrency {
+class FormatUtils {
   companion object{
       private val lc = Locale("vi","VN")
       val numberFormat: NumberFormat = NumberFormat.getCurrencyInstance(lc)

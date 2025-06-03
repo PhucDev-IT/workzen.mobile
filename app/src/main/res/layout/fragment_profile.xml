@@ -11,22 +11,121 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="@dimen/_150sdp"
         android:background="@color/primary"
         app:bottom_left_corner_radius="@dimen/_10sdp"
         app:bottom_right_corner_radius="@dimen/_10sdp"
         android:id="@+id/container_header"/>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/img_avatar"
+    <ImageView
+        android:id="@+id/ic_logout"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/ic_logout"
+        app:layout_constraintEnd_toEndOf="@id/container_header"
+        app:layout_constraintTop_toTopOf="@id/container_header"
+        android:layout_margin="@dimen/_10sdp"
+        app:tint="@color/secondaryColor" />
+
+    <ImageView
+        android:id="@+id/ic_chat"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/icon_chat"
+        app:layout_constraintTop_toTopOf="@id/container_header"
+        app:layout_constraintEnd_toStartOf="@id/ic_logout"
+        android:layout_margin="@dimen/_10sdp"
+        app:tint="@color/secondaryColor" />
+
+    <ImageView
+        android:id="@+id/ic_dot_chat"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:src="@drawable/ic_dot_red"
+        app:layout_constraintTop_toTopOf="@id/ic_chat"
+        app:layout_constraintEnd_toEndOf="@id/ic_chat"/>
+
+    <LinearLayout
+        app:layout_constraintStart_toStartOf="@id/container_header"
+        app:layout_constraintEnd_toEndOf="@id/container_header"
+        app:layout_constraintTop_toBottomOf="@id/ic_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_full_name"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextView.Bold.Bold"
+            android:textSize="@dimen/text_size_xxxmedium"
+            android:textColor="@color/white"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Medium.Medium"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_normal"
+                android:text="Full Time"/>
+            <TextView
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Medium.Medium"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_normal"
+                android:text=" - "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Medium.Medium"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_normal"
+                android:text="Chuyên viên kĩ thuật"/>
+            <TextView
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Medium.Medium"
+                android:textSize="@dimen/text_size_normal"
+                android:textColor="@color/grey"
+                android:text=" - "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Medium.Medium"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_normal"
+                android:text="Tham gia từ 2021"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/container_header"
-        android:layout_marginTop="-80dp"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        app:shapeAppearanceOverlay="@style/one_rounded"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/icon_worksheet"/>
+        android:background="@drawable/bg_circle_line"
+        android:layout_marginTop="-80dp">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_header"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            app:shapeAppearanceOverlay="@style/one_rounded"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/icon_worksheet"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logout() {
-
+        localDataSource.logout()
     }
 
     override suspend fun refreshToken(token: String): TokenResponse = withContext(dispatcher){

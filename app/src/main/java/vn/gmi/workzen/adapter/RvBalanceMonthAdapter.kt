@@ -7,7 +7,7 @@ import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.data.models.PayRollOfYearModel
 import vn.gmi.workzen.databinding.ItemBalanceMonthInfoBinding
-import vn.gmi.workzen.utils.FormatCurrency
+import vn.gmi.workzen.utils.FormatUtils
 
 class RvBalanceMonthAdapter : BaseAdapter<PayRollOfYearModel>() {
 
@@ -19,7 +19,7 @@ class RvBalanceMonthAdapter : BaseAdapter<PayRollOfYearModel>() {
         val view = holder as ViewHolder
         with(view.binding){
             tvMonth.text = "Tháng ${item.month}"
-            tvSalary.text =FormatCurrency.numberFormat.format(item.salary)
+            tvSalary.text =FormatUtils.numberFormat.format(item.salary)
         }
     }
 

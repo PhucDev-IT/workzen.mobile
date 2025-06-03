@@ -39,33 +39,61 @@
         style="@style/TextView.Medium.Medium"
         android:textSize="@dimen/text_size_medium"
         android:textColor="@color/textSecondary"/>
-
-    <TextView
-
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_time"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="08:30 am"
-        style="@style/TextView.Bold.Bold"
-        android:textSize="@dimen/text_size_xxxmedium"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginVertical="@dimen/_8sdp"
         app:layout_constraintTop_toBottomOf="@id/container_icon"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginHorizontal="@dimen/_5sdp"
-        android:layout_marginVertical="@dimen/_8sdp"/>
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="08:30 am"
+            android:textAlignment="textStart"
+            style="@style/TextView.Bold.Bold"
+            android:textSize="@dimen/text_size_xxxmedium" />
+        <LinearLayout
+            android:id="@+id/ll_cham_cong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/bg_corner_border"
+            android:layout_gravity="center"
+            android:padding="@dimen/_4sdp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chấm công"
+                style="@style/TextView.Medium.Medium"
+                android:textSize="@dimen/text_size_normal" />
+            <ImageView
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:src="@drawable/ic_cham_cong"/>
+        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_time"
+        app:layout_constraintTop_toBottomOf="@id/ll_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_status"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Muộn giờ"
+            android:text="-.-"
             android:fontFamily="@font/helvetica_neue_regular"
             android:textSize="@dimen/text_size_normal"
             android:textColor="@color/textSecondary"/>

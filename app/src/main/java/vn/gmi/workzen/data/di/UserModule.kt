@@ -12,6 +12,7 @@ import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSourceImpl
 import vn.gmi.workzen.data.repository.UserRepositoryImpl
 import vn.gmi.workzen.domain.repository.UserRepository
 import vn.gmi.workzen.domain.usecase.GetIdentificationUseCase
+import vn.gmi.workzen.domain.usecase.GetProfileUseCase
 import vn.gmi.workzen.domain.usecase.LoginUseCase
 import vn.gmi.workzen.domain.usecase.PhoneExistsUseCase
 import vn.gmi.workzen.domain.usecase.RegisterUseCase
@@ -24,6 +25,8 @@ import vn.gmi.workzen.ui.authentication.signup.RegisterContract
 import vn.gmi.workzen.ui.authentication.signup.RegisterPresenter
 import vn.gmi.workzen.ui.home.HomeContract
 import vn.gmi.workzen.ui.home.HomePresenter
+import vn.gmi.workzen.ui.profile.ProfileContract
+import vn.gmi.workzen.ui.profile.ProfilePresenter
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -62,6 +65,10 @@ class UserModule {
         return GetIdentificationUseCase(repo)
     }
 
+    @Provides
+    fun provideGetProfileUseCase(repo: UserRepository): GetProfileUseCase{
+        return GetProfileUseCase(repo)
+    }
 
     @Provides
     fun provideHomePresenter(
@@ -70,5 +77,11 @@ class UserModule {
         return HomePresenter(getIdentificationUseCase)
     }
 
+    @Provides
+    fun provideProfilePresenter(
+        getProfileUseCase: GetProfileUseCase
+    ): ProfileContract.Presenter{
+        return ProfilePresenter(getProfileUseCase)
+    }
 
 }

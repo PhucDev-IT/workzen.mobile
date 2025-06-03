@@ -3,17 +3,26 @@ package vn.gmi.workzen.data.database
 
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import vn.gmi.workzen.domain.entity.BranchCompany
+import vn.gmi.workzen.domain.entity.CompanyEntity
+import vn.gmi.workzen.domain.entity.ContractEntity
 import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.ProfileEntity
 
 object RealmProvider {
 
     private val schemaModels = setOf(
-        IdentificationEntity::class
+        IdentificationEntity::class,
+        ProfileEntity::class,
+        ContractEntity::class,
+        CompanyEntity::class,
+        BranchCompany::class
+
     )
 
     val config: RealmConfiguration by lazy {
         RealmConfiguration.Builder(
-            schema = setOf(IdentificationEntity::class)
+            schema = schemaModels
         )
             .schemaVersion(1)
             .build()
