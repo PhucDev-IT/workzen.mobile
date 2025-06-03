@@ -6,6 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
+import vn.gmi.workzen.utils.FormatUtils
 import vn.gmi.workzen.utils.MySharedPreferences
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -22,21 +23,26 @@ object ReminderScheduler {
 
 
     fun scheduleAll(context: Context) {
+        val startTime = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_SHIFT_START)
+        val endTime = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_SHIFT_END)
+        if (startTime != null && endTime != null) {
+            val start = FormatUtils.timeFormatter.parse(startTime)
+            val end = FormatUtils.timeFormatter.parse(endTime)
 
-        // 4 thời điểm trong ngày
-        val times = listOf(
-            Triple(12, 0, "Chấm công buổi sáng đê 🍳"),
-            Triple(14, 0, "Ngủ dậy để làm đê 🍜"),
-            Triple(17, 0, "Chấm công để về đê 🍲"),
-            Triple(21, 30, "Đi ngủ thôi 💧")
-        )
+            if (start != null && end != null) {
+                val startHour = start.hours
+                val startMinute = start.minutes
+                val endHour = end.hours
+                val endMinute = end.minutes
 
-        for ((hour, minute, title) in times) {
-            scheduleReminder(context, hour, minute, "Thời khắc quan trọng đã đến", title)
+                scheduleReminder(context, startHour, startMinute, "Thời khắc quan trọng đã đến", "Đã đến giờ chấm công")
+                scheduleReminder(context, endHour, endMinute, "Thời khắc quan trọng đã đến", "Đã đến giờ chấm công")
+            }
         }
     }
 
     fun scheduleReminder(context: Context, hour: Int, minute: Int, title: String, message: String) {
+
         val calendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)

@@ -12,5 +12,8 @@ class EndPoints {
 
         const val GET_FIND_USER_ENDPOINT = "/api/users"
         const val GET_PROFILE = "/api/users/profile"
+
+        //Shift
+        const val GET_SHIFT_BY_USER = "/api/shifts/user/{id}"
     }
 }

@@ -8,6 +8,7 @@ import vn.gmi.workzen.domain.entity.CompanyEntity
 import vn.gmi.workzen.domain.entity.ContractEntity
 import vn.gmi.workzen.domain.entity.IdentificationEntity
 import vn.gmi.workzen.domain.entity.ProfileEntity
+import vn.gmi.workzen.domain.entity.ShiftEntity
 
 object RealmProvider {
 
@@ -16,7 +17,8 @@ object RealmProvider {
         ProfileEntity::class,
         ContractEntity::class,
         CompanyEntity::class,
-        BranchCompany::class
+        BranchCompany::class,
+        ShiftEntity::class
 
     )
 

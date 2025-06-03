@@ -12,5 +12,9 @@ companion object{
     const val KEY_ROLES = "KEY_ROLES"
     const val KEY_IS_LOGIN = "KEY_IS_LOGIN"
     const val REMINDER_SCHEDULE = "REMINDER_SCHEDULE"
+    const val KEY_SHIFT_START = "KEY_SHIFT_START"
+    const val KEY_SHIFT_END = "KEY_SHIFT_END"
+
+
 }
 }

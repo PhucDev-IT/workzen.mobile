@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.networks.api.AuthenticationService
+import vn.gmi.workzen.networks.api.ShiftService
 import vn.gmi.workzen.networks.api.UserService
 import vn.gmi.workzen.networks.rest.RestClient
 import vn.gmi.workzen.utils.MySharedPreferences
@@ -41,5 +42,9 @@ class ApiService private constructor() {
 
     val userService: UserService
         get() = retrofit?.create(UserService::class.java)
+            ?: throw IllegalStateException("Retrofit chưa được init. Gọi initBaseUrl() trước.")
+
+    val shiftService: ShiftService
+        get() = retrofit?.create(ShiftService::class.java)
             ?: throw IllegalStateException("Retrofit chưa được init. Gọi initBaseUrl() trước.")
 }

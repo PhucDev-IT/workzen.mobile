@@ -14,7 +14,7 @@ class ContractEntity :  RealmObject {
     var documentUrl:String?=null
     var position:String?=null
     var baseSalary: Double?=null
-    var workingTime: String?=null
+    var workingTime: ShiftEntity?=null
     var jobTitle: String?=null
     var company: CompanyEntity?=null
     var branch: BranchCompany?=null

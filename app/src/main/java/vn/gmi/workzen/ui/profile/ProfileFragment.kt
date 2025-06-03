@@ -14,6 +14,7 @@ import vn.gmi.workzen.databinding.FragmentProfileBinding
 import vn.gmi.workzen.domain.entity.IdentificationEntity
 import vn.gmi.workzen.domain.entity.ProfileEntity
 import vn.gmi.workzen.utils.Utils
+import java.util.Date
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -62,6 +63,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     override fun onGetProfileSuccess(profile: ProfileEntity) {
         binding.tvFullName.text = profile.fullName
+        binding.tvWorkingTime.text = profile.contracts.last().workingTime?.name
+        binding.tvPosition.text = profile.contracts.last().position
+
+        try{
+            binding.tvStartTime.text = "Tham gia từ ${ profile.contracts.last().startDate?.substring(0,4)}"
+        }catch (e: Exception){
+            Log.e(TAG,e.message?:"Lỗi parser time")
+        }
         try{
             Glide.with(this).load(Utils.base64ToBitmap(profile.details?.dg2!!)).into(binding.imgAvatar)
         }catch (e: Exception){

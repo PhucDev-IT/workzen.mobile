@@ -11,9 +11,10 @@ import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.core.base.CoreViewHolder
 import vn.gmi.workzen.databinding.ItemTimeKeepingBinding
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel
+import java.util.Calendar
 
 class RvItemKeepingAdapter(private val context:Context) : BaseAdapter<ItemKeepingModel>() {
-
+    val calendar = Calendar.getInstance()
     // Tạo ViewHolder riêng kế thừa từ BaseAdapter.ItemViewHolder
     class KeepingViewHolder(itemView: View) : ItemViewHolder(itemView) {
         val binding: ItemTimeKeepingBinding = ItemTimeKeepingBinding.bind(itemView)

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        ReminderScheduler.scheduleAllIfNeeded(this)
         setListener()
         if(savedInstanceState == null){
             replaceFragment(HomeFragment())
