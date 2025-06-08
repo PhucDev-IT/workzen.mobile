@@ -11,7 +11,7 @@ import vn.gmi.workzen.data.repository.AttendanceRepositoryImpl
 import vn.gmi.workzen.domain.repository.AttendanceRepository
 import vn.gmi.workzen.domain.usecase.CheckInUseCase
 import vn.gmi.workzen.domain.usecase.CheckOutUseCase
-import vn.gmi.workzen.domain.usecase.GetInfoAttendanceUseCase
+import vn.gmi.workzen.domain.usecase.GetWorkScheduleTodayUseCase
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.networks.api.AttendanceService
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingContract
@@ -27,8 +27,8 @@ class AttendanceModule {
     }
 
     @Provides
-    fun provideGetInfoAttendanceUseCase(attendanceRepository: AttendanceRepository): GetInfoAttendanceUseCase {
-        return GetInfoAttendanceUseCase(attendanceRepository)
+    fun provideGetWorkScheduleTodayUseCase(attendanceRepository: AttendanceRepository): GetWorkScheduleTodayUseCase {
+        return GetWorkScheduleTodayUseCase(attendanceRepository)
     }
 
 
@@ -57,11 +57,11 @@ class AttendanceModule {
 
     @Provides
     fun provideTimeKeepingPresenter(
-        getInfoAttendanceUseCase: GetInfoAttendanceUseCase,
+        getWorkScheduleTodayUseCase: GetWorkScheduleTodayUseCase,
         checkInUseCase: CheckInUseCase,
         checkOutUseCase: CheckOutUseCase
     ): TimeKeepingContract.Presenter {
-        return TimeKeepingPresenter(getInfoAttendanceUseCase, checkInUseCase, checkOutUseCase)
+        return TimeKeepingPresenter(getWorkScheduleTodayUseCase, checkInUseCase, checkOutUseCase)
     }
 
 

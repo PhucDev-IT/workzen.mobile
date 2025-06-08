@@ -3,25 +3,22 @@ package vn.gmi.workzen.data.datasource.remote.attendance
 import retrofit2.Response
 import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
-import vn.gmi.workzen.data.models.response.attendance.AttendanceResModel
+import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.networks.api.AttendanceService
 import vn.gmi.workzen.networks.models.ApiResponse
 import java.time.LocalDate
 
 class AttendanceRemoteDataSourceImpl(private val apiService: AttendanceService) : AttendanceRemoteDataSource{
 
-    override suspend fun checkIn(req: CheckInRequestModel): Response<ApiResponse<AttendanceResModel?>> {
+    override suspend fun checkIn(req: CheckInRequestModel): Response<ApiResponse<GetWorkScheduleResModel?>> {
         return apiService.checkIn(req)
     }
 
-    override suspend fun checkOut(req: CheckoutReqModel): Response<ApiResponse<AttendanceResModel?>> {
+    override suspend fun checkOut(req: CheckoutReqModel): Response<ApiResponse<GetWorkScheduleResModel?>> {
         return apiService.checkOut(req)
     }
 
-    override suspend fun getInfo(
-        accountId: String,
-        date: LocalDate
-    ): Response<ApiResponse<AttendanceResModel?>> {
-        return apiService.getInfoAttendance(accountId,date.toString())
+    override suspend fun getWorkScheduleToday(accountId: String): Response<ApiResponse<GetWorkScheduleResModel?>> {
+        return apiService.getWorkScheduleToday(accountId)
     }
 }

@@ -7,7 +7,7 @@ import vn.gmi.workzen.data.di.IoDispatcher
 import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
 import vn.gmi.workzen.data.models.request.attendance.InfoAttendanceParams
-import vn.gmi.workzen.data.models.response.attendance.AttendanceResModel
+import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.domain.repository.AttendanceRepository
 import vn.gmi.workzen.networks.rest.ApiResult
 import vn.gmi.workzen.networks.rest.ErrorCode
@@ -18,7 +18,7 @@ class AttendanceRepositoryImpl @Inject constructor(
     private val attendanceRemoteDataSource: AttendanceRemoteDataSource,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : AttendanceRepository{
-    override suspend fun checkIn(req: CheckInRequestModel): AttendanceResModel?  = withContext(dispatcher){
+    override suspend fun checkIn(req: CheckInRequestModel): GetWorkScheduleResModel?  = withContext(dispatcher){
         when(val result = attendanceRemoteDataSource.checkIn(req).toApiResult()){
             is ApiResult.Success -> result.data
             is ApiResult.Error -> {
@@ -30,7 +30,7 @@ class AttendanceRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun checkOut(req: CheckoutReqModel): AttendanceResModel? = withContext(dispatcher) {
+    override suspend fun checkOut(req: CheckoutReqModel): GetWorkScheduleResModel? = withContext(dispatcher) {
         when(val result = attendanceRemoteDataSource.checkOut(req).toApiResult()){
             is ApiResult.Success -> result.data
             is ApiResult.Error -> {
@@ -43,8 +43,8 @@ class AttendanceRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getInfo(params: InfoAttendanceParams): AttendanceResModel? = withContext(dispatcher) {
-        when(val result = attendanceRemoteDataSource.getInfo(params.accountId,params.date).toApiResult()){
+    override suspend fun getWorkScheduleTodayUseCase(params: String): GetWorkScheduleResModel?  = withContext(dispatcher){
+        when(val result = attendanceRemoteDataSource.getWorkScheduleToday(params).toApiResult()){
             is ApiResult.Success -> result.data
             is ApiResult.Error -> {
                 if(result.code == ErrorCode.DATA_EMPTY){

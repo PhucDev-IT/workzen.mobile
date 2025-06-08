@@ -10,37 +10,26 @@ import androidx.core.content.ContextCompat
 import androidx.core.util.Consumer
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseAdapter
-import vn.gmi.workzen.core.base.CoreViewHolder
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
-import vn.gmi.workzen.data.models.response.attendance.AttendanceResModel
+import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.databinding.ItemTimeKeepingBinding
 import vn.gmi.workzen.ui.home.models.EAttendanceType
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel
 import vn.gmi.workzen.utils.MySharedPreferences
+import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.Calendar
 
-class RvItemKeepingAdapter(private val context:Context, private val onItemClick: Consumer<EAttendanceType>) : BaseAdapter<ItemKeepingModel>() {
+class RvItemKeepingAdapter(private val context:Context, private val onItemClick: RequestAttendanceListener) : BaseAdapter<ItemKeepingModel>() {
 
     private var startTime: LocalTime?=null
     private var endTime: LocalTime?=null
-    private var attendance: AttendanceResModel?=null
+
 
     init {
         getTimeWorking()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateTimeWorking(){
-        getTimeWorking()
-        notifyDataSetChanged()
-    }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setAttendance(attendance: AttendanceResModel){
-        this.attendance = attendance
-        notifyDataSetChanged()
-    }
 
     private fun getTimeWorking(){
         val startTimeLocal = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_SHIFT_START)
@@ -72,7 +61,7 @@ class RvItemKeepingAdapter(private val context:Context, private val onItemClick:
 
     override fun bindView(holder: ItemViewHolder, item: ItemKeepingModel) {
         val keepingHolder = holder as KeepingViewHolder
-        val shouldShowButton = shouldShowButton(item.attendanceType)
+        val shouldShowButton = !item.isChecked
         with(keepingHolder.binding) {
             tvTitle.text = item.title
             tvTime.text = item.time
@@ -87,24 +76,14 @@ class RvItemKeepingAdapter(private val context:Context, private val onItemClick:
             containerIcon.setBackgroundColor(item.backgroundIcon) // áp dụng màu có opacity
         }
         keepingHolder.binding.llChamCong.setOnClickListener {
-            onItemClick.accept(item.attendanceType)
+            onItemClick.onClick(item.shiftId, item.attendanceType, item.targetTime)
         }
     }
 
-    private fun shouldShowButton(type: EAttendanceType): Boolean {
-        val now = LocalTime.now()
-        return when(type){
-            EAttendanceType.SHIFT_START -> {
-                startTime != null &&
-                        (now.isAfter(startTime) || now == startTime) && attendance?.checkIn == null && now.isBefore(endTime)
-            }
-            EAttendanceType.SHIFT_END ->{
-                endTime != null &&
-                        (now.isAfter(endTime) || now == endTime)
-            }
-            else -> false
 
-        }
+    interface RequestAttendanceListener{
+        fun onClick(shiftId:String, attendanceType: EAttendanceType, targetTime: LocalTime?)
+
     }
 
 

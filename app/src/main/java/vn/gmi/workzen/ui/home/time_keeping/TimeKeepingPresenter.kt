@@ -11,13 +11,15 @@ import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
 import vn.gmi.workzen.data.models.request.attendance.InfoAttendanceParams
+import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.domain.usecase.CheckInUseCase
 import vn.gmi.workzen.domain.usecase.CheckOutUseCase
-import vn.gmi.workzen.domain.usecase.GetInfoAttendanceUseCase
-import vn.gmi.workzen.domain.usecase.GetShiftByUserUseCase
+
+import vn.gmi.workzen.domain.usecase.GetWorkScheduleTodayUseCase
 import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.manager.schedule.ReminderScheduler
 import vn.gmi.workzen.ui.home.HomeContract
+import vn.gmi.workzen.ui.home.models.ItemKeepingModel
 import vn.gmi.workzen.utils.DateUtils
 import vn.gmi.workzen.utils.MySharedPreferences
 import java.time.LocalDate
@@ -26,7 +28,7 @@ import java.time.ZoneId
 import javax.inject.Inject
 
 class TimeKeepingPresenter @Inject constructor(
-    private val getInfoAttendanceUseCase: GetInfoAttendanceUseCase,
+    private val getWorkScheduleTodayUseCase: GetWorkScheduleTodayUseCase,
     private val checkInUseCase: CheckInUseCase,
     private val checkOutUseCase: CheckOutUseCase,
 ) : BasePresenter<TimeKeepingContract.View>(), TimeKeepingContract.Presenter {
@@ -35,10 +37,11 @@ class TimeKeepingPresenter @Inject constructor(
         scope.launch {
             try {
                 val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
-                val date = LocalDate.now()
                 val result =
-                    getInfoAttendanceUseCase.invoke(InfoAttendanceParams(accountId ?: "", date))
-
+                    getWorkScheduleTodayUseCase.invoke(accountId ?: "")
+                if(result!= null){
+                    getView()?.onGetWorkScheduleSuccess(result)
+                }
             } catch (e: Exception) {
                 Log.e("Error", e.message.toString())
             }
@@ -102,6 +105,9 @@ class TimeKeepingPresenter @Inject constructor(
             }
         }
     }
+
+
+
 
 
 }

@@ -38,4 +38,13 @@ object DateUtils {
             null
         }
     }
+
+    fun stringToLocalDateTime(date: String, dateFormat: String?): LocalDateTime? {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern(dateFormat)
+            LocalDateTime.parse(date, formatter)
+        } catch (ex: Exception) {
+            null
+        }
+    }
 }
