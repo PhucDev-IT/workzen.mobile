@@ -15,12 +15,15 @@ import vn.gmi.workzen.domain.usecase.LoginUseCase
 import vn.gmi.workzen.domain.usecase.LogoutUseCase
 import vn.gmi.workzen.domain.usecase.PhoneExistsUseCase
 import vn.gmi.workzen.domain.usecase.RegisterUseCase
+import vn.gmi.workzen.domain.usecase.VerifyTokenUseCase
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.networks.api.AuthenticationService
 import vn.gmi.workzen.ui.authentication.login.LoginContract
 import vn.gmi.workzen.ui.authentication.login.LoginPresenter
 import vn.gmi.workzen.ui.authentication.signup.RegisterContract
 import vn.gmi.workzen.ui.authentication.signup.RegisterPresenter
+import vn.gmi.workzen.ui.splash.SplashContract
+import vn.gmi.workzen.ui.splash.SplashPresenter
 
 
 @Module
@@ -70,6 +73,17 @@ class AuthModule {
         return RegisterUseCase(repo)
     }
 
+    @Provides
+    fun provideVerifyTokenUseCase(repo: AuthRepository): VerifyTokenUseCase {
+        return VerifyTokenUseCase(repo)
+    }
+
+    @Provides
+    fun provideSplashPresenter(
+        verifyTokenUseCase: VerifyTokenUseCase
+    ): SplashContract.Presenter {
+        return SplashPresenter(verifyTokenUseCase)
+    }
 
     @Provides
     fun provideLoginPresenter(

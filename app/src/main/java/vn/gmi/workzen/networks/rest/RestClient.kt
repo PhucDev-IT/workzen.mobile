@@ -45,14 +45,29 @@ class RestClient {
 
 
         private fun interceptor(token: String?): Interceptor {
-            Log.d("Phuc","interceptor token = $token")
             return Interceptor { chain ->
-                val originalRequest: Request = chain.request()
-                val modifiedRequest: Request = originalRequest.newBuilder()
-                    .addHeader("Authorization", "Bearer $token")  // Add token to the header
+                val originalRequest = chain.request()
+                val modifiedRequest = originalRequest.newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
                     .build()
-                chain.proceed(modifiedRequest)
+
+                // Custom log headers
+                Log.d("RestClient", "=== REQUEST HEADERS ===")
+                modifiedRequest.headers.forEach {
+                    Log.d("RestClient", "${it.first}: ${it.second}")
+                }
+
+                val response = chain.proceed(modifiedRequest)
+
+                // Custom log response headers
+                Log.d("RestClient", "=== RESPONSE HEADERS ===")
+                response.headers.forEach {
+                    Log.d("RestClient", "${it.first}: ${it.second}")
+                }
+
+                response
             }
         }
+
     }
 }

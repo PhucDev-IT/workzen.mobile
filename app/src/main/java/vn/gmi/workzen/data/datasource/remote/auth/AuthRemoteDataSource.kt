@@ -12,4 +12,5 @@ interface AuthRemoteDataSource {
     suspend fun register( request: Map<String,String>): Response<ApiResponse<Boolean>>
     suspend fun refreshToken(token:String): Response<ApiResponse<TokenResponse>>
     suspend fun logout()
+    suspend fun verifyToken(token:String): Response<ApiResponse<Boolean>>
 }

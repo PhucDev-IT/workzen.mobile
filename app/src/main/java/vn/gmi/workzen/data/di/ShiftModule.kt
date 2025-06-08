@@ -49,11 +49,6 @@ class ShiftModule {
         return GetShiftByUserUseCase(repo)
     }
 
-    @Provides
-    fun provideTimeKeepingPresenter(
-        getShiftByUserUseCase: GetShiftByUserUseCase
-    ): TimeKeepingContract.Presenter {
-        return TimeKeepingPresenter(getShiftByUserUseCase)
-    }
+
 }
 

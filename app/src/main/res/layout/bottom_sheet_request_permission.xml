@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/TransparentBottomSheetDialogTheme"
+    app:cardCornerRadius="@dimen/_10sdp"
+    android:layout_height="wrap_content">
+  <RelativeLayout
+      android:background="@color/white"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <View
+          android:id="@+id/view_top_header"
+          android:layout_width="@dimen/_100sdp"
+          android:layout_height="@dimen/_2sdp"
+          android:background="@drawable/bg_corner_border"
+          android:backgroundTint="@color/grey"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="@dimen/_10sdp"/>
+
+      <LinearLayout
+          android:id="@+id/ll_body"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/view_top_header"
+          android:gravity="center_horizontal"
+          android:layout_margin="@dimen/_10sdp"
+          android:orientation="vertical">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Vui lòng cấp quyền"
+              style="@style/TextView.Bold.Bold"
+              android:textSize="@dimen/text_size_large"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Chúng tôi cần bạn cấp quyền truy cập vị trí, để có thể sử dụng chính xác cho chấm công"
+              android:textAlignment="center"
+              style="@style/TextView.Medium.Medium"
+              android:textColor="@color/textSecondary"/>
+
+          <com.airbnb.lottie.LottieAnimationView
+              android:layout_marginVertical="@dimen/_20sdp"
+              android:id="@+id/lottieView"
+              android:layout_gravity="center"
+              android:layout_width="200dp"
+              android:layout_height="200dp"
+              app:lottie_autoPlay="true"
+              app:lottie_loop="true"
+              app:lottie_rawRes="@raw/location_permission" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/ll_bottom"
+          android:layout_margin="@dimen/_10sdp"
+          android:layout_below="@id/ll_body"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:orientation="horizontal">
+          <TextView
+              android:id="@+id/tv_cancel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Bỏ qua"
+              android:layout_weight="1"
+              style="@style/TextView.Medium.Medium"/>
+          <TextView
+              android:id="@+id/tv_Confirm"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Tiếp tục"
+              android:gravity="right"
+              android:layout_weight="1"
+              android:textColor="@color/primary"
+              style="@style/TextView.Medium.Medium"/>
+      </LinearLayout>
+  </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -2,6 +2,8 @@ package vn.gmi.workzen.networks.api
 
 class EndPoints {
     companion object{
+        //Auth
+        const val VERIFY_TOKEN_ENDPOINT = "/api/auth/verify-token"
         const val LOGIN_ENDPOINT = "/api/auth/login"
         const val CHECK_EXISTS_PHONE_ENDPOINT = "/api/auth/phone/exists"
         const val REGISTER_ENDPOINT = "/api/auth/signup"
@@ -15,5 +17,11 @@ class EndPoints {
 
         //Shift
         const val GET_SHIFT_BY_USER = "/api/shifts/user/{id}"
+
+        //Attendance
+        const val GET_INFO_ATTENDANCE = "/api/works/user/{accountId}"
+        const val CHECK_IN = "/api/works/check-in"
+        const val CHECK_OUT = "/api/works/check-out"
+
     }
 }

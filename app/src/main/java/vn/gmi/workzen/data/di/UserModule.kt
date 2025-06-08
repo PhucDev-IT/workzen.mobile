@@ -12,10 +12,11 @@ import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSourceImpl
 import vn.gmi.workzen.data.repository.UserRepositoryImpl
 import vn.gmi.workzen.domain.repository.UserRepository
 import vn.gmi.workzen.domain.usecase.GetIdentificationUseCase
+import vn.gmi.workzen.domain.usecase.GetProfileLocalUseCase
+import vn.gmi.workzen.domain.usecase.GetProfileRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileUseCase
-import vn.gmi.workzen.domain.usecase.LoginUseCase
-import vn.gmi.workzen.domain.usecase.PhoneExistsUseCase
-import vn.gmi.workzen.domain.usecase.RegisterUseCase
+import vn.gmi.workzen.domain.usecase.StoreProfileUseCase
+
 import vn.gmi.workzen.domain.usecase.UpdateIdentificationUseCase
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.networks.api.UserService
@@ -65,16 +66,33 @@ class UserModule {
         return GetIdentificationUseCase(repo)
     }
 
+   @Provides
+   fun getProfileRemoteUseCase(repo: UserRepository): GetProfileRemoteUseCase{
+       return GetProfileRemoteUseCase(repo)
+   }
+
     @Provides
-    fun provideGetProfileUseCase(repo: UserRepository): GetProfileUseCase{
-        return GetProfileUseCase(repo)
+    fun providerGetProfileLocalUseCase(repo: UserRepository): GetProfileLocalUseCase{
+        return GetProfileLocalUseCase(repo)
     }
 
     @Provides
     fun provideHomePresenter(
-        getIdentificationUseCase: GetIdentificationUseCase
+        getProfileRemoteUseCase: GetProfileRemoteUseCase,
+        getProfileLocalUseCase: GetProfileLocalUseCase,
+        storeProfileUseCase: StoreProfileUseCase
     ): HomeContract.Presenter {
-        return HomePresenter(getIdentificationUseCase)
+        return HomePresenter(getProfileRemoteUseCase, getProfileLocalUseCase,storeProfileUseCase)
+    }
+
+    @Provides
+    fun providerGetProfile(repo: UserRepository): GetProfileUseCase{
+        return GetProfileUseCase(repo)
+    }
+
+    @Provides
+    fun provideStoreProfile(repo: UserRepository): StoreProfileUseCase{
+        return StoreProfileUseCase(repo)
     }
 
     @Provides

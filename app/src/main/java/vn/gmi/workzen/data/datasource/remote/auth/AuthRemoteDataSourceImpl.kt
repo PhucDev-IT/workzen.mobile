@@ -30,4 +30,8 @@ class AuthRemoteDataSourceImpl(private val apiService: AuthenticationService) :A
     override suspend fun logout(){
 
     }
+
+    override suspend fun verifyToken(token: String): Response<ApiResponse<Boolean>> {
+        return apiService.verifyToken(token)
+    }
 }

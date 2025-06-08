@@ -1,9 +1,11 @@
-package vn.gmi.workzen.domain.entity
+package vn.gmi.workzen.domain.entity.company
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
-open class CompanyBase {
+open class CompanyEntity : RealmObject {
+    @PrimaryKey
+    var id: String =""
     var name: String? = null
     var shortName: String? = null
     var taxCode: String? = null
@@ -15,4 +17,7 @@ open class CompanyBase {
     var logo: String? = null
     var representativeName: String? = null
     var isActive: Boolean = true
+    var minWorkingHours: Float?=null
+    var note:String?=null
+    var parentId:String?=null
 }

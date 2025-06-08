@@ -1,32 +1,104 @@
 package vn.gmi.workzen.ui.home.time_keeping
 
+import android.annotation.SuppressLint
+import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import kotlinx.coroutines.launch
 import vn.gmi.workzen.MyApplication
 import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
+import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
+import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
+import vn.gmi.workzen.data.models.request.attendance.InfoAttendanceParams
+import vn.gmi.workzen.domain.usecase.CheckInUseCase
+import vn.gmi.workzen.domain.usecase.CheckOutUseCase
+import vn.gmi.workzen.domain.usecase.GetInfoAttendanceUseCase
 import vn.gmi.workzen.domain.usecase.GetShiftByUserUseCase
+import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.manager.schedule.ReminderScheduler
 import vn.gmi.workzen.ui.home.HomeContract
+import vn.gmi.workzen.utils.DateUtils
 import vn.gmi.workzen.utils.MySharedPreferences
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 class TimeKeepingPresenter @Inject constructor(
-    private val getShiftByUserUseCase: GetShiftByUserUseCase
-): BasePresenter<TimeKeepingContract.View>(), TimeKeepingContract.Presenter {
-    override fun getShift() {
+    private val getInfoAttendanceUseCase: GetInfoAttendanceUseCase,
+    private val checkInUseCase: CheckInUseCase,
+    private val checkOutUseCase: CheckOutUseCase,
+) : BasePresenter<TimeKeepingContract.View>(), TimeKeepingContract.Presenter {
+
+    override fun getInfoAttendance() {
         scope.launch {
             try {
-                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
-                val result = getShiftByUserUseCase.invoke(userId?:"")
-                if(result!=null){
-                    MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_SHIFT_START,result.startTime?:"")
-                    MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_SHIFT_END,result.startTime?:"")
+                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
+                val date = LocalDate.now()
+                val result =
+                    getInfoAttendanceUseCase.invoke(InfoAttendanceParams(accountId ?: "", date))
 
-                    ReminderScheduler.scheduleAllIfNeeded(MyApplication.instance)
+            } catch (e: Exception) {
+                Log.e("Error", e.message.toString())
+            }
+        }
+    }
+
+    @SuppressLint("HardwareIds")
+    override fun checkIn() {
+        scope.launch {
+            try {
+                getView()?.showLoading()
+                val shiftId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_SHIFT_ID)
+
+                val localDate: LocalDate = LocalDate.now()
+                val localDateTime: LocalDateTime = LocalDateTime.now()
+
+                val deviceId = Settings.Secure.getString(MyApplication.instance.contentResolver, Settings.Secure.ANDROID_ID)
+                val model = Build.MODEL       // Ví dụ: "Galaxy S22"
+
+                val req = CheckInRequestModel(shiftId.toString(), DateUtils.formatLocalDate(localDate,
+                    DateUtils.YEARMONTHDATFORMAT).toString(), DateUtils.formatLocalDateTime(localDateTime,
+                    DateUtils.ISO8601DATEFORMAT).toString(),"","$deviceId|$model")
+
+                val result = checkInUseCase.invoke(req)
+                if(result!=null){
+                    getView()?.onAttendanceSuccess(result)
                 }
-            }catch (e: Exception){
-                Log.e("TimeKeepingPresenter","Lôi: ${e.message}")
+            } catch (e: Exception) {
+                Log.e("Error", e.message.toString())
+            }finally {
+                getView()?.hideLoading()
+            }
+        }
+    }
+
+    @SuppressLint("HardwareIds")
+    override fun checkOut() {
+        scope.launch {
+            try {
+                getView()?.showLoading()
+                val shiftId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_SHIFT_ID)
+
+                val localDate: LocalDate = LocalDate.now()
+                val localDateTime: LocalDateTime = LocalDateTime.now()
+
+                val deviceId = Settings.Secure.getString(MyApplication.instance.contentResolver, Settings.Secure.ANDROID_ID)
+                val model = Build.MODEL       // Ví dụ: "Galaxy S22"
+
+                val req = CheckoutReqModel(shiftId.toString(), DateUtils.formatLocalDate(localDate,
+                    DateUtils.YEARMONTHDATFORMAT).toString(), DateUtils.formatLocalDateTime(localDateTime,
+                    DateUtils.ISO8601DATEFORMAT).toString())
+
+                val result = checkOutUseCase.invoke(req)
+                if(result!=null){
+                    getView()?.onAttendanceSuccess(result)
+                }
+            } catch (e: Exception) {
+                Log.e("Error", e.message.toString())
+            }finally {
+                getView()?.hideLoading()
             }
         }
     }

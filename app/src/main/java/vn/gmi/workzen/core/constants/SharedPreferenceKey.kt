@@ -14,7 +14,8 @@ companion object{
     const val REMINDER_SCHEDULE = "REMINDER_SCHEDULE"
     const val KEY_SHIFT_START = "KEY_SHIFT_START"
     const val KEY_SHIFT_END = "KEY_SHIFT_END"
-
+    const val KEY_SHIFT_ID = "KEY_SHIFT_ID"
+    const val KEY_IS_ONBOARD = "KEY_IS_ONBOARD"
 
 }
 }

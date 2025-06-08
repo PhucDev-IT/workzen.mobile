@@ -5,10 +5,12 @@ import vn.gmi.workzen.data.models.request.user.OnboardUserReqModel
 import vn.gmi.workzen.data.models.response.auth.LoginResponseModel
 import vn.gmi.workzen.data.models.response.user.ProfileResponseModel
 import vn.gmi.workzen.domain.entity.IdentificationEntity
-import vn.gmi.workzen.domain.entity.ProfileEntity
+import vn.gmi.workzen.domain.entity.user.ProfileEntity
 
 interface UserRepository {
     suspend fun updateIdentification(request: OnboardUserReqModel): IdentificationEntity
     suspend fun getIdentification(userId:String): IdentificationEntity?
     suspend fun getProfile(userId: String): ProfileEntity?
+    suspend fun storeProfile(model: ProfileEntity)
+
 }

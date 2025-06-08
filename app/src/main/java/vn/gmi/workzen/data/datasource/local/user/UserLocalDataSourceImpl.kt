@@ -8,8 +8,8 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.response.user.UserResponseModel
-import vn.gmi.workzen.domain.entity.ContractEntity
-import vn.gmi.workzen.domain.entity.ProfileEntity
+import vn.gmi.workzen.domain.entity.contract.ContractEntity
+import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.utils.MySharedPreferences
 
 class UserLocalDataSourceImpl: UserLocalDataSource {
@@ -46,6 +46,9 @@ class UserLocalDataSourceImpl: UserLocalDataSource {
 
             copyToRealm(managedProfile, updatePolicy = UpdatePolicy.ALL)
         }
+        MySharedPreferences.setBooleanValue(SharedPreferenceKey.KEY_IS_ONBOARD,
+            model.details?.isVerified == true
+        )
     }
 
 

@@ -39,3 +39,9 @@ class RegisterUseCase(private val repository: AuthRepository){
       return  repository.register(maps)
     }
 }
+
+class VerifyTokenUseCase(private val repository: AuthRepository):BaseUseCase<String,Boolean>() {
+    override suspend fun invoke(params: String): Boolean {
+        return repository.verifyToken(params)
+    }
+}

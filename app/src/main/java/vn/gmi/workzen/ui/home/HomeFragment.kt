@@ -2,6 +2,7 @@ package vn.gmi.workzen.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.NewspaperModel
 import vn.gmi.workzen.databinding.FragmentHomeBinding
+import vn.gmi.workzen.domain.entity.user.ProfileEntity
+import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.ui.authentication.onboard_user.ScanQrCodeActivity
 import vn.gmi.workzen.ui.home.header.HomeHeaderFragment
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
@@ -54,7 +57,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
         binding.rvNewspaper.layoutManager = LinearLayoutManager(requireContext())
 
         presenter.attachView(this)
-        presenter.checkOnboardUser()
+        presenter.getProfile()
         presenter.getNotificationAndEvent()
 
     }
@@ -79,11 +82,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
         adapter.addAll(items)
     }
 
-    override fun onCheckOnboardUser(isOnboarded: Boolean) {
-        if(!isOnboarded){
+    override fun onGetProfile(model: ProfileEntity) {
+        SessionManager.profile = model
+        if(MySharedPreferences.getBooleanValue(SharedPreferenceKey.KEY_IS_ONBOARD) == false){
             binding.viewRequestOnboard.root.visibility = View.VISIBLE
         }else{
             binding.viewRequestOnboard.root.visibility = View.GONE
         }
     }
+
 }

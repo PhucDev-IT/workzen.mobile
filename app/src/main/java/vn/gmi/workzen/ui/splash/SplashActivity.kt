@@ -8,12 +8,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.databinding.ActivitySplashBinding
+import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : BaseActivity<SplashContract.View, SplashContract.Presenter>(),SplashContract.View {
+
+    @Inject lateinit var splashPresenter: SplashContract.Presenter
 
     override val layoutView: View
         get() {
@@ -21,7 +26,7 @@ class SplashActivity : BaseActivity<SplashContract.View, SplashContract.Presente
         }
 
     override fun initPresenter(): SplashContract.Presenter {
-      return SplashPresenter()
+      return splashPresenter
     }
 
     override fun initViews() {
@@ -57,5 +62,6 @@ class SplashActivity : BaseActivity<SplashContract.View, SplashContract.Presente
 
     override fun goToView(clz: Class<*>) {
         startActivity(Intent(this,clz))
+        finishAffinity()
     }
 }

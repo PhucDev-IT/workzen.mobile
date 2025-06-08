@@ -12,7 +12,7 @@ import vn.gmi.workzen.data.models.response.auth.LoginResponseModel
 import vn.gmi.workzen.data.models.response.auth.OnboardUserResModel
 import vn.gmi.workzen.data.models.response.user.ProfileResponseModel
 import vn.gmi.workzen.data.models.response.user.UserResponseModel
-import vn.gmi.workzen.domain.entity.ProfileEntity
+import vn.gmi.workzen.domain.entity.user.ProfileEntity
 
 interface UserService {
     @POST(EndPoints.UPDATE_IDENTIFICATION_ENDPOINT)

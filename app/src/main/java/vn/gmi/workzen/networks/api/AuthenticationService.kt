@@ -24,4 +24,7 @@ interface AuthenticationService {
 
     @POST(EndPoints.REFRESH_TOKEN)
     suspend fun refreshToken(@Body map: Map<String,String>): Response<ApiResponse<TokenResponse>>
+
+    @POST(EndPoints.VERIFY_TOKEN_ENDPOINT)
+    suspend fun verifyToken(@Body token: String): Response<ApiResponse<Boolean>>
 }

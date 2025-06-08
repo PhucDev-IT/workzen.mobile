@@ -13,8 +13,13 @@ class ItemKeepingModel(
     val status: String,
     val reward: String,
     @ColorInt val iconColor: Int,
-    val opacity: Float = 0.2f
+    val opacity: Float = 0.2f,
+    val attendanceType: EAttendanceType
 ) {
     val backgroundIcon: Int
         get() = ColorUtils.setAlphaComponent(iconColor, (opacity * 255).toInt())
+}
+
+enum class EAttendanceType{
+    OVERTIME_START, OVERTIME_END, SHIFT_START, SHIFT_END
 }

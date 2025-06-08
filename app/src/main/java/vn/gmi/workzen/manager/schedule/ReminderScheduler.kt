@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit
 
 object ReminderScheduler {
     fun scheduleAllIfNeeded(context: Context) {
-
         val prefs = MySharedPreferences.getBooleanValue(SharedPreferenceKey.REMINDER_SCHEDULE)
         if (!prefs) {
             scheduleAll(context)

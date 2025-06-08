@@ -1,5 +1,6 @@
 package vn.gmi.workzen.ui.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,7 +13,8 @@ import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentProfileBinding
 import vn.gmi.workzen.domain.entity.IdentificationEntity
-import vn.gmi.workzen.domain.entity.ProfileEntity
+import vn.gmi.workzen.domain.entity.contract.ContractRole
+import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.utils.Utils
 import java.util.Date
 import javax.inject.Inject
@@ -61,11 +63,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onGetProfileSuccess(profile: ProfileEntity) {
         binding.tvFullName.text = profile.fullName
-        binding.tvWorkingTime.text = profile.contracts.last().workingTime?.name
-        binding.tvPosition.text = profile.contracts.last().position
-
+        binding.tvWorkingTime.text = profile.contracts.last().shift?.name
+        val contract = profile.contracts.first { it.isActive }
+        binding.tvPosition.text = ContractRole.fromKey(contract.position)
         try{
             binding.tvStartTime.text = "Tham gia từ ${ profile.contracts.last().startDate?.substring(0,4)}"
         }catch (e: Exception){

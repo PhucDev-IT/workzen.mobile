@@ -1,11 +1,9 @@
-package vn.gmi.workzen.domain.entity
+package vn.gmi.workzen.domain.entity.shift
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import java.time.LocalDate
-import java.time.LocalTime
 
-class ShiftEntity : RealmObject  {
+class ShiftEntity : RealmObject {
     @PrimaryKey
     var id:String = ""
     var name: String?=null

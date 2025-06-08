@@ -4,10 +4,15 @@ import retrofit2.Response
 import com.google.gson.Gson
 import vn.gmi.workzen.networks.models.ApiResponse
 
+enum class ErrorCode{
+    RESPONSE_ERROR,
+    DATA_EMPTY,
+    UNKNOWN_ERROR
+}
 
 sealed class ApiResult<out T> {
     data class Success<out T>(val data: T) : ApiResult<T>()
-    data class Error(val message: String) : ApiResult<Nothing>()
+    data class Error(val code: ErrorCode,val message: String) : ApiResult<Nothing>()
 }
 
 inline fun <T> ApiResult<T>.onSuccess(action: (T) -> Unit): ApiResult<T> {
@@ -28,9 +33,9 @@ suspend fun <T> networkCallback(
         if (response.isSuccessful) {
             val body = response.body()
             when {
-                body == null -> ApiResult.Error("Empty response body.")
-                !body.success -> ApiResult.Error(body.message ?: "Unknown API error")
-                body.data == null -> ApiResult.Error("Empty data.")
+                body == null -> ApiResult.Error(ErrorCode.RESPONSE_ERROR,"Empty response body.")
+                !body.success -> ApiResult.Error(ErrorCode.RESPONSE_ERROR,body.message ?: "Unknown API error")
+                body.data == null -> ApiResult.Error(ErrorCode.DATA_EMPTY,"Empty data.")
                 else -> ApiResult.Success(body.data)
             }
         } else {
@@ -42,10 +47,10 @@ suspend fun <T> networkCallback(
                     it
                 }
             } ?: "HTTP ${response.code()}"
-            ApiResult.Error(errorMsg)
+            ApiResult.Error(ErrorCode.RESPONSE_ERROR,errorMsg)
         }
     } catch (e: Exception) {
-        ApiResult.Error(e.localizedMessage ?: "Unexpected error")
+        ApiResult.Error(ErrorCode.UNKNOWN_ERROR,e.localizedMessage ?: "Unexpected error")
     }
 }
 
@@ -55,9 +60,9 @@ suspend fun <T> Response<ApiResponse<T>>.toApiResult(): ApiResult<T> {
         if (isSuccessful) {
             val body = body()
             when {
-                body == null -> ApiResult.Error("Empty response body.")
-                !body.success -> ApiResult.Error(body.message ?: "Unknown API error")
-                body.data == null -> ApiResult.Error("Empty data.")
+                body == null -> ApiResult.Error(ErrorCode.RESPONSE_ERROR,"Empty response body.")
+                !body.success -> ApiResult.Error(ErrorCode.RESPONSE_ERROR,body.message ?: "Unknown API error")
+                body.data == null -> ApiResult.Error(ErrorCode.DATA_EMPTY,"Empty data.")
                 else -> ApiResult.Success(body.data)
             }
         } else {
@@ -69,10 +74,10 @@ suspend fun <T> Response<ApiResponse<T>>.toApiResult(): ApiResult<T> {
                     it
                 }
             } ?: "HTTP ${code()}"
-            ApiResult.Error(errorMsg)
+            ApiResult.Error(ErrorCode.RESPONSE_ERROR,errorMsg)
         }
     } catch (e: Exception) {
-        ApiResult.Error(e.localizedMessage ?: "Unexpected error")
+        ApiResult.Error(ErrorCode.UNKNOWN_ERROR,e.localizedMessage ?: "Unexpected error")
     }
 }
 

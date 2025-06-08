@@ -56,4 +56,13 @@ class AuthRepositoryImpl @Inject constructor(
           is ApiResult.Error -> throw Exception(result.message)
       }
     }
+
+    override suspend fun verifyToken(token: String): Boolean = withContext(dispatcher){
+        when(val result = remoteDataSource.verifyToken(token).toApiResult()){
+            is ApiResult.Success -> result.data
+            is ApiResult.Error -> throw Exception(result.message)
+        }
+
+
+    }
 }

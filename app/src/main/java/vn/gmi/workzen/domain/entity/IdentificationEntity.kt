@@ -23,8 +23,9 @@ class IdentificationEntity : RealmObject {
     var spouseName: String? = null
     var oldEidNumber: String? = null
     var dg2: String? = null
+    var isVerified: Boolean?=null
     override fun toString(): String {
-        return "IdentificationEntity(id='$id', eidNumber=$eidNumber, fullName=$fullName, gender=$gender, dateOfBirth=$dateOfBirth, dateOfIssue=$dateOfIssue, dateOfExpiry=$dateOfExpiry, nationality=$nationality, ethnicity=$ethnicity, religion=$religion, placeOfOrigin=$placeOfOrigin, placeOfResidence=$placeOfResidence, personalIdentification=$personalIdentification, fatherName=$fatherName, motherName=$motherName, spouseName=$spouseName, oldEidNumber=$oldEidNumber, dg2=$dg2)"
+        return "IdentificationEntity(id='$id', eidNumber=$eidNumber, fullName=$fullName, gender=$gender, dateOfBirth=$dateOfBirth, dateOfIssue=$dateOfIssue, dateOfExpiry=$dateOfExpiry, nationality=$nationality, ethnicity=$ethnicity, religion=$religion, placeOfOrigin=$placeOfOrigin, placeOfResidence=$placeOfResidence, personalIdentification=$personalIdentification, fatherName=$fatherName, motherName=$motherName, spouseName=$spouseName, oldEidNumber=$oldEidNumber,  isVerified=$isVerified)"
     }
 
 

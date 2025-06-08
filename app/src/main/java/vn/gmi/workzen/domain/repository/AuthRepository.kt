@@ -11,4 +11,5 @@ interface AuthRepository {
     suspend fun register(request: Map<String,String>): Boolean
     suspend fun logout()
     suspend fun refreshToken(token:String):TokenResponse
+    suspend fun verifyToken(token:String):Boolean
 }

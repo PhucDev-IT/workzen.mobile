@@ -9,7 +9,7 @@ import vn.gmi.workzen.data.di.IoDispatcher
 import vn.gmi.workzen.data.models.request.user.OnboardUserReqModel
 import vn.gmi.workzen.data.models.response.user.ProfileResponseModel
 import vn.gmi.workzen.domain.entity.IdentificationEntity
-import vn.gmi.workzen.domain.entity.ProfileEntity
+import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.domain.repository.UserRepository
 import vn.gmi.workzen.networks.rest.ApiResult
 import vn.gmi.workzen.networks.rest.toApiResult
@@ -63,5 +63,9 @@ class UserRepositoryImpl @Inject constructor(
             }
             entity
         }
+    }
+
+    override suspend fun storeProfile(model: ProfileEntity) {
+
     }
 }

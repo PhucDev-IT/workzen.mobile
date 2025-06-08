@@ -6,7 +6,7 @@ import vn.gmi.workzen.data.datasource.local.shift.ShiftLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.shift.ShiftRemoteDataSource
 import vn.gmi.workzen.data.di.IoDispatcher
 import vn.gmi.workzen.data.models.response.shift.ShiftResponseModel
-import vn.gmi.workzen.domain.entity.ShiftEntity
+import vn.gmi.workzen.domain.entity.shift.ShiftEntity
 import vn.gmi.workzen.domain.repository.ShiftRepository
 import vn.gmi.workzen.networks.rest.ApiResult
 import vn.gmi.workzen.networks.rest.toApiResult

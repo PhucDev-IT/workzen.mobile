@@ -3,7 +3,7 @@ package vn.gmi.workzen.data.models.response.shift
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import vn.gmi.workzen.data.mapper.DataMapper
-import vn.gmi.workzen.domain.entity.ShiftEntity
+import vn.gmi.workzen.domain.entity.shift.ShiftEntity
 import java.time.LocalTime
 
 class ShiftResponseModel : DataMapper<ShiftEntity>() {
