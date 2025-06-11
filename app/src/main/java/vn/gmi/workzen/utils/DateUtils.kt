@@ -1,9 +1,11 @@
 package vn.gmi.workzen.utils
 
 import android.annotation.SuppressLint
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
@@ -39,12 +41,29 @@ object DateUtils {
         }
     }
 
-    fun stringToLocalDateTime(date: String, dateFormat: String?): LocalDateTime? {
+    fun stringToLocalDateTime(date: String): LocalDateTime? {
         return try {
-            val formatter = DateTimeFormatter.ofPattern(dateFormat)
-            LocalDateTime.parse(date, formatter)
+            if (date.endsWith("Z")) {
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                    .withZone(ZoneOffset.UTC)
+                LocalDateTime.parse(date, formatter) // Hoặc Instant.parse(date).atZone(...)
+            } else {
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+                LocalDateTime.parse(date, formatter)
+            }
+        } catch (ex: Exception) {
+            Log.e("DateUtils", "stringToLocalDateTime: $ex")
+            null
+        }
+    }
+
+    fun stringToLocalDate(date: String): LocalDate? {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            LocalDate.parse(date, formatter)
         } catch (ex: Exception) {
             null
         }
     }
+
 }

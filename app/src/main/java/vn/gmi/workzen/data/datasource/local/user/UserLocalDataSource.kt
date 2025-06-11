@@ -1,7 +1,7 @@
 package vn.gmi.workzen.data.datasource.local.user
 
 import vn.gmi.workzen.data.models.response.user.UserResponseModel
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 
 interface UserLocalDataSource {

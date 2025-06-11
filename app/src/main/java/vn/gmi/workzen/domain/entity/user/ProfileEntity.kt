@@ -5,7 +5,7 @@ import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import vn.gmi.workzen.domain.entity.contract.ContractEntity
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 
 class ProfileEntity : RealmObject {
     @PrimaryKey

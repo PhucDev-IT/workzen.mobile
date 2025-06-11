@@ -15,6 +15,7 @@ import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.core.ui.BottomSheetRequestPermissionFragment
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
+import vn.gmi.workzen.data.models.response.attendance.ShiftWorkInfo
 import vn.gmi.workzen.databinding.FragmentTimeKeepingBinding
 import vn.gmi.workzen.ui.home.models.EAttendanceType
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel
@@ -44,17 +45,16 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
     }
 
 
-
-    private val onListenerClickAdapter = object : RvItemKeepingAdapter.RequestAttendanceListener{
+    private val onListenerClickAdapter = object : RvItemKeepingAdapter.RequestAttendanceListener {
         override fun onClick(
             shiftId: String,
             attendanceType: EAttendanceType,
-            targetTime: LocalTime?
         ) {
-//            val isVerify = MySharedPreferences.getBooleanValue(SharedPreferenceKey.KEY_IS_ONBOARD)
-//            if (!isVerify) {
-//                AppToast.showError(requireContext(), "Cần phải onboard trước khi tiếp tục")
-//            }
+            val isVerify = MySharedPreferences.getBooleanValue(SharedPreferenceKey.KEY_IS_ONBOARD)
+            if (!isVerify) {
+                AppToast.showError(requireContext(), "Cần phải onboard trước khi tiếp tục")
+                return
+            }
             if (!checkPermission()) {
                 val bottomSheet = BottomSheetRequestPermissionFragment()
                 bottomSheet.show(
@@ -106,8 +106,8 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
 
     override fun onGetWorkScheduleSuccess(attendance: GetWorkScheduleResModel) {
         val list = mutableListOf<ItemKeepingModel>()
-        if(attendance.shifts!=null){
-            for(item in attendance.shifts){
+        if (attendance.shifts != null) {
+            for (item in attendance.shifts) {
                 list.addAll(buildAttendance(item))
             }
             adapter.clear()
@@ -116,7 +116,14 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
     }
 
     override fun onAttendanceSuccess(attendance: GetWorkScheduleResModel) {
-
+        val list = mutableListOf<ItemKeepingModel>()
+        if (attendance.shifts != null) {
+            for (item in attendance.shifts) {
+                list.addAll(buildAttendance(item))
+            }
+            adapter.clear()
+            adapter.addAll(list)
+        }
     }
 
 
@@ -133,20 +140,20 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
         return false
     }
 
-    private fun buildAttendance(item: GetWorkScheduleResModel.ShiftWorkInfo): List<ItemKeepingModel> {
+    private fun buildAttendance(item: ShiftWorkInfo): List<ItemKeepingModel> {
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val list = mutableListOf<ItemKeepingModel>()
-        if (item.isOverTime == false) {
+        if (item.overTime == false) {
             list.add(
                 ItemKeepingModel(
                     shiftId = item.shiftId.toString(),
                     title = "Giờ vào",
                     icon = R.drawable.ic_login,
-                    time = item.checkInTime.toString(),
-                    status = "",
-                    reward = "",
+                    time = item.checkInTime?.let {
+                        DateUtils.stringToLocalDateTime(it)
+                    },
                     iconColor = ContextCompat.getColor(context, R.color.green),
-                    isChecked = item.checkedIn,
+                    allowAttendance = !item.checkedIn,
                     targetTime = LocalTime.parse(item.startTime, formatter),
                     attendanceType = EAttendanceType.SHIFT_START
                 )
@@ -157,40 +164,45 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
                     shiftId = item.shiftId.toString(),
                     title = "Giờ về",
                     icon = R.drawable.ic_logout,
-                    time = item.checkOutTime.toString(),
-                    status = "",
-                    reward = "",
+                    time = item.checkOutTime?.let {
+                        DateUtils.stringToLocalDateTime(it)
+                    },
+
                     iconColor = ContextCompat.getColor(context, R.color.pinkColor),
-                    isChecked = item.checkedOut,
+                    allowAttendance = !item.checkedOut && item.checkedIn,
                     targetTime = LocalTime.parse(item.endTime, formatter),
                     attendanceType = EAttendanceType.SHIFT_END
                 )
             )
         } else {
-           list.add( ItemKeepingModel(
-               shiftId = item.shiftId.toString(),
-               title = "Tăng ca",
-               icon = R.drawable.schedule,
-               time = item.checkInTime.toString(),
-               status = "",
-               reward = "",
-               iconColor = ContextCompat.getColor(context, R.color.purple),
-               isChecked = item.checkedIn,
-               targetTime = LocalTime.parse(item.startTime, formatter),
-               attendanceType = EAttendanceType.OVERTIME_START
-           ))
-            list.add(ItemKeepingModel(
-                shiftId = item.shiftId.toString(),
-                title = "Kết thúc",
-                icon = R.drawable.ic_timelapse,
-                time = item.checkOutTime.toString(),
-                status = "",
-                reward = "",
-                iconColor = ContextCompat.getColor(context, R.color.orange),
-                isChecked = item.checkedOut,
-                targetTime = LocalTime.parse(item.endTime, formatter),
-                attendanceType = EAttendanceType.OVERTIME_END
-            ))
+            list.add(
+                ItemKeepingModel(
+                    shiftId = item.shiftId.toString(),
+                    title = "Tăng ca",
+                    icon = R.drawable.schedule,
+                    time = item.checkInTime?.let {
+                        DateUtils.stringToLocalDateTime(it)
+                    },
+                    iconColor = ContextCompat.getColor(context, R.color.purple),
+                    allowAttendance = !item.checkedIn,
+                    targetTime = LocalTime.parse(item.startTime, formatter),
+                    attendanceType = EAttendanceType.OVERTIME_START
+                )
+            )
+            list.add(
+                ItemKeepingModel(
+                    shiftId = item.shiftId.toString(),
+                    title = "Kết thúc",
+                    icon = R.drawable.ic_timelapse,
+                    time = item.checkOutTime?.let {
+                        DateUtils.stringToLocalDateTime(it)
+                    },
+                    iconColor = ContextCompat.getColor(context, R.color.orange),
+                    allowAttendance = !item.checkedOut,
+                    targetTime = LocalTime.parse(item.endTime, formatter),
+                    attendanceType = EAttendanceType.OVERTIME_END
+                )
+            )
         }
 
         return list

@@ -92,7 +92,7 @@ class TimeKeepingPresenter @Inject constructor(
 
                 val req = CheckoutReqModel(shiftId.toString(), DateUtils.formatLocalDate(localDate,
                     DateUtils.YEARMONTHDATFORMAT).toString(), DateUtils.formatLocalDateTime(localDateTime,
-                    DateUtils.ISO8601DATEFORMAT).toString())
+                    DateUtils.ISO8601DATEFORMAT).toString(),"","$deviceId|$model")
 
                 val result = checkOutUseCase.invoke(req)
                 if(result!=null){

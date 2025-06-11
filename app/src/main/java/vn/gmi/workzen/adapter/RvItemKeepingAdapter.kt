@@ -13,19 +13,25 @@ import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.databinding.ItemTimeKeepingBinding
+import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.ui.home.models.EAttendanceType
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel
 import vn.gmi.workzen.utils.MySharedPreferences
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit
+import kotlin.math.min
 
-class RvItemKeepingAdapter(private val context:Context, private val onItemClick: RequestAttendanceListener) : BaseAdapter<ItemKeepingModel>() {
+class RvItemKeepingAdapter(private val context: Context, private val onItemClick: RequestAttendanceListener)  : BaseAdapter<ItemKeepingModel>() {
 
     private var startTime: LocalTime?=null
     private var endTime: LocalTime?=null
+    private var baseSalary: Double?=null
+
 
 
     init {
+        baseSalary = SessionManager.profile?.contracts?.firstOrNull { it.isActive }?.baseSalary
         getTimeWorking()
     }
 
@@ -59,32 +65,77 @@ class RvItemKeepingAdapter(private val context:Context, private val onItemClick:
         bindView(holder, list[position])
     }
 
+    @SuppressLint("SetTextI18n")
     override fun bindView(holder: ItemViewHolder, item: ItemKeepingModel) {
         val keepingHolder = holder as KeepingViewHolder
-        val shouldShowButton = !item.isChecked
+        var shouldShowButton = item.allowAttendance
+        val currentTime = LocalTime.now()
+        val minutesLate = ChronoUnit.MINUTES.between(item.targetTime,  item.time?.toLocalTime()?:currentTime)
+
+//        if(currentTime?.isAfter(item.targetTime) == true){
+//            shouldShowButton = true
+//        }
+
         with(keepingHolder.binding) {
             tvTitle.text = item.title
-            tvTime.text = item.time
-            tvStatus.text = item.status
-            tvReward.text = item.reward
-            tvReward.setTextColor(
-                ContextCompat.getColor(context, if (item.reward.startsWith("-")) R.color.failed else R.color.success)
-            )
-            llChamCong.visibility = if (shouldShowButton) View.VISIBLE else View.GONE
+            tvTime.text = item.time?.toLocalTime().toString()
+            if(shouldShowButton){
+                llChamCong.visibility = View.VISIBLE
+                tvTime.visibility = View.GONE
+            }else{
+                llChamCong.visibility = View.GONE
+                tvTime.visibility = View.VISIBLE
+            }
+
             icon.setImageResource(item.icon)
             icon.imageTintList = ColorStateList.valueOf(item.iconColor) // áp dụng tint icon
             containerIcon.setBackgroundColor(item.backgroundIcon) // áp dụng màu có opacity
+
+            if(item.attendanceType == EAttendanceType.SHIFT_START || item.attendanceType == EAttendanceType.OVERTIME_START){
+                handleCheckIn(keepingHolder.binding,minutesLate)
+            }else{
+                handleCheckOut(keepingHolder.binding,minutesLate)
+            }
+
+
         }
         keepingHolder.binding.llChamCong.setOnClickListener {
-            onItemClick.onClick(item.shiftId, item.attendanceType, item.targetTime)
+            onItemClick.onClick(item.shiftId, item.attendanceType)
+        }
+    }
+
+
+    private fun handleCheckIn(binding: ItemTimeKeepingBinding, minutesLate: Long){
+        if(minutesLate >= 0 && minutesLate <= 15){
+            binding.tvStatus.text = "Đúng giờ"
+        }else if(minutesLate > 15 && minutesLate <= 120){
+            binding.tvStatus.text = "Muộn giờ"
+        }else{
+            binding.tvStatus.text = "Không thể chấm công"
+            binding.llChamCong.visibility = View.GONE
+
+        }
+
+    }
+
+    private fun handleCheckOut(binding: ItemTimeKeepingBinding, minutesLate: Long){
+        if(minutesLate<0){
+            binding.tvStatus.text = "Về sớm"
+        }else
+        if(minutesLate >= 0 && minutesLate <= 15){
+            binding.tvStatus.text = "Đúng giờ"
+        }else if(minutesLate > 15 && minutesLate <= 120){
+            binding.tvStatus.text = "Quá giờ"
+        }else{
+            binding.tvStatus.text = "Không thể chấm công"
+            binding.llChamCong.visibility = View.GONE
         }
     }
 
 
     interface RequestAttendanceListener{
-        fun onClick(shiftId:String, attendanceType: EAttendanceType, targetTime: LocalTime?)
+        fun onClick(shiftId:String, attendanceType: EAttendanceType)
 
     }
-
 
 }

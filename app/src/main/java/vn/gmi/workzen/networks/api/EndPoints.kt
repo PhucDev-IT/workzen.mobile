@@ -22,6 +22,7 @@ class EndPoints {
         const val GET_INFO_ATTENDANCE = "/api/works/user/{accountId}"
         const val CHECK_IN = "/api/works/check-in"
         const val CHECK_OUT = "/api/works/check-out"
+        const val REPORT_ATTENDANCE_USER_IN_MONTH = "/api/works/statistic"
 
     }
 }

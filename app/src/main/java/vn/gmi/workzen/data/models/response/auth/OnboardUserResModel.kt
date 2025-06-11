@@ -2,7 +2,7 @@ package vn.gmi.workzen.data.models.response.auth
 
 import android.util.Log
 import vn.gmi.workzen.data.mapper.DataMapper
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 
 class OnboardUserResModel : DataMapper<IdentificationEntity>(){
     var id:String = ""
@@ -23,7 +23,7 @@ class OnboardUserResModel : DataMapper<IdentificationEntity>(){
     var spouseName: String? = null
     var oldEidNumber: String? = null
     var dg2: String? = null
-
+    var isVerified: Boolean?=null
 
     override fun mapToEntity(): IdentificationEntity {
         val entity = IdentificationEntity()
@@ -45,8 +45,7 @@ class OnboardUserResModel : DataMapper<IdentificationEntity>(){
         entity.spouseName = this.spouseName
         entity.oldEidNumber = this.oldEidNumber
         entity.dg2 = this.dg2
-
-        Log.d("Phuc","mapToEntity: $entity")
+        entity.isVerified = this.isVerified
         return entity
     }
 }

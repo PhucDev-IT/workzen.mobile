@@ -12,12 +12,10 @@ class ItemKeepingModel(
     val shiftId:String,
     val title: String,
     @DrawableRes val icon: Int,
-    val time: String,
-    val status: String,
-    val reward: String,
+    val time: LocalDateTime?,
     @ColorInt val iconColor: Int,
     val opacity: Float = 0.2f,
-    val isChecked: Boolean = false,
+    val allowAttendance: Boolean = false,
     val targetTime: LocalTime? = null,
     val attendanceType: EAttendanceType = EAttendanceType.SHIFT_START
 ) {
@@ -26,5 +24,6 @@ class ItemKeepingModel(
 }
 
 enum class EAttendanceType{
-    OVERTIME_START, OVERTIME_END, SHIFT_START, SHIFT_END
+    OVERTIME_START, OVERTIME_END, SHIFT_START, SHIFT_END,
+    SHIFT_LATE, BONUS,ABSENT,DAY_OFF,SHIFT_ON_TIME,SHIFT_HALF
 }

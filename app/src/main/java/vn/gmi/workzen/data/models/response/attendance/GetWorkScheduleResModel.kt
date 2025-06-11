@@ -1,22 +1,22 @@
 package vn.gmi.workzen.data.models.response.attendance
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 
-class GetWorkScheduleResModel {
-    var companyId: String? = null
-    var workDate: String? = null
+data class GetWorkScheduleResModel(
+    var companyId: String? = null,
+    var workDate: String? = null,
     var shifts: List<ShiftWorkInfo>? = null
-
-    class ShiftWorkInfo {
-         val shiftId: String? = null
-         val shiftName: String? = null
-         val startTime: String? = null
-         val endTime: String? = null
-         val checkedIn = false
-         val checkedOut = false
-         val isOverTime = false
-         val checkInTime: LocalDateTime? = null
-         val checkOutTime: LocalDateTime? = null
-    }
-}
+)
+data class ShiftWorkInfo(
+    var shiftId: String? = null,
+    var shiftName: String? = null,
+    var startTime: String? = null,
+    var endTime: String? = null,
+    var checkedIn: Boolean = false,
+    var checkedOut: Boolean = false,
+    var overTime: Boolean = false,
+    var checkInTime: String? = null,
+    var checkOutTime: String? = null
+)

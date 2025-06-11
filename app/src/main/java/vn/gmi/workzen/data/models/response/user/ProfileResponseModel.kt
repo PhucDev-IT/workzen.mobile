@@ -4,7 +4,7 @@ import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import vn.gmi.workzen.data.mapper.DataMapper
 import vn.gmi.workzen.domain.entity.contract.ContractEntity
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 
 class ProfileResponseModel:DataMapper<ProfileEntity>()  {

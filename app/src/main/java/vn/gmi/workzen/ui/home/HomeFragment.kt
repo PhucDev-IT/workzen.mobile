@@ -84,7 +84,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
 
     override fun onGetProfile(model: ProfileEntity) {
         SessionManager.profile = model
-        if(MySharedPreferences.getBooleanValue(SharedPreferenceKey.KEY_IS_ONBOARD) == false){
+        if(SessionManager.profile?.details?.isVerified == false){
             binding.viewRequestOnboard.root.visibility = View.VISIBLE
         }else{
             binding.viewRequestOnboard.root.visibility = View.GONE

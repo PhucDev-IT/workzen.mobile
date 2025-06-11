@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentProfileBinding
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.utils.Utils

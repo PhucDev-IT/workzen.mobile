@@ -4,7 +4,7 @@ import vn.gmi.workzen.core.usecases.BaseUseCase
 import vn.gmi.workzen.core.usecases.NoParams
 
 import vn.gmi.workzen.data.models.request.user.OnboardUserReqModel
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.domain.repository.UserRepository
 

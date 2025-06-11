@@ -1,9 +1,8 @@
 package vn.gmi.workzen.ui.worksheet
 
 import android.graphics.Typeface
-import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,17 +12,22 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
+import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
-import vn.gmi.workzen.core.base.BaseContract
+import vn.gmi.workzen.adapter.WorkDayAdapter
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentWorkSheetBinding
+import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetMonthYearEntity
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetContract.View {
 
-    private lateinit var presenter: WorkSheetPresenter
+    @Inject lateinit var workSheetPresenter: WorkSheetPresenter
     val weekdays = listOf("T.2", "T.3", "T.4", "T.5", "T.6", "T.7", "CN")
-
+    private lateinit var adapter: WorkDayAdapter
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -56,8 +60,12 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
         requireActivity().window.statusBarColor  = ContextCompat.getColor(requireContext(),R.color.primary)
         WindowCompat.getInsetsController(requireActivity().window, requireActivity().window.decorView)?.isAppearanceLightStatusBars = false
 
-        presenter = WorkSheetPresenter()
-        presenter.attachView(this)
+        workSheetPresenter.attachView(this)
+
+        adapter = WorkDayAdapter()
+        binding.gridWorkSheet.layoutManager = GridLayoutManager(requireContext(), 7)
+        binding.gridWorkSheet.adapter  = adapter
+        workSheetPresenter.getReportAttendanceByMonthYear(6,2025)
     }
 
     override fun showLoading() {
@@ -73,7 +81,13 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
     }
 
     override fun onDestroyView() {
-        presenter.detachView()
+        workSheetPresenter.detachView()
         super.onDestroyView()
+    }
+
+
+    override fun onGetReportAttendanceByMonthYear(entity: ReportWorkSheetMonthYearEntity?) {
+        Log.d("onGetReportAttendanceByMonthYear",entity.toString());
+        adapter.addAll(entity?.days?: emptyList())
     }
 }

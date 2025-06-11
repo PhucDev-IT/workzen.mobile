@@ -1,4 +1,4 @@
-package vn.gmi.workzen.domain.entity
+package vn.gmi.workzen.domain.entity.user
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey

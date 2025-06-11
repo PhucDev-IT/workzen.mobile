@@ -3,7 +3,7 @@ package vn.gmi.workzen.data.datasource.local.user
 import android.util.Log
 import io.realm.kotlin.UpdatePolicy
 import vn.gmi.workzen.data.database.RealmProvider
-import vn.gmi.workzen.domain.entity.IdentificationEntity
+import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
