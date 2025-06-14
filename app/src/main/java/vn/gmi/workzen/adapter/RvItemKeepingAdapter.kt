@@ -78,7 +78,7 @@ class RvItemKeepingAdapter(private val context: Context, private val onItemClick
 
         with(keepingHolder.binding) {
             tvTitle.text = item.title
-            tvTime.text = item.time?.toLocalTime().toString()
+            tvTime.text = item.time?.toLocalTime().toString().replace("null","")
             if(shouldShowButton){
                 llChamCong.visibility = View.VISIBLE
                 tvTime.visibility = View.GONE

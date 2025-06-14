@@ -1,6 +1,7 @@
 package vn.gmi.workzen.ui.profile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import vn.gmi.workzen.databinding.FragmentProfileBinding
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
+import vn.gmi.workzen.ui.profile.details.ProfileDetailActivity
 import vn.gmi.workzen.utils.Utils
 import java.util.Date
 import javax.inject.Inject
@@ -36,12 +38,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     override fun initBindingData() {
         presenter.getProfile()
+        setListener()
+    }
+
+
+    private fun setListener(){
+        binding.llProfileDetail.setOnClickListener(this)
     }
 
     override fun onSingleClick(v: View?) {
         when(v){
             binding.icLogout ->{
 
+            }
+            binding.llProfileDetail ->{
+                startActivity(Intent(requireContext(),ProfileDetailActivity::class.java))
             }
         }
     }
@@ -66,7 +77,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
     @SuppressLint("SetTextI18n")
     override fun onGetProfileSuccess(profile: ProfileEntity) {
         binding.tvFullName.text = profile.fullName
-        binding.tvWorkingTime.text = profile.contracts.last().shift?.name
         val contract = profile.contracts.first { it.isActive }
         binding.tvPosition.text = ContractRole.fromKey(contract.position)
         try{

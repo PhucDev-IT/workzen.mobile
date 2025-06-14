@@ -1,87 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
+    android:orientation="vertical"
     tools:context=".ui.profile.ProfileFragment">
     <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerConstraintLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_height="@dimen/_140sdp"
         android:background="@color/primary"
         app:bottom_left_corner_radius="@dimen/_10sdp"
         app:bottom_right_corner_radius="@dimen/_10sdp"
-        android:id="@+id/container_header"/>
+        android:id="@+id/container_header">
+        <ImageView
+            android:id="@+id/ic_logout"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_logout"
+            app:layout_constraintEnd_toEndOf="@id/container_header"
+            app:layout_constraintTop_toTopOf="@id/container_header"
+            android:layout_margin="@dimen/_10sdp"
+            app:tint="@color/secondaryColor" />
 
-    <ImageView
-        android:id="@+id/ic_logout"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/ic_logout"
-        app:layout_constraintEnd_toEndOf="@id/container_header"
-        app:layout_constraintTop_toTopOf="@id/container_header"
-        android:layout_margin="@dimen/_10sdp"
-        app:tint="@color/secondaryColor" />
+        <ImageView
+            android:id="@+id/ic_chat"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/icon_chat"
+            app:layout_constraintTop_toTopOf="@id/container_header"
+            app:layout_constraintEnd_toStartOf="@id/ic_logout"
+            android:layout_margin="@dimen/_10sdp"
+            app:tint="@color/secondaryColor" />
 
-    <ImageView
-        android:id="@+id/ic_chat"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/icon_chat"
-        app:layout_constraintTop_toTopOf="@id/container_header"
-        app:layout_constraintEnd_toStartOf="@id/ic_logout"
-        android:layout_margin="@dimen/_10sdp"
-        app:tint="@color/secondaryColor" />
+        <ImageView
+            android:id="@+id/ic_dot_chat"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
+            android:src="@drawable/ic_dot_red"
+            app:layout_constraintTop_toTopOf="@id/ic_chat"
+            app:layout_constraintEnd_toEndOf="@id/ic_chat"/>
 
-    <ImageView
-        android:id="@+id/ic_dot_chat"
-        android:layout_width="@dimen/_10sdp"
-        android:layout_height="@dimen/_10sdp"
-        android:src="@drawable/ic_dot_red"
-        app:layout_constraintTop_toTopOf="@id/ic_chat"
-        app:layout_constraintEnd_toEndOf="@id/ic_chat"/>
-
-    <LinearLayout
-        app:layout_constraintStart_toStartOf="@id/container_header"
-        app:layout_constraintEnd_toEndOf="@id/container_header"
-        app:layout_constraintTop_toBottomOf="@id/ic_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_full_name"
-            android:layout_marginTop="@dimen/_5sdp"
+        <LinearLayout
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextView.Bold.Bold"
-            android:textSize="@dimen/text_size_xxxmedium"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="@dimen/_20sdp"
+            android:padding="2dp"
+            android:id="@+id/ll_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/container_header"
+            app:layout_constraintTop_toTopOf="@id/container_header"
+            android:background="@drawable/bg_circle_line"
+            >
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_header"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                app:shapeAppearanceOverlay="@style/one_rounded"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/icon_worksheet"/>
+        </LinearLayout>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@id/ll_avatar"
+            app:layout_constraintEnd_toEndOf="@id/container_header"
+            app:layout_constraintTop_toTopOf="@id/ll_avatar"
+            app:layout_constraintBottom_toBottomOf="@id/ll_avatar"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="start|center_vertical"
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/tv_working_time"
+                android:id="@+id/tv_full_name"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Medium.Medium"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_normal"
-                android:text="Full Time"/>
-            <TextView
-                android:layout_marginHorizontal="@dimen/_5sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextView.Medium.Medium"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_normal"
-                android:text=" - "/>
+                style="@style/TextView.Bold.Bold"
+                android:textSize="@dimen/text_size_xmedium"
+                android:textColor="@color/white"/>
+
             <TextView
                 android:id="@+id/tv_position"
                 android:layout_width="wrap_content"
@@ -90,14 +96,7 @@
                 android:textColor="@color/grey"
                 android:textSize="@dimen/text_size_normal"
                 android:text="Chuyên viên kĩ thuật"/>
-            <TextView
-                android:layout_marginHorizontal="@dimen/_5sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextView.Medium.Medium"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="@color/grey"
-                android:text=" - "/>
+
             <TextView
                 android:id="@+id/tv_start_time"
                 android:layout_width="wrap_content"
@@ -107,28 +106,94 @@
                 android:textSize="@dimen/text_size_normal"
                 android:text="Tham gia từ 2021"/>
         </LinearLayout>
+    </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerConstraintLayout>
+
+    <!--  ITEM  -->
+    <LinearLayout
+        android:id="@+id/ll_profile_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_user_info"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_weight="1"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_medium"
+            android:text="Thông tin cá nhân"/>
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/arrow_forward_ios"
+            app:tint="@color/black" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_header"
-        android:background="@drawable/bg_circle_line"
-        android:layout_marginTop="-80dp">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/img_avatar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/container_header"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            app:shapeAppearanceOverlay="@style/one_rounded"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/icon_worksheet"/>
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_history"
+            app:tint="@color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_weight="1"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_medium"
+            android:text="Lịch sử hoạt động"/>
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/arrow_forward_ios"
+            app:tint="@color/black" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_assignment_add"
+            app:tint="@color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_weight="1"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_medium"
+            android:text="Phiếu yêu cầu"/>
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/arrow_forward_ios"
+            app:tint="@color/black" />
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -18,7 +18,13 @@ import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.WorkDayAdapter
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentWorkSheetBinding
+import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetDayEntity
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetMonthYearEntity
+import vn.gmi.workzen.domain.entity.attendance.WorkDayItem
+import vn.gmi.workzen.domain.entity.enums.WorkStatus
+import vn.gmi.workzen.ui.home.models.EAttendanceType
+import vn.gmi.workzen.utils.DateUtils
+import java.time.LocalDate
 import javax.inject.Inject
 
 
@@ -26,7 +32,7 @@ import javax.inject.Inject
 class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetContract.View {
 
     @Inject lateinit var workSheetPresenter: WorkSheetPresenter
-    val weekdays = listOf("T.2", "T.3", "T.4", "T.5", "T.6", "T.7", "CN")
+    val weekdays = listOf("CN","T.2", "T.3", "T.4", "T.5", "T.6", "T.7")
     private lateinit var adapter: WorkDayAdapter
 
     override fun getViewBinding(
@@ -62,7 +68,7 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
 
         workSheetPresenter.attachView(this)
 
-        adapter = WorkDayAdapter()
+        adapter = WorkDayAdapter(binding.gridWorkSheet)
         binding.gridWorkSheet.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.gridWorkSheet.adapter  = adapter
         workSheetPresenter.getReportAttendanceByMonthYear(6,2025)
@@ -88,6 +94,50 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
 
     override fun onGetReportAttendanceByMonthYear(entity: ReportWorkSheetMonthYearEntity?) {
         Log.d("onGetReportAttendanceByMonthYear",entity.toString());
-        adapter.addAll(entity?.days?: emptyList())
+        val fullData = buildFullMonthDays(entity?.days ?: emptyList(), 6, 2025)
+        adapter.setFullData(fullData)
+    }
+
+    fun buildFullMonthDays(
+        dataFromServer: List<ReportWorkSheetDayEntity>,
+        month: Int,
+        year: Int
+    ): List<WorkDayItem> {
+        val result = mutableListOf<WorkDayItem>()
+
+        val daysMap = dataFromServer.associateBy { it.workDate } // map theo chuỗi ngày
+
+        val startOfMonth = LocalDate.of(year, month, 1)
+        val endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth())
+
+        // Tính số ngày trống cần thêm phía trước
+        val dayOfWeekIndex = (startOfMonth.dayOfWeek.value % 7) // 0 = CN, 1 = T2,...
+
+        // Ngày bắt đầu hiển thị (có thể là cuối tháng trước)
+        val firstCalendarDay = startOfMonth.minusDays(dayOfWeekIndex.toLong())
+
+        // Tạo đủ 42 ngày liên tục
+        for (i in 0 until 42) {
+            val date = firstCalendarDay.plusDays(i.toLong())
+            val dateStr = date.toString() // yyyy-MM-dd
+
+            val entity = daysMap[dateStr]
+            if (entity != null) {
+                result.add(WorkDayItem.WorkDay(entity))
+            } else {
+                val fake = ReportWorkSheetDayEntity().apply {
+                    workDate = dateStr
+                    status = null
+                    attendanceStatus = null
+                    note = null
+                    salary = null
+                    data = null
+                    id = "fakeday-$dateStr"
+                }
+                result.add(WorkDayItem.WorkDay(fake))
+            }
+        }
+
+        return result
     }
 }

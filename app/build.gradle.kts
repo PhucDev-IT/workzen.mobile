@@ -52,7 +52,7 @@ android {
     flavorDimensions.add("dev")
     productFlavors {
         create("dev") {
-            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
+                buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
         create("production") {
             buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")

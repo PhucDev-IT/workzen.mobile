@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/ic_user_info.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Vòng đầu người -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M12,4a3.5,3.5 0 1,1 0,7a3.5,3.5 0 0,1 0,-7z"/>
+
+    <!-- Thân người -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M5,20c0,-3.5 3.5,-6 7,-6s7,2.5 7,6v1H5v-1z"/>
+
+    <!-- Vòng ngoài biểu tượng 'i' -->
+    <path
+        android:fillColor="#FF2196F3"
+        android:pathData="M17.5,2a5.5,5.5 0 1,1 0,11a5.5,5.5 0 0,1 0,-11z"/>
+
+    <!-- Chữ 'i' -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M17.5,6a0.75,0.75 0 0,1 0.75,0.75v3a0.75,0.75 0 0,1 -1.5,0v-3a0.75,0.75 0 0,1 0.75,-0.75zM17.5,4a1,1 0 1,1 0,2a1,1 0 0,1 0,-2z"/>
+</vector>

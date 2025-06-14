@@ -5,6 +5,7 @@
     <dimen name="text_size_normal">12sp</dimen>
     <dimen name="text_size_xnormal">13sp</dimen>
     <dimen name="text_size_medium">15sp</dimen>
+    <dimen name="text_size_xmedium">16sp</dimen>
     <dimen name="text_size_xxxmedium">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_big">25sp</dimen>
