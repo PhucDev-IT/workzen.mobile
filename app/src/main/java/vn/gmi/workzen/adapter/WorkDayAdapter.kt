@@ -79,9 +79,6 @@ class WorkDayAdapter(private val recyclerView: RecyclerView) : RecyclerView.Adap
         val binding = holder.binding
         val context = holder.itemView.context
         val date = DateUtils.stringToLocalDate(item.workDate ?: "")
-        if(date == dateNow){
-            binding.container.setCardBackgroundColor(ContextCompat.getColor(context, R.color.green_light))
-        }
         binding.tvDayName.text = date?.dayOfMonth?.toString() ?: ""
 
         when {
@@ -110,6 +107,10 @@ class WorkDayAdapter(private val recyclerView: RecyclerView) : RecyclerView.Adap
                     }
                 }
             }
+        }
+
+        if(date == dateNow){
+            binding.container.setCardBackgroundColor(ContextCompat.getColor(context, R.color.green_light))
         }
     }
 }

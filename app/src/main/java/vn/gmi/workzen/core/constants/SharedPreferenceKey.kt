@@ -16,6 +16,7 @@ companion object{
     const val KEY_SHIFT_END = "KEY_SHIFT_END"
     const val KEY_SHIFT_ID = "KEY_SHIFT_ID"
     const val KEY_IS_ONBOARD = "KEY_IS_ONBOARD"
+    const val FCM_TOKEN = "FCM_TOKEN"
 
 }
 }

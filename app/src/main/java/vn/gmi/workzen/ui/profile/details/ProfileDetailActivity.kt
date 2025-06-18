@@ -24,7 +24,9 @@ class ProfileDetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
         binding.viewPager.adapter = ProfileTabPagerAdapter(this)
         TabLayoutMediator( binding.tabLayout,  binding.viewPager) { tab, position ->
             tab.text = when (position) {

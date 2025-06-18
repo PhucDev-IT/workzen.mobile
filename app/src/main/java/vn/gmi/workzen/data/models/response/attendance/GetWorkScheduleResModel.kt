@@ -1,12 +1,14 @@
 package vn.gmi.workzen.data.models.response.attendance
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import vn.gmi.workzen.domain.entity.enums.WorkStatus
 import java.time.LocalDateTime
 
 
 data class GetWorkScheduleResModel(
     var companyId: String? = null,
     var workDate: String? = null,
+    var workStatus: WorkStatus?=null,
     var shifts: List<ShiftWorkInfo>? = null
 )
 data class ShiftWorkInfo(

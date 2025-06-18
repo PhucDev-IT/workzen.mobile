@@ -14,11 +14,13 @@ import vn.gmi.workzen.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.core.constants.AppToast
+import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.databinding.ActivityLoginBinding
 import vn.gmi.workzen.data.models.request.auth.LoginRequestModel
 import vn.gmi.workzen.data.models.response.auth.LoginResponseModel
 import vn.gmi.workzen.ui.authentication.signup.RegisterActivity
 import vn.gmi.workzen.utils.Constants
+import vn.gmi.workzen.utils.MySharedPreferences
 import javax.inject.Inject
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>(),LoginContract.View {
@@ -86,11 +88,11 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginContract.Presenter>()
             AppToast.showError(this,"Tài khoản hoặc mật khẩu không hợp lệ")
             return
         }
-
+        val fcmToken = MySharedPreferences.getStringValues(SharedPreferenceKey.FCM_TOKEN)
         val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         val manufacturer = Build.MANUFACTURER  // Ví dụ: "Samsung"
         val model = Build.MODEL       // Ví dụ: "Galaxy S22"
-        val request = LoginRequestModel(phone,password,model,deviceId,"")
+        val request = LoginRequestModel(phone,password,model,deviceId, fcmToken.toString())
         presenter.requestLogin(request)
     }
 }

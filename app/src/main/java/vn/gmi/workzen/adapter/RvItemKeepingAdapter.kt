@@ -70,11 +70,17 @@ class RvItemKeepingAdapter(private val context: Context, private val onItemClick
         val keepingHolder = holder as KeepingViewHolder
         var shouldShowButton = item.allowAttendance
         val currentTime = LocalTime.now()
-        val minutesLate = ChronoUnit.MINUTES.between(item.targetTime,  item.time?.toLocalTime()?:currentTime)
+        if(item.time!=null){
+            val minutesLate = ChronoUnit.MINUTES.between(item.targetTime,  item.time?.toLocalTime()?:currentTime)
+            if(item.attendanceType == EAttendanceType.SHIFT_START || item.attendanceType == EAttendanceType.OVERTIME_START){
+                handleCheckIn(keepingHolder.binding,minutesLate)
+            }else{
+                handleCheckOut(keepingHolder.binding,minutesLate)
+            }
+        }
 
-//        if(currentTime?.isAfter(item.targetTime) == true){
-//            shouldShowButton = true
-//        }
+
+
 
         with(keepingHolder.binding) {
             tvTitle.text = item.title
@@ -90,12 +96,6 @@ class RvItemKeepingAdapter(private val context: Context, private val onItemClick
             icon.setImageResource(item.icon)
             icon.imageTintList = ColorStateList.valueOf(item.iconColor) // áp dụng tint icon
             containerIcon.setBackgroundColor(item.backgroundIcon) // áp dụng màu có opacity
-
-            if(item.attendanceType == EAttendanceType.SHIFT_START || item.attendanceType == EAttendanceType.OVERTIME_START){
-                handleCheckIn(keepingHolder.binding,minutesLate)
-            }else{
-                handleCheckOut(keepingHolder.binding,minutesLate)
-            }
 
 
         }

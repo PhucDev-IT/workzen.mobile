@@ -17,6 +17,7 @@ import vn.gmi.workzen.core.ui.BottomSheetRequestPermissionFragment
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.data.models.response.attendance.ShiftWorkInfo
 import vn.gmi.workzen.databinding.FragmentTimeKeepingBinding
+import vn.gmi.workzen.domain.entity.enums.WorkStatus
 import vn.gmi.workzen.ui.home.models.EAttendanceType
 import vn.gmi.workzen.ui.home.models.ItemKeepingModel
 import vn.gmi.workzen.utils.DateUtils
@@ -108,7 +109,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
         val list = mutableListOf<ItemKeepingModel>()
         if (attendance.shifts != null) {
             for (item in attendance.shifts) {
-                list.addAll(buildAttendance(item))
+                list.addAll(buildAttendance(item, attendance.workStatus?: WorkStatus.OFF))
             }
             adapter.clear()
             adapter.addAll(list)
@@ -119,7 +120,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
         val list = mutableListOf<ItemKeepingModel>()
         if (attendance.shifts != null) {
             for (item in attendance.shifts) {
-                list.addAll(buildAttendance(item))
+                list.addAll(buildAttendance(item, attendance.workStatus?: WorkStatus.OFF))
             }
             adapter.clear()
             adapter.addAll(list)
@@ -133,14 +134,10 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        if (permissionGranted) {
-            Toast.makeText(requireContext(), "Đã có quyền từ trước", Toast.LENGTH_SHORT).show()
-            return true
-        }
-        return false
+        return permissionGranted
     }
 
-    private fun buildAttendance(item: ShiftWorkInfo): List<ItemKeepingModel> {
+    private fun buildAttendance(item: ShiftWorkInfo, workStatus: WorkStatus): List<ItemKeepingModel> {
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val list = mutableListOf<ItemKeepingModel>()
         if (item.overTime == false) {
@@ -153,7 +150,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
                         DateUtils.stringToLocalDateTime(it)
                     },
                     iconColor = ContextCompat.getColor(context, R.color.green),
-                    allowAttendance = !item.checkedIn,
+                    allowAttendance = !item.checkedIn && workStatus == WorkStatus.WORKING,
                     targetTime = LocalTime.parse(item.startTime, formatter),
                     attendanceType = EAttendanceType.SHIFT_START
                 )
@@ -169,7 +166,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
                     },
 
                     iconColor = ContextCompat.getColor(context, R.color.pinkColor),
-                    allowAttendance = !item.checkedOut && item.checkedIn,
+                    allowAttendance = !item.checkedOut && item.checkedIn && workStatus == WorkStatus.WORKING,
                     targetTime = LocalTime.parse(item.endTime, formatter),
                     attendanceType = EAttendanceType.SHIFT_END
                 )
@@ -184,7 +181,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
                         DateUtils.stringToLocalDateTime(it)
                     },
                     iconColor = ContextCompat.getColor(context, R.color.purple),
-                    allowAttendance = !item.checkedIn,
+                    allowAttendance = !item.checkedIn && workStatus == WorkStatus.WORKING,
                     targetTime = LocalTime.parse(item.startTime, formatter),
                     attendanceType = EAttendanceType.OVERTIME_START
                 )
@@ -198,7 +195,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
                         DateUtils.stringToLocalDateTime(it)
                     },
                     iconColor = ContextCompat.getColor(context, R.color.orange),
-                    allowAttendance = !item.checkedOut,
+                    allowAttendance = !item.checkedOut && workStatus == WorkStatus.WORKING,
                     targetTime = LocalTime.parse(item.endTime, formatter),
                     attendanceType = EAttendanceType.OVERTIME_END
                 )

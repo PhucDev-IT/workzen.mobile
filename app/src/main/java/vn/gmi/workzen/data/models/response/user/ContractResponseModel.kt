@@ -15,7 +15,7 @@ class ContractResponseModel : DataMapper<ContractEntity>(){
     var expiryDate: String? = null
     var documentUrl:String?=null
     var position:String?=null
-    var jobTitle: String?=null
+    var jobName: String?=null
     var company: CompanyEntity?=null
     var isActive: Boolean = true;
     var baseSalary: Double?=null
@@ -32,7 +32,7 @@ class ContractResponseModel : DataMapper<ContractEntity>(){
             position = this@ContractResponseModel.position
             baseSalary = this@ContractResponseModel.baseSalary
             shift = this@ContractResponseModel.shift?.mapToEntity()
-            jobTitle = this@ContractResponseModel.jobTitle
+            jobName = this@ContractResponseModel.jobName
             company = this@ContractResponseModel.company
             department = this@ContractResponseModel.department
             isActive  = this@ContractResponseModel.isActive

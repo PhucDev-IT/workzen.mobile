@@ -42,5 +42,16 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <!-- res/values/styles.xml -->
+    <style name="ToolbarTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/text_size_xxxmedium</item>
+        <item name="android:fontFamily">@font/helvetica_neue_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="App.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="titleTextAppearance">@style/ToolbarTitleText</item>
+    </style>
+
 
 </resources>

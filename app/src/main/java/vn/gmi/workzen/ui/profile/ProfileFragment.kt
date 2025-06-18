@@ -16,6 +16,7 @@ import vn.gmi.workzen.databinding.FragmentProfileBinding
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
+import vn.gmi.workzen.ui.chat.ChatActivity
 import vn.gmi.workzen.ui.profile.details.ProfileDetailActivity
 import vn.gmi.workzen.utils.Utils
 import java.util.Date
@@ -44,12 +45,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     private fun setListener(){
         binding.llProfileDetail.setOnClickListener(this)
+        binding.icChat.setOnClickListener(this)
     }
 
     override fun onSingleClick(v: View?) {
         when(v){
-            binding.icLogout ->{
-
+            binding.icChat ->{
+                startActivity(Intent(requireContext(), ChatActivity::class.java))
             }
             binding.llProfileDetail ->{
                 startActivity(Intent(requireContext(),ProfileDetailActivity::class.java))

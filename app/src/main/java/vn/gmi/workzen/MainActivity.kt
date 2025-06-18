@@ -9,14 +9,19 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.databinding.ActivityMainBinding
+import vn.gmi.workzen.domain.entity.notification.Notification
+import vn.gmi.workzen.domain.entity.notification.NotifyType
 import vn.gmi.workzen.manager.schedule.ReminderScheduler
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
 import vn.gmi.workzen.ui.profile.ProfileFragment
 import vn.gmi.workzen.ui.worksheet.WorkSheetFragment
+import vn.gmi.workzen.utils.IntentData
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
@@ -37,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         if(savedInstanceState == null){
             replaceFragment(HomeFragment())
         }
+
+        if(intent.hasExtra(IntentData.KEY_DATA_FROM_FCM)){
+            val dataJson = intent.getStringExtra(IntentData.KEY_DATA_FROM_FCM)
+            val notification = Gson().fromJson(dataJson, Notification::class.java)
+        }
+
     }
 
     private fun setListener(){
@@ -80,4 +91,7 @@ class MainActivity : AppCompatActivity() {
             ?.isAppearanceLightStatusBars = isLight
     }
 
+    private fun handleNavigatorView(notification: Notification){
+
+    }
 }

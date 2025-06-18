@@ -13,7 +13,7 @@ class ContractEntity : RealmObject {
     var expiryDate: String? = null
     var documentUrl:String?=null
     var position:String?=null
-    var jobTitle: String?=null
+    var jobName: String?=null
     var company: CompanyEntity?=null
     var isActive: Boolean = true;
     var baseSalary: Double?=null

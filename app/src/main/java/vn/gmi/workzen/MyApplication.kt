@@ -6,6 +6,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
@@ -28,10 +30,11 @@ class MyApplication : Application (){
         super.onCreate()
         instance = this
         val realm = RealmProvider.realm
-
+        FirebaseApp.initializeApp(this)
         createNotificationChannels(this)
         MySharedPreferences.init(this)
         ApiService.instance.initBaseUrl(BuildConfig.API_BASE_URL)
+
     }
 
 

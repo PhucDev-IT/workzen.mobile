@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    tools:context=".ui.notification.NotificationActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        style="@style/App.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Thông báo"
+        app:navigationIcon="@drawable/baseline_navigate_before_24"
+        app:navigationIconTint="@color/white"
+        app:titleCentered="true" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:padding="@dimen/_10sdp"
+            android:background="@color/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Đánh dấu đã đọc"
+                style="@style/TextView.Medium.Medium"/>
+
+            <TextView
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Bold.Bold"
+                android:text="Chung"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_common"
+                tools:listitem="@layout/item_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Bold.Bold"
+                android:text="Hoạt động gần đây"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recent_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

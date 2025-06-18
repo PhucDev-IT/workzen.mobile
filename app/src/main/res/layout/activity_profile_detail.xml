@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/primary"
     tools:context=".ui.profile.details.ProfileDetailActivity">
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/_5sdp"
+    android:background="@drawable/bg_border_bottom"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_gravity="top"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:id="@+id/icon"/>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xem toptop để nhận quà"
+            style="@style/TextView.Bold.Bold"/>
+
+        <TextView
+            android:id="@+id/tv_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xem toptop để nhận quà"
+            android:textColor="@color/textSecondary"
+            style="@style/TextView.Medium.Medium"/>
+        <TextView
+            android:layout_gravity="end"
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:38"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"
+            style="@style/TextView.Medium.Medium"/>
+    </LinearLayout>
+</LinearLayout>
