@@ -46,7 +46,7 @@ class HomePresenter @Inject constructor(
                     getView()?.onGetProfile(SessionManager.profile!!)
                     return@launch
                 }
-                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
+                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
                 var profile = getProfileLocalUseCase.invoke(userId ?: "")
                 if (profile != null) {
                     getView()?.onGetProfile(profile)

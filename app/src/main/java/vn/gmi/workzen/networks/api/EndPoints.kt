@@ -24,5 +24,10 @@ class EndPoints {
         const val CHECK_OUT = "/api/works/check-out"
         const val REPORT_ATTENDANCE_USER_IN_MONTH = "/api/works/statistic"
 
+
+        //Notification
+        const val GET_ALL_NOTIFICATION = "/api/notifications"
+        const val COUNT_NOTIFICATION = "/api/notifications/count"
+        const val MARK_AS_READ = "/api/notifications/mark-read"
     }
 }

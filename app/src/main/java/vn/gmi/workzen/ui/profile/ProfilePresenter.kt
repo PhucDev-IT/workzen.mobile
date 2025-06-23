@@ -21,7 +21,7 @@ class ProfilePresenter @Inject constructor(
                     getView()?.onGetProfileSuccess(SessionManager.profile!!)
                     return@launch
                 }
-                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
+                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
                 val response = getProfileUseCase.invoke(userId?:"")
                 if(response!=null){
                     getView()?.onGetProfileSuccess(response)

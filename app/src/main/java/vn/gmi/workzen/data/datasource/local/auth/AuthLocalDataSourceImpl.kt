@@ -8,7 +8,7 @@ import vn.gmi.workzen.utils.MySharedPreferences
 
 class AuthLocalDataSourceImpl : AuthLocalDataSource {
     override suspend fun storeAuth(model: LoginResponseModel) {
-        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_USER_ID, model.id)
+        MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_ACCOUNT_ID, model.id)
         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_FULL_NAME,model.fullName)
         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_PHONE,model.phone)
         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_EMAIL,model.email?:"")
@@ -20,7 +20,7 @@ class AuthLocalDataSourceImpl : AuthLocalDataSource {
 
 
     override suspend fun logout() {
-        MySharedPreferences.removeKey(SharedPreferenceKey.KEY_USER_ID)
+        MySharedPreferences.removeKey(SharedPreferenceKey.KEY_ACCOUNT_ID)
         MySharedPreferences.removeKey(SharedPreferenceKey.KEY_FULL_NAME)
         MySharedPreferences.removeKey(SharedPreferenceKey.KEY_PHONE)
         MySharedPreferences.removeKey(SharedPreferenceKey.KEY_EMAIL)

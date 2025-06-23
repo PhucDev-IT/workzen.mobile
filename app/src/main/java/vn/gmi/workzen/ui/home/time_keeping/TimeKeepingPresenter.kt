@@ -36,7 +36,7 @@ class TimeKeepingPresenter @Inject constructor(
     override fun getInfoAttendance() {
         scope.launch {
             try {
-                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
+                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
                 val result =
                     getWorkScheduleTodayUseCase.invoke(accountId ?: "")
                 if(result!= null){

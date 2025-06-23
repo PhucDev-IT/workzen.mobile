@@ -5,9 +5,11 @@ import vn.gmi.workzen.core.base.BaseContract
 interface HomeHeaderContract {
     interface View : BaseContract.View {
         fun onShowTodayInfo(time:String)
+        fun onCountNotification(count:Long)
     }
 
     interface Presenter: BaseContract.Presenter<View>{
         fun getTodayInfo()
+        fun countNotification()
     }
 }
