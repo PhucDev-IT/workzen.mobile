@@ -72,7 +72,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.intuit.sdp:sdp-android:1.1.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")

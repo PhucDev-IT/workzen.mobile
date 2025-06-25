@@ -29,22 +29,28 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetContract.View {
+class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetContract.View {
 
-    @Inject lateinit var workSheetPresenter: WorkSheetPresenter
-    val weekdays = listOf("CN","T.2", "T.3", "T.4", "T.5", "T.6", "T.7")
+    @Inject
+    lateinit var workSheetPresenter: WorkSheetPresenter
+    val weekdays = listOf("CN", "T.2", "T.3", "T.4", "T.5", "T.6", "T.7")
     private lateinit var adapter: WorkDayAdapter
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentWorkSheetBinding {
-        return FragmentWorkSheetBinding.inflate(inflater,container,false)
+        return FragmentWorkSheetBinding.inflate(inflater, container, false)
     }
 
     override fun initBindingData() {
         val headerLayout = binding.weekdayHeader
-        val color = ColorUtils.setAlphaComponent(ContextCompat.getColor(requireContext(),R.color.textSecondary), (0.3f * 255).toInt())
+        val color = ColorUtils.setAlphaComponent(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.textSecondary
+            ), (0.3f * 255).toInt()
+        )
         weekdays.forEach {
             val tv = TextView(requireContext()).apply {
                 text = it
@@ -56,22 +62,40 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
             }
             headerLayout.addView(tv)
         }
+
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_calendar -> {
+                    showBottomSelectTimeReport()
+                    true
+                }
+
+                else -> false
+            }
+        }
+
     }
 
     override fun onSingleClick(v: View?) {
+        when (v) {
 
+        }
     }
 
     override fun initView() {
-        requireActivity().window.statusBarColor  = ContextCompat.getColor(requireContext(),R.color.primary)
-        WindowCompat.getInsetsController(requireActivity().window, requireActivity().window.decorView)?.isAppearanceLightStatusBars = false
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.primary)
+        WindowCompat.getInsetsController(
+            requireActivity().window,
+            requireActivity().window.decorView
+        )?.isAppearanceLightStatusBars = false
 
         workSheetPresenter.attachView(this)
 
         adapter = WorkDayAdapter(binding.gridWorkSheet)
         binding.gridWorkSheet.layoutManager = GridLayoutManager(requireContext(), 7)
-        binding.gridWorkSheet.adapter  = adapter
-        workSheetPresenter.getReportAttendanceByMonthYear(6,2025)
+        binding.gridWorkSheet.adapter = adapter
+        workSheetPresenter.getReportAttendanceByMonthYear(6, 2025)
     }
 
     override fun showLoading() {
@@ -93,7 +117,7 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
 
 
     override fun onGetReportAttendanceByMonthYear(entity: ReportWorkSheetMonthYearEntity?) {
-        Log.d("onGetReportAttendanceByMonthYear",entity.toString());
+        Log.d("onGetReportAttendanceByMonthYear", entity.toString());
         val fullData = buildFullMonthDays(entity?.days ?: emptyList(), 6, 2025)
         adapter.setFullData(fullData)
     }
@@ -140,4 +164,11 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(),WorkSheetCont
 
         return result
     }
+
+
+    private fun showBottomSelectTimeReport() {
+        val bottomSheet = BottomSheetSelectTimeReportFragment()
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
+    }
+
 }

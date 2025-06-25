@@ -12,6 +12,7 @@ import vn.gmi.workzen.domain.entity.company.CompanyEntity
 import vn.gmi.workzen.domain.entity.contract.ContractEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.company.DepartmentEntity
+import vn.gmi.workzen.domain.entity.notification.Notification
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.domain.entity.shift.ShiftEntity
 
@@ -26,7 +27,8 @@ object RealmProvider {
         ShiftEntity::class,
         ReportWorkSheetMonthYearEntity::class,
         ReportWorkSheetDayEntity::class,
-        AttendanceDataEntity::class
+        AttendanceDataEntity::class,
+        Notification::class
     )
 
     val config: RealmConfiguration by lazy {
