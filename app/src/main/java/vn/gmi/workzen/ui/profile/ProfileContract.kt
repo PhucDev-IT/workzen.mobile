@@ -7,9 +7,11 @@ import vn.gmi.workzen.domain.entity.user.ProfileEntity
 interface ProfileContract {
     interface View:BaseContract.View{
         fun onGetProfileSuccess(profile: ProfileEntity)
+
     }
 
     interface Presenter:BaseContract.Presenter<View>{
         fun getProfile()
+        fun logout()
     }
 }

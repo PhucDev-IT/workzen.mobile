@@ -17,40 +17,40 @@ class RestClient {
 
     companion object{
         fun buildService(baseUrl:String, gson: Gson): Retrofit {
-            val bearToken =  MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_BEAR_ACCESS_TOKEN) ?: ""
             return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(baseUrl)
-                .client(okHttpClient(bearToken).build())  // Pass token to okHttpClient
+                .client(okHttpClient().build())  // Pass token to okHttpClient
                 .build()
         }
 
         private val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
         // Modified okHttpClient to take token as parameter
-        private fun okHttpClient(token: String?): OkHttpClient.Builder {
+        private fun okHttpClient(): OkHttpClient.Builder {
             val builder = OkHttpClient.Builder()
                 .readTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(loggingInterceptor)
-
-            // Chỉ thêm interceptor nếu token không rỗng
-            if (!token.isNullOrBlank()) {
-                builder.addInterceptor(interceptor(token))
-            }
+            .addInterceptor(interceptor())
 
             return builder
         }
 
 
-        private fun interceptor(token: String?): Interceptor {
+        private fun interceptor(): Interceptor {
             return Interceptor { chain ->
+                val token = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_BEAR_ACCESS_TOKEN) ?: ""
+
                 val originalRequest = chain.request()
                 val modifiedRequest = originalRequest.newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+                    .apply {
+                        if (token.isNotEmpty()) {
+                            addHeader("Authorization", "Bearer $token")
+                        }
+                    }
                     .build()
-
                 // Custom log headers
                 Log.d("RestClient", "=== REQUEST HEADERS ===")
                 modifiedRequest.headers.forEach {

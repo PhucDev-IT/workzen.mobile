@@ -11,6 +11,7 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.databinding.ActivityMainBinding
 import vn.gmi.workzen.domain.entity.notification.Notification
 import vn.gmi.workzen.domain.entity.notification.NotifyType
@@ -92,6 +93,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleNavigatorView(notification: Notification){
+
+    }
+
+    override fun onDestroy() {
+        RealmProvider.close()
+        super.onDestroy()
 
     }
 }

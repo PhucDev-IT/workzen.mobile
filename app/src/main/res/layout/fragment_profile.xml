@@ -108,6 +108,84 @@
         </LinearLayout>
     </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerConstraintLayout>
 
+
+    <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        android:orientation="horizontal"
+        android:background="#E6E6FA"
+        app:corner_radius="@dimen/_10sdp">
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="02"
+                android:textColor="@color/textPrimary"
+                style="@style/TextView.Bold.Bold"
+                android:textSize="@dimen/text_size_xmedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày nghỉ"
+                android:textColor="@color/textSecondary"
+                style="@style/TextView.Regular.Regular"
+                android:textSize="@dimen/text_size_normal"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="02"
+                android:textColor="@color/textPrimary"
+                style="@style/TextView.Bold.Bold"
+                android:textSize="@dimen/text_size_xmedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày công"
+                android:textColor="@color/textSecondary"
+                style="@style/TextView.Regular.Regular"
+                android:textSize="@dimen/text_size_normal"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12h"
+                android:textColor="@color/textPrimary"
+                style="@style/TextView.Bold.Bold"
+                android:textSize="@dimen/text_size_xmedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tăng ca"
+                android:textColor="@color/textSecondary"
+                style="@style/TextView.Regular.Regular"
+                android:textSize="@dimen/text_size_normal"/>
+        </LinearLayout>
+    </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+
     <!--  ITEM  -->
     <LinearLayout
         android:id="@+id/ll_profile_detail"

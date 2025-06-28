@@ -16,6 +16,7 @@ import vn.gmi.workzen.databinding.FragmentProfileBinding
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
+import vn.gmi.workzen.ui.authentication.login.LoginActivity
 import vn.gmi.workzen.ui.chat.ChatActivity
 import vn.gmi.workzen.ui.profile.details.ProfileDetailActivity
 import vn.gmi.workzen.utils.Utils
@@ -46,6 +47,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
     private fun setListener(){
         binding.llProfileDetail.setOnClickListener(this)
         binding.icChat.setOnClickListener(this)
+        binding.icLogout.setOnClickListener(this)
     }
 
     override fun onSingleClick(v: View?) {
@@ -55,6 +57,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
             }
             binding.llProfileDetail ->{
                 startActivity(Intent(requireContext(),ProfileDetailActivity::class.java))
+            }
+            binding.icLogout->{
+                logout()
             }
         }
     }
@@ -92,6 +97,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
             Log.e(TAG,e.message?:"")
             Glide.with(this).load("https://img.freepik.com/free-photo/emotions-people-concept-headshot-serious-looking-handsome-man-with-beard-looking-confident-determined_1258-26730.jpg?size=626&ext=jpg&uid=R118572234&ga=GA1.1.1965375583.1709184711&semt=ais_user").into(binding.imgAvatar)
         }
+    }
+
+    private fun logout(){
+        presenter.logout()
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finishAffinity()
     }
 
     override fun onDestroyView() {

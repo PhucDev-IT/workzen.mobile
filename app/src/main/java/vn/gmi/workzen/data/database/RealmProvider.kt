@@ -18,7 +18,7 @@ import vn.gmi.workzen.domain.entity.shift.ShiftEntity
 
 object RealmProvider {
 
-    private val schemaModels = setOf(
+     val schemaModels = setOf(
         IdentificationEntity::class,
         ProfileEntity::class,
         ContractEntity::class,
@@ -46,5 +46,9 @@ object RealmProvider {
 
     val realm: Realm by lazy {
         Realm.open(config)
+    }
+
+    fun close(){
+        realm.close()
     }
 }

@@ -15,6 +15,7 @@ import vn.gmi.workzen.domain.usecase.GetIdentificationUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileUseCase
+import vn.gmi.workzen.domain.usecase.LogoutUseCase
 import vn.gmi.workzen.domain.usecase.StoreProfileUseCase
 
 import vn.gmi.workzen.domain.usecase.UpdateIdentificationUseCase
@@ -97,9 +98,10 @@ class UserModule {
 
     @Provides
     fun provideProfilePresenter(
-        getProfileUseCase: GetProfileUseCase
+        getProfileUseCase: GetProfileUseCase,
+        logoutUseCase: LogoutUseCase
     ): ProfileContract.Presenter{
-        return ProfilePresenter(getProfileUseCase)
+        return ProfilePresenter(getProfileUseCase,logoutUseCase)
     }
 
 }
