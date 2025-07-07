@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(obj:Fragment){
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, obj)
+            .addToBackStack(null)
             .commit()
         if(obj is WorkSheetFragment || obj is PayRollFragment || obj is ProfileFragment){
             updateStatusBar(R.color.primary, false)

@@ -1,5 +1,6 @@
 package vn.gmi.workzen.ui.worksheet
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.util.Log
 import android.view.Gravity
@@ -10,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.util.Consumer
 import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.GridLayoutManager
@@ -82,6 +84,7 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         requireActivity().window.statusBarColor =
             ContextCompat.getColor(requireContext(), R.color.primary)
@@ -95,7 +98,11 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
         adapter = WorkDayAdapter(binding.gridWorkSheet)
         binding.gridWorkSheet.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.gridWorkSheet.adapter = adapter
-        workSheetPresenter.getReportAttendanceByMonthYear(6, 2025)
+
+
+        val now = LocalDate.now()
+        workSheetPresenter.getReportAttendanceByMonthYear(now.monthValue, now.year)
+        binding.tvTitle.text = "Tháng ${now.monthValue} năm ${now.year}"
     }
 
     override fun showLoading() {
@@ -167,7 +174,15 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
 
 
     private fun showBottomSelectTimeReport() {
+        val listener = object : Consumer<Pair<Int, Int>>{
+            override fun accept(value: Pair<Int, Int>) {
+                val (month, year) = value
+                workSheetPresenter.getReportAttendanceByMonthYear(month, year)
+                binding.tvTitle.text = "Tháng $month năm $year"
+            }
+        }
         val bottomSheet = BottomSheetSelectTimeReportFragment()
+        bottomSheet.setListener(listener)
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
     }
 

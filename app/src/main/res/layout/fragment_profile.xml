@@ -46,66 +46,95 @@
             app:layout_constraintEnd_toEndOf="@id/ic_chat"/>
 
         <LinearLayout
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:padding="2dp"
-            android:id="@+id/ll_avatar"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/container_header"
-            app:layout_constraintTop_toTopOf="@id/container_header"
-            android:background="@drawable/bg_circle_line"
-            >
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/img_avatar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_header"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
-                app:shapeAppearanceOverlay="@style/one_rounded"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/icon_worksheet"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            app:layout_constraintStart_toEndOf="@id/ll_avatar"
-            app:layout_constraintEnd_toEndOf="@id/container_header"
-            app:layout_constraintTop_toTopOf="@id/ll_avatar"
-            app:layout_constraintBottom_toBottomOf="@id/ll_avatar"
-            android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_chat"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
+            android:gravity="center"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tv_full_name"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Số dư"
+                android:textColor="@color/orange"
                 style="@style/TextView.Bold.Bold"
-                android:textSize="@dimen/text_size_xmedium"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/tv_position"
+                android:textSize="@dimen/text_size_xxxmedium"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Medium.Medium"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_normal"
-                android:text="Chuyên viên kĩ thuật"/>
+                android:gravity="center"
+                android:orientation="horizontal">
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/_20sdp"-->
+<!--                    android:layout_height="@dimen/_20sdp"-->
+<!--                    android:src="@drawable/baseline_attach_money_24"-->
+<!--                    app:tint="@color/secondaryColor" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0đ"
+                    android:textColor="@color/white"
+                    style="@style/TextView.Bold.Bold"
+                    android:textSize="@dimen/text_size_xxxmedium"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_start_time"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Medium.Medium"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_normal"
-                android:text="Tham gia từ 2021"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+                <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:gravity="center"
+                    app:corner_radius="@dimen/_3sdp"
+                    android:background="#26FFFFFF"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ic_withdraw"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rút tiền"
+                        style="@style/TextView.Medium.Medium"
+                        android:textSize="@dimen/text_size_normal"
+                        android:textColor="@color/white"/>
+                </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+
+                <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:gravity="center"
+                    app:corner_radius="@dimen/_3sdp"
+                    android:background="#26FFFFFF"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ic_transfer"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chuyển"
+                        android:lines="1"
+                        style="@style/TextView.Medium.Medium"
+                        android:textSize="@dimen/text_size_normal"
+                        android:textColor="@color/white"/>
+                </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+            </LinearLayout>
         </LinearLayout>
+
     </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerConstraintLayout>
 
 

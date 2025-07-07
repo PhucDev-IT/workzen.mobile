@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvNotificationAdapter
@@ -46,9 +47,12 @@ class NotificationActivity : BaseActivity<NotificationContract.View, Notificatio
 
         notificationCommon = RvNotificationAdapter()
         notificationRecent = RvNotificationAdapter()
+
         binding.rvCommon.adapter = notificationCommon
         binding.rvRecentActivity.adapter = notificationRecent
 
+        binding.rvRecentActivity.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvCommon.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         presenter.requestGetNotification()
     }

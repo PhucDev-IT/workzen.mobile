@@ -3,6 +3,7 @@ package vn.gmi.workzen.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,8 +71,10 @@ class RvItemKeepingAdapter(private val context: Context, private val onItemClick
         val keepingHolder = holder as KeepingViewHolder
         var shouldShowButton = item.allowAttendance
         val currentTime = LocalTime.now()
+
         if(item.time!=null){
-            val minutesLate = ChronoUnit.MINUTES.between(item.targetTime,  item.time?.toLocalTime()?:currentTime)
+            val minutesLate = ChronoUnit.MINUTES.between(item.targetTime,  item.time.toLocalTime()
+                ?:currentTime)
             if(item.attendanceType == EAttendanceType.SHIFT_START || item.attendanceType == EAttendanceType.OVERTIME_START){
                 handleCheckIn(keepingHolder.binding,minutesLate)
             }else{
@@ -106,12 +109,11 @@ class RvItemKeepingAdapter(private val context: Context, private val onItemClick
 
 
     private fun handleCheckIn(binding: ItemTimeKeepingBinding, minutesLate: Long){
+
         if(minutesLate >= 0 && minutesLate <= 15){
             binding.tvStatus.text = "Đúng giờ"
-        }else if(minutesLate > 15 && minutesLate <= 120){
-            binding.tvStatus.text = "Muộn giờ"
         }else{
-            binding.tvStatus.text = "Không thể chấm công"
+            binding.tvStatus.text = "Muộn giờ"
             binding.llChamCong.visibility = View.GONE
 
         }
@@ -124,10 +126,8 @@ class RvItemKeepingAdapter(private val context: Context, private val onItemClick
         }else
         if(minutesLate >= 0 && minutesLate <= 15){
             binding.tvStatus.text = "Đúng giờ"
-        }else if(minutesLate > 15 && minutesLate <= 120){
-            binding.tvStatus.text = "Quá giờ"
         }else{
-            binding.tvStatus.text = "Không thể chấm công"
+            binding.tvStatus.text = "Cần giải trình"
             binding.llChamCong.visibility = View.GONE
         }
     }

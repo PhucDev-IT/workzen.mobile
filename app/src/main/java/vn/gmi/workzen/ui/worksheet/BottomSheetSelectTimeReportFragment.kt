@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatRadioButton
+import androidx.core.util.Consumer
 import androidx.core.view.marginStart
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import vn.gmi.workzen.databinding.PopupSelectTimeWorkdateBinding
@@ -17,6 +18,7 @@ class BottomSheetSelectTimeReportFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var year = LocalDate.now().year
     private val radioButtons = mutableListOf<AppCompatRadioButton>()
+    private var callback: Consumer<Pair<Int, Int>>?=null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,8 +52,9 @@ class BottomSheetSelectTimeReportFragment : BottomSheetDialogFragment() {
         val currentMonth = now.monthValue
 
         binding.tvYear.text = year.toString()
-
-        for (month in 1..currentMonth) {
+        radioButtons.clear()
+        binding.radioGroup.removeAllViews()
+        for (month in 1.. if(year == LocalDate.now().year) LocalDate.now().monthValue else 12) {
             val radioButton = AppCompatRadioButton(requireContext()).apply {
                 text = "Tháng $month"
 
@@ -83,6 +86,8 @@ class BottomSheetSelectTimeReportFragment : BottomSheetDialogFragment() {
                 setOnClickListener {
                     radioButtons.forEach { it.isChecked = false }
                     isChecked = true
+                    callback?.accept(Pair( month,year))
+                    this@BottomSheetSelectTimeReportFragment.dismiss()
                 }
 
             }
@@ -91,5 +96,9 @@ class BottomSheetSelectTimeReportFragment : BottomSheetDialogFragment() {
             radioButtons.add(radioButton)
             binding.radioGroup.addView(radioButton)
         }
+    }
+
+    fun setListener(callback: Consumer<Pair<Int, Int>>){
+        this.callback = callback
     }
 }

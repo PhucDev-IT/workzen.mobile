@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Xem toptop để nhận quà"
             android:textColor="@color/textSecondary"
-            style="@style/TextView.Medium.Medium"/>
+            style="@style/TextView.Regular.Regular"/>
         <TextView
             android:layout_gravity="end"
             android:id="@+id/tv_time"

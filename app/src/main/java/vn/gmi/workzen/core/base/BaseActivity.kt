@@ -35,9 +35,13 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
         presenter = initPresenter()
         presenter.attachView(this as V)
 
+        onAnimation()
+    }
+
+    override fun onStart() {
+        super.onStart()
         initViews()
         setListener()
-        onAnimation()
     }
 
     override fun onDestroy() {

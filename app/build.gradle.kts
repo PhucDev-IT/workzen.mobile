@@ -87,6 +87,7 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
     implementation("androidx.work:work-runtime-ktx:2.10.1")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
     //Network
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
