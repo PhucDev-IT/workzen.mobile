@@ -26,6 +26,8 @@ import vn.gmi.workzen.core.ui.BottomSheetRequestPermissionFragment
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.data.models.response.attendance.ShiftWorkInfo
 import vn.gmi.workzen.databinding.FragmentTimeKeepingBinding
+import vn.gmi.workzen.domain.entity.contract.ContractEntity
+import vn.gmi.workzen.domain.entity.contract.toDetached
 import vn.gmi.workzen.domain.entity.enums.WorkStatus
 import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.ui.home.models.EAttendanceType
@@ -119,7 +121,15 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
 
     override fun initView() {
         presenter.attachView(this)
-        adapter = RvItemKeepingAdapter(requireContext(), onListenerClickAdapter)
+        val activeContract = SessionManager.profile
+            ?.contracts
+            ?.firstOrNull { it.isActive }
+            ?.toDetached()
+
+        val baseSalary = activeContract?.baseSalary
+
+
+        adapter = RvItemKeepingAdapter(requireContext(), onListenerClickAdapter, baseSalary)
 
         binding.rvTimeKeeping.adapter = adapter
     }

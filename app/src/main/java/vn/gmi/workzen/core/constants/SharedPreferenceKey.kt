@@ -4,7 +4,7 @@ class SharedPreferenceKey {
 companion object{
     const val KEY_BEAR_ACCESS_TOKEN = "KEY_BEAR_ACCESS_TOKEN"
     const val KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN"
-    const val KEY_ACCOUNT_ID = "KEY_ACCOUNT_ID"
+    const val KEY_USER_ID = "KEY_USER_ID"
     const val KEY_FULL_NAME = "KEY_FULL_NAME"
     const val KEY_PHONE = "KEY_PHONE"
     const val KEY_AVATAR = "KEY_AVATAR"

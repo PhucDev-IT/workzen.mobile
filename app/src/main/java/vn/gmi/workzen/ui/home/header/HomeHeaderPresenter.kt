@@ -23,7 +23,7 @@ class HomeHeaderPresenter @Inject constructor(
     }
 
     override fun countNotification() {
-        val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID).toString()
+        val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID).toString()
         scope.launch {
             try{
                 val count = countNotificationUseCase.invoke(accountId)

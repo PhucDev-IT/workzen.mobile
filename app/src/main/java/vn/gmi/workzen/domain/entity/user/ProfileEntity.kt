@@ -13,6 +13,9 @@ class ProfileEntity : RealmObject {
     var phone: String?=null
     var email: String?=null
     var fullName: String?=null
+    var note:String?=null
+    var balance: Double = 0.0
+    var isActive: Boolean = true
     var details: IdentificationEntity?=null
     var contracts: RealmList<ContractEntity> = realmListOf()
     override fun toString(): String {

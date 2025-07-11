@@ -37,7 +37,7 @@ class RegisterPresenter @Inject constructor(
 
                 val response = checkExistsPhoneUseCase.invoke(standardization)
                 if(!response){
-                    getView()?.onError("Số điện thoại đã tồn tại")
+                    getView()?.onError("Người dùng đã tồn tại")
                     return@launch
                 }
                 phoneCache = standardization

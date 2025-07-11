@@ -14,7 +14,7 @@ import vn.gmi.workzen.networks.models.ApiResponse
 
 interface AttendanceService {
     @GET(EndPoints.GET_INFO_ATTENDANCE)
-    suspend fun getWorkScheduleToday(@Path("accountId") accountId: String): Response<ApiResponse<GetWorkScheduleResModel?>>
+    suspend fun getWorkScheduleToday(@Path("userId") accountId: String): Response<ApiResponse<GetWorkScheduleResModel?>>
 
     @POST(EndPoints.CHECK_IN)
     suspend fun checkIn(@Body req: CheckInRequestModel): Response<ApiResponse<GetWorkScheduleResModel?>>

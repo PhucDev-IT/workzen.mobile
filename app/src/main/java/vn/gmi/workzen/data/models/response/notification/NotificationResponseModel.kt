@@ -41,7 +41,7 @@ class NotificationResponseModel : DataMapper<Notification>() {
             type = this@NotificationResponseModel.notification?.type?.name?: NotifyType.NOTIFICATION.name
             status = this@NotificationResponseModel.status.name
             isGlobal = this@NotificationResponseModel.notification?.isGlobal
-            userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
+            userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
 
         }
     }

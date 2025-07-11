@@ -9,7 +9,6 @@ import vn.gmi.workzen.domain.entity.user.ProfileEntity
 
 interface UserRepository {
     suspend fun updateIdentification(request: OnboardUserReqModel): IdentificationEntity
-    suspend fun getIdentification(userId:String): IdentificationEntity?
     suspend fun getProfile(userId: String): ProfileEntity?
     suspend fun storeProfile(model: ProfileEntity)
 

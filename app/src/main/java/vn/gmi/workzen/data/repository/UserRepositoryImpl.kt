@@ -31,23 +31,6 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getIdentification(params: String): IdentificationEntity {
-        return withContext(dispatcher) {
-            var entity: IdentificationEntity? = localDataSource.getIdentification()
-            if (entity == null) {
-                entity = when (val result = remoteDataSource.getIdentification(params).toApiResult()) {
-                    is ApiResult.Success -> {
-                        val mapped = result.data.mapToEntity()
-                        localDataSource.saveIdentification(mapped)
-                        mapped
-                    }
-                    is ApiResult.Error -> throw Exception(result.message)
-                }
-            }
-            entity
-        }
-    }
-
     override suspend fun getProfile(userId: String): ProfileEntity? {
        return withContext(dispatcher) {
             var entity: ProfileEntity? = localDataSource.getProfile()

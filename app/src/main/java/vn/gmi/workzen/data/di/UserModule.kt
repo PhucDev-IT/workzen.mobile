@@ -11,20 +11,14 @@ import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSource
 import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSourceImpl
 import vn.gmi.workzen.data.repository.UserRepositoryImpl
 import vn.gmi.workzen.domain.repository.UserRepository
-import vn.gmi.workzen.domain.usecase.GetIdentificationUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileUseCase
 import vn.gmi.workzen.domain.usecase.LogoutUseCase
 import vn.gmi.workzen.domain.usecase.StoreProfileUseCase
-
 import vn.gmi.workzen.domain.usecase.UpdateIdentificationUseCase
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.networks.api.UserService
-import vn.gmi.workzen.ui.authentication.login.LoginContract
-import vn.gmi.workzen.ui.authentication.login.LoginPresenter
-import vn.gmi.workzen.ui.authentication.signup.RegisterContract
-import vn.gmi.workzen.ui.authentication.signup.RegisterPresenter
 import vn.gmi.workzen.ui.home.HomeContract
 import vn.gmi.workzen.ui.home.HomePresenter
 import vn.gmi.workzen.ui.profile.ProfileContract
@@ -62,10 +56,6 @@ class UserModule {
         return UpdateIdentificationUseCase(repo)
     }
 
-    @Provides
-    fun providerGetIdentificationUseCase(repo: UserRepository): GetIdentificationUseCase{
-        return GetIdentificationUseCase(repo)
-    }
 
    @Provides
    fun getProfileRemoteUseCase(repo: UserRepository): GetProfileRemoteUseCase{

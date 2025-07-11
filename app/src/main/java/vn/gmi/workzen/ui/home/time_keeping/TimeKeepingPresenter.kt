@@ -36,14 +36,14 @@ class TimeKeepingPresenter @Inject constructor(
     override fun getInfoAttendance() {
         scope.launch {
             try {
-                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
+                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
                 val result =
                     getWorkScheduleTodayUseCase.invoke(accountId ?: "")
                 if(result!= null){
                     getView()?.onGetWorkScheduleSuccess(result)
                 }
             } catch (e: Exception) {
-                Log.e("Error", e.message.toString())
+                Log.e("Error getInfoAttendance", e.message.toString())
             }
         }
     }
@@ -70,7 +70,7 @@ class TimeKeepingPresenter @Inject constructor(
                     getView()?.onAttendanceSuccess(result)
                 }
             } catch (e: Exception) {
-                Log.e("Error", e.message.toString())
+                Log.e("Error checkIn", e.message.toString())
             }finally {
                 getView()?.hideLoading()
             }
@@ -99,7 +99,7 @@ class TimeKeepingPresenter @Inject constructor(
                     getView()?.onAttendanceSuccess(result)
                 }
             } catch (e: Exception) {
-                Log.e("Error", e.message.toString())
+                Log.e("Error checkOut", e.message.toString())
             }finally {
                 getView()?.hideLoading()
             }

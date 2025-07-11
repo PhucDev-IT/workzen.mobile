@@ -46,7 +46,7 @@ class HomePresenter @Inject constructor(
                     getView()?.onGetProfile(SessionManager.profile!!)
                     return@launch
                 }
-                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
+                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
                 var profile = getProfileLocalUseCase.invoke(userId ?: "")
                 if (profile != null) {
                     getView()?.onGetProfile(profile)
@@ -55,16 +55,17 @@ class HomePresenter @Inject constructor(
                 if(profile!=null){
                     getView()?.onGetProfile(profile)
                     storeProfileUseCase.invoke(profile)
+                    Log.d("Phuc","Identfi: ${profile.details}")
                     MySharedPreferences.setBooleanValue(SharedPreferenceKey.KEY_IS_ONBOARD,
                         profile.details?.isVerified == true
                     )
                     val contract = profile.contracts.first { it.isActive == true }
-                    if(contract!=null){
+
                         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_SHIFT_START,contract.shift?.startTime?:"")
                         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_SHIFT_END,contract.shift?.endTime?:"")
                         MySharedPreferences.setStringValue(SharedPreferenceKey.KEY_SHIFT_ID,contract.shift?.id?:"")
                         ReminderScheduler.scheduleAllIfNeeded(MyApplication.instance)
-                    }
+
 
                 }
             } catch (e: Exception) {

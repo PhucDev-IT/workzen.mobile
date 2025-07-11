@@ -14,10 +14,6 @@ class UserRemoteDataSourceImpl(private val apiService: UserService): UserRemoteD
         return apiService.requestUpdateIdentification(req)
     }
 
-    override suspend fun getIdentification(userId: String): Response<ApiResponse<OnboardUserResModel>> {
-        return apiService.requestGetIdentification(userId)
-    }
-
     override suspend fun getProfile(userId: String): Response<ApiResponse<ProfileResponseModel>> {
         return apiService.requestGetProfile(userId)
     }

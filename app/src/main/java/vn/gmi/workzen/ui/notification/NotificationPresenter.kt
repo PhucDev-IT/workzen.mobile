@@ -21,7 +21,7 @@ class NotificationPresenter @Inject constructor(
         scope.launch {
             try{
                 getView()?.showLoading()
-                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_ACCOUNT_ID)
+                val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
                 val local = getNotificationLocalUseCase.invoke(accountId.toString())
                 getView()?.onGetNotificationSuccess(local)
                 val remote = getNotificationRemoteUseCase.invoke(accountId.toString())

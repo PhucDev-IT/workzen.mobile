@@ -14,12 +14,6 @@ class UpdateIdentificationUseCase (private val repository: UserRepository) : Bas
     }
 }
 
-class GetIdentificationUseCase(private val repository: UserRepository): BaseUseCase<String, IdentificationEntity?>(){
-    override suspend fun invoke(params: String): IdentificationEntity? {
-        return repository.getIdentification(params)
-    }
-}
-
 class GetProfileUseCase(private val repository: UserRepository): BaseUseCase<String, ProfileEntity?>(){
     override suspend fun invoke(params: String): ProfileEntity? {
         return repository.getProfile(params)

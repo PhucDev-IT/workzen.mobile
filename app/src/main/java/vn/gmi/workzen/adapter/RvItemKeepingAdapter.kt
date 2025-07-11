@@ -23,16 +23,14 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.min
 
-class RvItemKeepingAdapter(private val context: Context, private val onItemClick: RequestAttendanceListener)  : BaseAdapter<ItemKeepingModel>() {
+class RvItemKeepingAdapter(  private val context: Context,
+                             private val onItemClick: RequestAttendanceListener,
+                             private val baseSalary: Double?)  : BaseAdapter<ItemKeepingModel>() {
 
     private var startTime: LocalTime?=null
     private var endTime: LocalTime?=null
-    private var baseSalary: Double?=null
-
-
 
     init {
-        baseSalary = SessionManager.profile?.contracts?.firstOrNull { it.isActive }?.baseSalary
         getTimeWorking()
     }
 

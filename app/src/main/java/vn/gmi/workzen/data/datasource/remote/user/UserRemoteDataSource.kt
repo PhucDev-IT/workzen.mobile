@@ -10,6 +10,5 @@ import vn.gmi.workzen.networks.models.ApiResponse
 
 interface UserRemoteDataSource {
    suspend fun updateIdentification(req: OnboardUserReqModel): Response<ApiResponse<OnboardUserResModel>>
-   suspend fun getIdentification(userId: String): Response<ApiResponse<OnboardUserResModel>>
    suspend fun getProfile(userId: String): Response<ApiResponse<ProfileResponseModel>>
 }

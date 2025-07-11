@@ -1,6 +1,7 @@
 package vn.gmi.workzen.data.datasource.local.attendance
 
 import io.realm.kotlin.UpdatePolicy
+import io.realm.kotlin.ext.copyFromRealm
 import io.realm.kotlin.ext.realmListOf
 import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetDayEntity
@@ -33,6 +34,6 @@ class AttendanceLocalDataSourceImpl : AttendanceLocalDataSource {
     }
 
     override suspend fun getWorkSheetMonthYear(id: String): ReportWorkSheetMonthYearEntity? {
-       return RealmProvider.realm.query(ReportWorkSheetMonthYearEntity::class, "id == $0", id).first().find()
+       return RealmProvider.realm.query(ReportWorkSheetMonthYearEntity::class, "id == $0", id).first().find()?.copyFromRealm()
     }
 }
