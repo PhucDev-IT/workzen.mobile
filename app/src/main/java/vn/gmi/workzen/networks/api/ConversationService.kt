@@ -2,6 +2,7 @@ package vn.gmi.workzen.networks.api
 
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.gmi.workzen.data.mapper.PagedResponse
 import vn.gmi.workzen.data.models.response.conversation.ConversationWithLastMessage
@@ -18,8 +19,8 @@ interface ConversationService {
 
     @GET(EndPoints.GET_MESSAGE)
     suspend fun getMessages(
+        @Path("conversationId") conversationId: String,
         @Query("page") page: Int,
-        @Query("size") size: Int,
-        @Query("conversationId") conversationId: String
+        @Query("size") size: Int
     ): Response<ApiResponse<List<MessageResponseModel>>>
 }

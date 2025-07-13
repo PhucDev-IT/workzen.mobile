@@ -54,7 +54,7 @@ android {
     productFlavors {
         create("dev") {
                 buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
-                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.10:8080/ws/websocket\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.8:8080/ws\"")
         }
         create("production") {
             buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")
@@ -94,6 +94,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
 
     // CameraX
     implementation(libs.camera2)

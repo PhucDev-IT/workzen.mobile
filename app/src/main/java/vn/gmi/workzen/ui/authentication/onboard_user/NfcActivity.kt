@@ -182,7 +182,6 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
             try {
                 DialogLoading.showLoading(this@NfcActivity)
                 val result = userUseCase.invoke(model)
-                registerTopic()
                 AppToast.showSuccess(this@NfcActivity, "Xác thực thành công")
                 startActivity(Intent(this@NfcActivity, MainActivity::class.java))
                 finishAffinity()
@@ -203,14 +202,7 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
     }
 
 
-    private fun registerTopic(){
-        lifecycleScope.launch {
-            val contract = SessionManager.profileState.value?.contracts?.firstOrNull { it.isActive }
-            contract?.company?.id.let {
-                MyFirebaseService.registerTopic("group_${it}")
-            }
-        }
-    }
+
 
     private fun setListener() {
         binding.layoutHead.toolbar.setNavigationOnClickListener { onBackPressed() }

@@ -18,6 +18,7 @@ class ConversationWithLastMessage : DataMapper<ConversationEntity>(){
     var lastMessageCreatedAt:Instant?=null
     var lastMessageSenderId:String?=null
     var unreadCount:Int?=null
+    var conversationType:String?=null
 
 
     override fun mapToEntity(): ConversationEntity {
@@ -33,7 +34,9 @@ class ConversationWithLastMessage : DataMapper<ConversationEntity>(){
             this.lastMessageCreatedAt = this@ConversationWithLastMessage.lastMessageCreatedAt?.toRealmInstant()
             this.lastMessageSenderId = this@ConversationWithLastMessage.lastMessageSenderId
             this.unreadCount = this@ConversationWithLastMessage.unreadCount
+            this.type = this@ConversationWithLastMessage.conversationType.toString()
             this.userId =userId
+
         }
     }
 }

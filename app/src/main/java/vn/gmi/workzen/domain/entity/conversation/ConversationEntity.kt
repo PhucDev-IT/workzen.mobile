@@ -6,10 +6,11 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 import vn.gmi.workzen.data.models.response.notification.NotificationStatus
 import vn.gmi.workzen.domain.entity.enums.ConversationType
 import vn.gmi.workzen.domain.entity.notification.NotifyType
+import java.io.Serializable
 import java.time.Instant
 import java.util.UUID
 
-class ConversationEntity: RealmObject{
+class ConversationEntity: RealmObject, Serializable{
     @PrimaryKey
     var conversationId:String = ""
     var conversationName:String?=null

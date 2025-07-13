@@ -3,7 +3,7 @@ package vn.gmi.workzen.utils
 object IntentData {
 
     val KEY_VIEW = "KEY_VIEW"
-    val KEY_CONVERSATION_ID = "KEY_CONVERSATION_ID"
+    val KEY_CONVERSATION_ID= "KEY_CONVERSATION_ID"
     val KEY_DATA_FROM_FCM = "KEY_DATA_FROM_FCM"
     val KEY_MRZ_INFO = "KEY_MRZ_INFO"
     val KEY_TYPE_MRZ_INFO = "KEY_TYPE_MRZ_INFO"

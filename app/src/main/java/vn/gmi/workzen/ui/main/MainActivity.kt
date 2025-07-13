@@ -1,6 +1,7 @@
 package vn.gmi.workzen.ui.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -12,9 +13,11 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.databinding.ActivityMainBinding
 import vn.gmi.workzen.domain.entity.notification.Notification
+import vn.gmi.workzen.manager.ChatWebsocketManager
 import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
 import vn.gmi.workzen.ui.profile.ProfileFragment
@@ -23,15 +26,29 @@ import vn.gmi.workzen.utils.IntentData
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), MainContract.View {
+class MainActivity : BaseActivity<MainContract.View, MainContract.Presenter>(), MainContract.View {
     private lateinit var binding: ActivityMainBinding
-    @Inject lateinit var presenter: MainContract.Presenter
+    @Inject lateinit var mainPresenter: MainContract.Presenter
+
+
+    override val layoutView: View
+        get(){
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            return binding.root
+        }
+
+    override fun initPresenter(): MainContract.Presenter {
+        return mainPresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(savedInstanceState == null){
+            replaceFragment(HomeFragment())
+        }
+    }
+    override fun initViews() {
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -40,22 +57,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
         init()
         setListener()
-        if(savedInstanceState == null){
-            replaceFragment(HomeFragment())
-        }
+    }
 
-        if(intent.hasExtra(IntentData.KEY_DATA_FROM_FCM)){
-            val dataJson = intent.getStringExtra(IntentData.KEY_DATA_FROM_FCM)
-            val notification = Gson().fromJson(dataJson, Notification::class.java)
-        }
+    override fun onSingleClick(v: View?) {
 
     }
 
-    private fun init(){
-        presenter.attachView(this)
-        presenter.observeProfile()
-    }
-    private fun setListener(){
+
+    override fun setListener() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
@@ -79,6 +88,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
+    private fun init(){
+        presenter.attachView(this)
+        presenter.observeProfile()
+    }
+
+
     private fun replaceFragment(obj: Fragment){
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, obj)
@@ -101,7 +116,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onDestroy() {
         presenter.detachView()
         RealmProvider.close()
-
+        ChatWebsocketManager.disconnect()
         super.onDestroy()
     }
 
@@ -115,4 +130,16 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onError(message: String) {
     }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ChatWebsocketManager.connect()
+    }
+
+
 }

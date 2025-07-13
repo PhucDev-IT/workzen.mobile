@@ -7,6 +7,7 @@ import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.domain.usecase.GetProfileUseCase
 import vn.gmi.workzen.domain.usecase.LogoutUseCase
 import vn.gmi.workzen.manager.SessionManager
+import vn.gmi.workzen.services.MyFirebaseService
 import vn.gmi.workzen.utils.MySharedPreferences
 import javax.inject.Inject
 
@@ -18,6 +19,9 @@ class ProfilePresenter @Inject constructor(
 
 
     override fun logout() {
-      scope.launch {   logoutUseCase.invoke() }
+      scope.launch {
+          logoutUseCase.invoke()
+          MyFirebaseService.unsubscribeFromTopic()
+      }
     }
 }

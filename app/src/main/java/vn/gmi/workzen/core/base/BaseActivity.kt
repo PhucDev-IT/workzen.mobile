@@ -1,5 +1,6 @@
 package vn.gmi.workzen.core.base
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
@@ -17,6 +18,10 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     View.OnClickListener,
     SwipeRefreshLayout.OnRefreshListener,CoreActivity()
 {
+
+    companion object {
+        var currentActivity: Activity? = null
+    }
 
     protected lateinit var presenter: P
     abstract val layoutView: View
@@ -87,5 +92,17 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     override fun hideLoading() {
         DialogLoading.hideLoading()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        currentActivity = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (currentActivity === this) {
+            currentActivity = null
+        }
     }
 }

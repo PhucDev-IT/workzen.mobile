@@ -11,6 +11,7 @@ import vn.gmi.workzen.domain.usecase.GetProfileRemoteUseCase
 import vn.gmi.workzen.domain.usecase.StoreProfileUseCase
 import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.manager.schedule.ReminderScheduler
+import vn.gmi.workzen.services.MyFirebaseService
 import vn.gmi.workzen.utils.MySharedPreferences
 import javax.inject.Inject
 import kotlin.invoke
@@ -28,7 +29,6 @@ class MainPresenter @Inject constructor(
                val profile = getProfileRemoteUseCase.invoke(userId ?: "")
                 if (profile != null) {
                     storeProfileUseCase.invoke(profile)
-                    Log.d("Phuc", "Identfi: ${profile.details}")
                     MySharedPreferences.setBooleanValue(
                         SharedPreferenceKey.KEY_IS_ONBOARD,
                         profile.details?.isVerified == true
@@ -49,7 +49,9 @@ class MainPresenter @Inject constructor(
                     )
                     ReminderScheduler.scheduleAllIfNeeded(MyApplication.instance)
 
-
+                    contract.company?.id.let {
+                        MyFirebaseService.registerTopic("group_${it}")
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("checkOnboardUser", e.message ?: "")

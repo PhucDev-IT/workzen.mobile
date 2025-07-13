@@ -64,7 +64,6 @@ class ChatActivity : BaseActivity<ConversationContract.View, ConversationContrac
         presenter.requestLoadConversations()
 
 
-        ApiService.instance.connectWebSocket(websocketListener)
     }
 
     override fun setListener() {

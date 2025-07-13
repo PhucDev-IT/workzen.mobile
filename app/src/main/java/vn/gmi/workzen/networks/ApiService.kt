@@ -1,5 +1,7 @@
 package vn.gmi.workzen.networks
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -27,7 +29,7 @@ import java.time.Instant
 
 class ApiService private constructor() {
 
-    private val GSON: Gson = GsonBuilder()
+     val GSON: Gson = GsonBuilder()
         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
         .registerTypeAdapter(Instant::class.java, object : JsonDeserializer<Instant> {
             override fun deserialize(
@@ -52,9 +54,9 @@ class ApiService private constructor() {
 
 
     private var baseUrl: String = ""
-    private var webSocketUrl: String = "ws://192.168.201.8:8080/ws"
+    private var webSocketUrl: String = BuildConfig.WEB_SOCKET_URL
     private var retrofit: Retrofit? = null
-
+    private var webSocket: okhttp3.WebSocket? = null
 
 
     companion object {
@@ -67,13 +69,6 @@ class ApiService private constructor() {
         retrofit = RestClient.buildService(baseUrl, GSON)
     }
 
-
-    fun connectWebSocket(listener: AppWebSocketListener) {
-        val request = okhttp3.Request.Builder().url(webSocketUrl).build()
-        val webSocketListener = vn.gmi.workzen.services.socket.WebSocketService(listener)
-        val webSocket = okhttp3.OkHttpClient().newWebSocket(request, webSocketListener)
-
-    }
 
 
     val authenticationService: AuthenticationService

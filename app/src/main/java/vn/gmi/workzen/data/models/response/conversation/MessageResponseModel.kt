@@ -44,5 +44,11 @@ class MessageResponseModel : DataMapper<MessageEntity>(){
 
         }
     }
+
+    override fun toString(): String {
+        return "MessageResponseModel(id=$id, conversationId=$conversationId, content=$content, subContent=$subContent, fileUrl=$fileUrl, replyToMessageId=$replyToMessageId, messageType=$messageType, isEdited=$isEdited, createdAt=$createdAt, sender=$sender)"
+    }
+
+
 }
 

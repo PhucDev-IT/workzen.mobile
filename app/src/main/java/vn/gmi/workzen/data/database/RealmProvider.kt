@@ -13,12 +13,14 @@ import vn.gmi.workzen.domain.entity.contract.ContractEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.company.DepartmentEntity
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
+import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.domain.entity.notification.Notification
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.domain.entity.shift.ShiftEntity
+
 object RealmProvider {
 
-     val schemaModels = setOf(
+    val schemaModels = setOf(
         IdentificationEntity::class,
         ProfileEntity::class,
         ContractEntity::class,
@@ -29,7 +31,8 @@ object RealmProvider {
         ReportWorkSheetDayEntity::class,
         AttendanceDataEntity::class,
         Notification::class,
-         ConversationEntity::class
+        MessageEntity::class,
+        ConversationEntity::class
     )
 
     private val config: RealmConfiguration by lazy {

@@ -20,6 +20,7 @@
         <item name="android:textColor">@color/textPrimary</item>
 
         <item name="buttonStyle">@style/App.Button.Base</item>
+
     </style>
 
     <style name="Theme.Workzen" parent="Base.Theme.Workzen" />

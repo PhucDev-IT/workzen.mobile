@@ -1,8 +1,11 @@
 package vn.gmi.workzen.ui.chat.message
 
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import vn.gmi.workzen.core.base.BasePresenter
+import vn.gmi.workzen.domain.usecase.FindConversationUseCase
+import vn.gmi.workzen.domain.usecase.GetConversationLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesRemoteUseCase
 import vn.gmi.workzen.domain.usecase.StoreMessagesUseCase
@@ -11,10 +14,21 @@ import javax.inject.Inject
 class MessagePresenter @Inject constructor(
     private val getMessagesLocalUseCase: GetMessagesLocalUseCase,
     private val getMessagesRemoteUseCase: GetMessagesRemoteUseCase,
-    private val storeMessagesUseCase: StoreMessagesUseCase
+    private val storeMessagesUseCase: StoreMessagesUseCase,
+    private val findConversationUseCase: FindConversationUseCase
 ): BasePresenter<MessageContract.View>(), MessageContract.Presenter {
 
 
+    override fun getInfoConversation(conversationId: String) {
+        scope.launch {
+            try {
+             val conversation =   findConversationUseCase.invoke(conversationId)
+                getView()?.onLoadConversationSuccess(conversation)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
 
     override fun requestLoadMessages(conversationId: String) {
         scope.launch {

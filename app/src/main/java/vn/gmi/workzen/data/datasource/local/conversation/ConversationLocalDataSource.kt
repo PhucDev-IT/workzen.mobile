@@ -7,6 +7,7 @@ import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 interface ConversationLocalDataSource {
     suspend fun getConversations(userId:String): Flow<List<ConversationEntity>>
     suspend fun saveConversation(conversations: List<ConversationEntity>)
+    suspend fun findConversation(conversationId:String): ConversationEntity?
 
     suspend fun getMessages(conversationId:String): Flow<List<MessageEntity>>
     suspend fun saveMessages(messages: List<MessageEntity>)

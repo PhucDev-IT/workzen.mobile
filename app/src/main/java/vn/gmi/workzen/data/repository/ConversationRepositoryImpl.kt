@@ -81,4 +81,10 @@ class ConversationRepositoryImpl @Inject constructor(
             localDataSource.saveMessages(messages)
         }
     }
+
+    override suspend fun findConversation(conversationId: String): ConversationEntity? {
+        return withContext(ioDispatcher) {
+            localDataSource.findConversation(conversationId)
+        }
+    }
 }

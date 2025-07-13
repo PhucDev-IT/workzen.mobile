@@ -23,6 +23,6 @@ class ConversationRemoteDataSourceImpl(private val apiService: ConversationServi
         page: Int,
         size: Int
     ): Response<ApiResponse<List<MessageResponseModel>>> {
-        return apiService.getMessages(page,size,conversationId)
+        return apiService.getMessages(conversationId,page,size)
     }
 }

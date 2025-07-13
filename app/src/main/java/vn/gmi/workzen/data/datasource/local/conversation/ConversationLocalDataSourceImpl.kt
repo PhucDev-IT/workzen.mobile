@@ -37,4 +37,8 @@ class ConversationLocalDataSourceImpl : ConversationLocalDataSource {
 
         }
     }
+
+    override suspend fun findConversation(conversationId: String): ConversationEntity? {
+       return RealmProvider.realm.query<ConversationEntity>("conversationId == $0",conversationId).first().find()
+    }
 }

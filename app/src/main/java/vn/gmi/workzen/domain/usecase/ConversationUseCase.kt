@@ -13,6 +13,12 @@ class GetConversationLocalUseCase(private val conversationRepository: Conversati
     }
 }
 
+class FindConversationUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<String, ConversationEntity?>() {
+    override suspend fun invoke(params: String): ConversationEntity? {
+        return conversationRepository.findConversation(params)
+    }
+}
+
 class GetConversationRemoteUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<Map<String,Any>, List<ConversationEntity>>(){
     override suspend fun invoke(params: Map<String, Any>): List<ConversationEntity> {
         return conversationRepository.getConversationRemote((params["userId"]?:"").toString(),
