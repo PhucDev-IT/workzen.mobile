@@ -10,7 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dagger.hilt.android.AndroidEntryPoint
-import vn.gmi.workzen.MainActivity
+import vn.gmi.workzen.ui.main.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.core.constants.AppToast

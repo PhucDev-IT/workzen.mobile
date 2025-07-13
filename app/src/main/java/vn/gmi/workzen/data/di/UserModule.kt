@@ -19,8 +19,8 @@ import vn.gmi.workzen.domain.usecase.StoreProfileUseCase
 import vn.gmi.workzen.domain.usecase.UpdateIdentificationUseCase
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.networks.api.UserService
-import vn.gmi.workzen.ui.home.HomeContract
-import vn.gmi.workzen.ui.home.HomePresenter
+import vn.gmi.workzen.ui.main.MainContract
+import vn.gmi.workzen.ui.main.MainPresenter
 import vn.gmi.workzen.ui.profile.ProfileContract
 import vn.gmi.workzen.ui.profile.ProfilePresenter
 
@@ -68,12 +68,12 @@ class UserModule {
     }
 
     @Provides
-    fun provideHomePresenter(
+    fun provideMainPresenter(
         getProfileRemoteUseCase: GetProfileRemoteUseCase,
         getProfileLocalUseCase: GetProfileLocalUseCase,
         storeProfileUseCase: StoreProfileUseCase
-    ): HomeContract.Presenter {
-        return HomePresenter(getProfileRemoteUseCase, getProfileLocalUseCase,storeProfileUseCase)
+    ): MainContract.Presenter {
+        return MainPresenter(getProfileRemoteUseCase, getProfileLocalUseCase,storeProfileUseCase)
     }
 
     @Provides

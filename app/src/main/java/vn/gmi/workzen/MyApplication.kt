@@ -13,6 +13,7 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
+import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.utils.MySharedPreferences
 @HiltAndroidApp
@@ -29,7 +30,7 @@ class MyApplication : Application (){
     override fun onCreate() {
         super.onCreate()
         instance = this
-        val realm = RealmProvider.realm
+        SessionManager.observeProfile()
         FirebaseApp.initializeApp(this)
         createNotificationChannels(this)
         MySharedPreferences.init(this)

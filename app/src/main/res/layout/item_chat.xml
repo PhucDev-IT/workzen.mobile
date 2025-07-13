@@ -1,69 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/_10sdp"
+    android:orientation="horizontal"
     android:background="@color/background"
+    android:gravity="center"
+    android:id="@+id/container"
     android:layout_height="wrap_content">
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_avatar"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        app:shapeAppearanceOverlay="@style/one_rounded"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
-        android:layout_marginHorizontal="@dimen/_10sdp"
-        android:id="@+id/tv_name"
-        style="@style/TextView.Bold.Bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Maizukia All"
-        app:layout_constraintStart_toEndOf="@id/img_avatar"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What was the best year of your life?"
-        android:textColor="@color/textSecondary"
-        android:textSize="@dimen/text_size_normal"
-        style="@style/TextView.Medium.Medium"
-        app:layout_constraintStart_toEndOf="@id/img_avatar"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"/>
-
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="04:02"
-        style="@style/TextView.Regular.Regular"
-        android:textColor="@color/textSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:scaleType="centerCrop"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        app:shapeAppearanceOverlay="@style/one_rounded" />
+   <LinearLayout
+       android:layout_marginHorizontal="@dimen/_7sdp"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_weight="1">
+       <TextView
+           android:id="@+id/tv_name"
+           style="@style/TextView.Bold.Bold"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Maizukia All"
+           android:maxLines="1"
+           android:ellipsize="end"
+           app:layout_constraintStart_toEndOf="@id/img_avatar"
+           app:layout_constraintTop_toTopOf="parent" />
+       <TextView
+           android:id="@+id/tv_last_chat"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="What was the best year of your life?"
+           android:textColor="@color/textSecondary"
+           android:textSize="@dimen/text_size_normal"
+           android:maxLines="1"
+           android:ellipsize="end"
+           style="@style/TextView.Regular.Regular"
+           app:layout_constraintStart_toEndOf="@id/img_avatar"
+           app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+   </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_unread_message"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_time"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_circle"
-        android:backgroundTint="@color/purple"
-        android:gravity="center"
-        android:padding="@dimen/_2sdp">
+        android:orientation="vertical">
         <TextView
-            android:gravity="center"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:text="1"
-            style="@style/TextView.Medium.Medium"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal"/>
-    </LinearLayout>
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04:02"
+            style="@style/TextView.Regular.Regular"
+            android:textColor="@color/textSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/ll_unread_message"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_circle"
+            android:backgroundTint="@color/purple"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp">
+            <TextView
+                android:id="@+id/tv_count"
+                android:gravity="center"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:text="1"
+                style="@style/TextView.Medium.Medium"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

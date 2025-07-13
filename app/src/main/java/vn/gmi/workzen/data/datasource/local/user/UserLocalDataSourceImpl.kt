@@ -7,6 +7,8 @@ import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.response.user.UserResponseModel
 import vn.gmi.workzen.domain.entity.contract.ContractEntity
@@ -53,13 +55,18 @@ class UserLocalDataSourceImpl: UserLocalDataSource {
     }
 
 
-    override suspend fun getIdentification(): IdentificationEntity? {
-        val results = RealmProvider.realm.query<IdentificationEntity>().find()
-        return results.firstOrNull()?.copyFromRealm()
+    override suspend fun getIdentification(): Flow<IdentificationEntity?> {
+        return RealmProvider.realm.query<IdentificationEntity>().first().asFlow().map { it.obj }
+
     }
 
-    override suspend fun getProfile(): ProfileEntity? {
-        val results = RealmProvider.realm.query<ProfileEntity>().find()
-        return results.firstOrNull()?.copyFromRealm()
+    override suspend fun getProfile(): Flow<ProfileEntity?> {
+        val realm = RealmProvider.realm
+        return realm.query<ProfileEntity>()
+            .first() // hoặc `.find().firstOrNull()` nếu cần
+            .asFlow()
+            .map { it.obj } // đây là managed object
     }
+
+
 }

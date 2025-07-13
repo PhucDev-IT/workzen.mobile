@@ -121,7 +121,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
 
     override fun initView() {
         presenter.attachView(this)
-        val activeContract = SessionManager.profile
+        val activeContract = SessionManager.profileState.value
             ?.contracts
             ?.firstOrNull { it.isActive }
             ?.toDetached()
@@ -289,7 +289,7 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
     }
 
     private fun getLatLongCompany() : Pair<Double, Double>{
-        val contracts = SessionManager.profile?.contracts
+        val contracts = SessionManager.profileState.value?.contracts
         val company = contracts?.first { it.isActive }?.company
         return Pair(company?.latitude?:0.0, company?.longitude?:0.0)
 

@@ -2,6 +2,8 @@ package vn.gmi.workzen.data.repository
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import vn.gmi.workzen.data.datasource.local.user.UserLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSource
@@ -33,7 +35,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getProfile(userId: String): ProfileEntity? {
        return withContext(dispatcher) {
-            var entity: ProfileEntity? = localDataSource.getProfile()
+            var entity: ProfileEntity? = localDataSource.getProfile().first()
             if (entity == null) {
                 entity = when (val result = remoteDataSource.getProfile(userId).toApiResult()) {
                     is ApiResult.Success -> {

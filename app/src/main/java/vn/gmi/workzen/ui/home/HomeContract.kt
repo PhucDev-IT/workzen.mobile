@@ -7,11 +7,9 @@ import vn.gmi.workzen.domain.entity.user.ProfileEntity
 interface HomeContract {
     interface View : BaseContract.View {
         fun onResultNotificationAndEvents(items:List<NewspaperModel>)
-        fun onGetProfile(model: ProfileEntity)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
         fun getNotificationAndEvent()
-        fun getProfile()
     }
 }

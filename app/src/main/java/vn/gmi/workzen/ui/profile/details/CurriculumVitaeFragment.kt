@@ -25,7 +25,7 @@ class CurriculumVitaeFragment : Fragment() {
 
 
     private fun initView() {
-        val info = SessionManager.profile?.details
+        val info = SessionManager.profileState.value?.details
         binding.tvValEidNumber.text = info?.eidNumber?:"-"
         binding.tvValName.text = info?.fullName?:"-"
         binding.tvValGender.text = info?.gender?:"-"

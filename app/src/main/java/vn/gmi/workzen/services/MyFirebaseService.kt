@@ -12,6 +12,10 @@ class MyFirebaseService : FirebaseMessagingService() {
 
     companion object{
         private val TAG = "MyFirebaseService"
+
+        fun registerTopic(topic: String) {
+            FirebaseMessaging.getInstance().subscribeToTopic(topic)
+        }
     }
 
 
@@ -53,6 +57,7 @@ class MyFirebaseService : FirebaseMessagingService() {
         ActivityManager.getMyMemoryState(appProcessInfo)
         return appProcessInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
     }
+
 
 
 }

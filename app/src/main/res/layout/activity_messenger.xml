@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.chat.MessengerActivity">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+
+    tools:context=".ui.chat.message.MessengerActivity">
 
     <LinearLayout
-        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,33 +47,88 @@
             style="@style/TextView.Bold.Bold"/>
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_above="@id/ll_bottom"
-        android:layout_below="@id/ll_header"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/cl_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_header"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:shapeAppearanceOverlay="@style/one_rounded"
+                android:scaleType="centerCrop"
+                android:id="@+id/img_avt_none"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nguyễn Văn Phúc"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/text_size_xxxmedium"
+                style="@style/TextView.Bold.Bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textSecondary"
+                android:text="Nhân viên công ty TNHH ASEMBLE"
+                style="@style/TextView.Regular.Regular"/>
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:padding="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/r_chat"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_chat"
             android:background="@color/background"/>
-    </FrameLayout>
+        <TextView
+            android:id="@+id/sub_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn đã được mời vào nhóm"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:textColor="@color/textSecondary"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_normal"/>
+    </LinearLayout>
 
 
     <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:importantForAccessibility="yes"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:orientation="horizontal"
+        android:background="@color/primary"
+        android:id="@+id/ll_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="@dimen/_4sdp"
         android:padding="@dimen/_10sdp"
-        android:gravity="center_vertical"
-        android:id="@+id/ll_bottom">
+        android:gravity="center_vertical" android:layout_width="match_parent">
         <ImageView
             android:id="@+id/img_attach_file"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            app:tint="@color/primary"
+            app:tint="@color/white"
             android:src="@drawable/baseline_attach_file_24"/>
         <ImageView
             android:layout_marginStart="@dimen/_5sdp"
@@ -76,24 +136,30 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:src="@drawable/ic_mic"
-            app:tint="@color/primary" />
+            app:tint="@color/white" />
 
         <EditText
-            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_7sdp"
             android:layout_weight="1"
             android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_7sdp"
+            android:paddingVertical="@dimen/_3sdp"
             android:layout_width="0dp"
             android:hint="Hãy nhập gì đó"
             style="@style/TextView.Regular.Regular"
-            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xxnormal"
+            android:layout_height="@dimen/_40sdp"
             android:inputType="textMultiLine"
             android:background="@drawable/bg_input_text"/>
-
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/outline_send_24"
+            app:tint="@color/white"/>
         <TextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="👍"
-            android:textSize="@dimen/_13sdp"/>
+            android:textSize="@dimen/_16sdp"/>
     </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

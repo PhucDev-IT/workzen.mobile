@@ -1,5 +1,7 @@
 package vn.gmi.workzen.ui.notification
 
+import android.util.Log
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
@@ -15,37 +17,37 @@ class NotificationPresenter @Inject constructor(
     private val getNotificationRemoteUseCase: GetNotificationRemoteUseCase,
     private val getNotificationLocalUseCase: GetNotificationLocalUseCase,
     private val markAsReadNotificationUseCase: MarkAsReadNotificationUseCase
-): BasePresenter<NotificationContract.View>(), NotificationContract.Presenter {
+) : BasePresenter<NotificationContract.View>(), NotificationContract.Presenter {
 
     override fun requestGetNotification() {
         scope.launch {
-            try{
+            try {
                 getView()?.showLoading()
                 val accountId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
                 val local = getNotificationLocalUseCase.invoke(accountId.toString())
                 getView()?.onGetNotificationSuccess(local)
                 val remote = getNotificationRemoteUseCase.invoke(accountId.toString())
                 getView()?.onGetNotificationSuccess(remote)
-            }catch (e: Exception){
-                getView()?.onError(e.message?:"")
-            }
-            finally {
+
+            } catch (e: Exception) {
+                getView()?.onError(e.message ?: "")
+            } finally {
                 getView()?.hideLoading()
             }
         }
     }
 
     override fun requestMarkAsRead(notification: Notification) {
-       scope.launch {
-           try{
-               markAsReadNotificationUseCase.invoke(notification)
-           }catch (e: Exception){
-               getView()?.onError(e.message?:"")
-           }
-       }
+        scope.launch {
+            try {
+                markAsReadNotificationUseCase.invoke(notification)
+            } catch (e: Exception) {
+                getView()?.onError(e.message ?: "")
+            }
+        }
     }
 
-    private fun handleNotificationData(notifications: List<Notification>){
+    private fun handleNotificationData(notifications: List<Notification>) {
         val (notificationList, otherList) = notifications.partition { it.type == NotifyType.NOTIFICATION.name }
 
     }

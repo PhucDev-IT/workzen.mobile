@@ -29,5 +29,10 @@ class EndPoints {
         const val GET_ALL_NOTIFICATION = "/api/notifications"
         const val COUNT_NOTIFICATION = "/api/notifications/count"
         const val MARK_AS_READ = "/api/notifications/mark-read"
+
+        //Conversation
+        const val GET_CONVERSATION = "/api/conversations"
+        const val GET_MESSAGE = "/api/conversations/{conversationId}/messages"
+
     }
 }

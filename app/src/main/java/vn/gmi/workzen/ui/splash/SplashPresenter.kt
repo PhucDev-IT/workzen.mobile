@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import vn.gmi.workzen.MainActivity
+import vn.gmi.workzen.ui.main.MainActivity
 import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.domain.usecase.VerifyTokenUseCase

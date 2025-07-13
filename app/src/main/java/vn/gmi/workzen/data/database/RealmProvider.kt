@@ -12,10 +12,10 @@ import vn.gmi.workzen.domain.entity.company.CompanyEntity
 import vn.gmi.workzen.domain.entity.contract.ContractEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.company.DepartmentEntity
+import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 import vn.gmi.workzen.domain.entity.notification.Notification
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.domain.entity.shift.ShiftEntity
-
 object RealmProvider {
 
      val schemaModels = setOf(
@@ -28,10 +28,11 @@ object RealmProvider {
         ReportWorkSheetMonthYearEntity::class,
         ReportWorkSheetDayEntity::class,
         AttendanceDataEntity::class,
-        Notification::class
+        Notification::class,
+         ConversationEntity::class
     )
 
-    val config: RealmConfiguration by lazy {
+    private val config: RealmConfiguration by lazy {
         RealmConfiguration.Builder(
             schema = schemaModels
         ).apply {
@@ -42,13 +43,21 @@ object RealmProvider {
         }.build()
     }
 
+    // ✅ Realm instance duy nhất, mở một lần
+    private var _realm: Realm? = null
 
+    // ✅ Luôn trả về cùng 1 instance Realm
+    val realm: Realm
+        get() {
+            if (_realm == null || _realm?.isClosed() == true) {
+                _realm = Realm.open(config)
+            }
+            return _realm!!
+        }
 
-    val realm: Realm by lazy {
-        Realm.open(config)
-    }
-
-    fun close(){
-        realm.close()
+    // ✅ Đóng Realm nếu muốn tắt app hoặc cleanup
+    fun close() {
+        _realm?.close()
+        _realm = null
     }
 }

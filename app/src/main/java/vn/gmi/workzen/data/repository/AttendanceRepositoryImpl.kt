@@ -63,7 +63,7 @@ class AttendanceRepositoryImpl @Inject constructor(
         year: Int
     ): ReportWorkSheetMonthYearEntity? {
         return withContext(dispatcher){
-            val entity = attendanceLocalDataSource.getWorkSheetMonthYear("${SessionManager.profile?.id}_${month}_${year}")
+            val entity = attendanceLocalDataSource.getWorkSheetMonthYear("${SessionManager.profileState.value?.id}_${month}_${year}")
             entity
         }
     }
@@ -76,7 +76,7 @@ class AttendanceRepositoryImpl @Inject constructor(
            val entity = when (val result = attendanceRemoteDataSource.getReportWorkSheetInMonthYear(month,year).toApiResult()) {
                 is ApiResult.Success -> {
                     val mapped = result.data?.mapToEntity()
-                    mapped?.id = "${SessionManager.profile?.id}_${month}_${year}"
+                    mapped?.id = "${SessionManager.profileState.value?.id}_${month}_${year}"
                     if(mapped != null){
                         attendanceLocalDataSource.saveWorkSheetMonthYear(mapped)
                     }

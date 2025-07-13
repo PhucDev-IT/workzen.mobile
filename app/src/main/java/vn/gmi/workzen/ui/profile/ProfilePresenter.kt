@@ -15,23 +15,7 @@ class ProfilePresenter @Inject constructor(
     private val logoutUseCase: LogoutUseCase
 ): BasePresenter<ProfileContract.View>(), ProfileContract.Presenter {
 
-    override fun getProfile() {
-        scope.launch {
-            try {
-                if(SessionManager.profile!=null){
-                    getView()?.onGetProfileSuccess(SessionManager.profile!!)
-                    return@launch
-                }
-                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
-                val response = getProfileUseCase.invoke(userId?:"")
-                if(response!=null){
-                    getView()?.onGetProfileSuccess(response)
-                }
-            }catch (e: Exception){
-                Log.e("getProfile",e.message?:"")
-            }
-        }
-    }
+
 
     override fun logout() {
       scope.launch {   logoutUseCase.invoke() }

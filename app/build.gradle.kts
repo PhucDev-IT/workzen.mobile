@@ -54,6 +54,7 @@ android {
     productFlavors {
         create("dev") {
                 buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.10:8080/ws/websocket\"")
         }
         create("production") {
             buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")

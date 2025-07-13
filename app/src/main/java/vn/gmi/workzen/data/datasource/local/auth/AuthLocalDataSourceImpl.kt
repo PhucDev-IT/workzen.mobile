@@ -37,5 +37,6 @@ class AuthLocalDataSourceImpl : AuthLocalDataSource {
               delete(claz)
           }
         }
+        RealmProvider.close()
     }
 }

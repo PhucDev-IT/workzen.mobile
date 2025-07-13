@@ -17,7 +17,7 @@ import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.ui.authentication.login.LoginActivity
-import vn.gmi.workzen.ui.chat.ChatActivity
+import vn.gmi.workzen.ui.chat.conversation.ChatActivity
 import vn.gmi.workzen.ui.profile.details.ProfileDetailActivity
 import vn.gmi.workzen.utils.Utils
 import java.util.Date
@@ -39,7 +39,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
     }
 
     override fun initBindingData() {
-        presenter.getProfile()
         setListener()
     }
 
@@ -79,24 +78,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     override fun hideLoading() {
 
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onGetProfileSuccess(profile: ProfileEntity) {
-//        binding.tvFullName.text = profile.fullName
-//        val contract = profile.contracts.first { it.isActive }
-//        binding.tvPosition.text = ContractRole.fromKey(contract.position)
-//        try{
-//            binding.tvStartTime.text = "Tham gia từ ${ profile.contracts.last().startDate?.substring(0,4)}"
-//        }catch (e: Exception){
-//            Log.e(TAG,e.message?:"Lỗi parser time")
-//        }
-//        try{
-//            Glide.with(this).load(Utils.base64ToBitmap(profile.details?.dg2!!)).into(binding.imgAvatar)
-//        }catch (e: Exception){
-//            Log.e(TAG,e.message?:"")
-//            Glide.with(this).load("https://img.freepik.com/free-photo/emotions-people-concept-headshot-serious-looking-handsome-man-with-beard-looking-confident-determined_1258-26730.jpg?size=626&ext=jpg&uid=R118572234&ga=GA1.1.1965375583.1709184711&semt=ais_user").into(binding.imgAvatar)
-//        }
     }
 
     private fun logout(){

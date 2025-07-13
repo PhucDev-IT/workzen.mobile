@@ -1,5 +1,6 @@
 package vn.gmi.workzen.domain.usecase
 
+import kotlinx.coroutines.flow.Flow
 import vn.gmi.workzen.core.usecases.BaseUseCase
 import vn.gmi.workzen.domain.entity.notification.Notification
 import vn.gmi.workzen.domain.repository.NotificationRepository
@@ -11,8 +12,8 @@ class GetNotificationRemoteUseCase(private val notificationRepository: Notificat
     }
 }
 
-class GetNotificationLocalUseCase(private val notificationRepository: NotificationRepository): BaseUseCase<String, List<Notification>>() {
-    override suspend fun invoke(params: String): List<Notification> {
+class GetNotificationLocalUseCase(private val notificationRepository: NotificationRepository): BaseUseCase<String,List<Notification>>() {
+    override suspend fun invoke(params: String): List<Notification>{
         return notificationRepository.getNotificationsLocal(params)
     }
 }

@@ -20,7 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.jmrtd.lds.icao.MRZInfo
-import vn.gmi.workzen.MainActivity
+import vn.gmi.workzen.ui.main.MainActivity
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.core.constants.DialogLoading
@@ -28,9 +28,11 @@ import vn.gmi.workzen.databinding.ActivityNfcBinding
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.data.models.request.user.OnboardUserReqModel
 import vn.gmi.workzen.domain.usecase.UpdateIdentificationUseCase
+import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.networks.rest.networkCallback
 import vn.gmi.workzen.networks.rest.onError
 import vn.gmi.workzen.networks.rest.onSuccess
+import vn.gmi.workzen.services.MyFirebaseService
 import vn.gmi.workzen.utils.IntentData
 import vn.gmi.workzen.utils.Utils
 import vn.mobile.verifysdk.card.CardService
@@ -180,6 +182,7 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
             try {
                 DialogLoading.showLoading(this@NfcActivity)
                 val result = userUseCase.invoke(model)
+                registerTopic()
                 AppToast.showSuccess(this@NfcActivity, "Xác thực thành công")
                 startActivity(Intent(this@NfcActivity, MainActivity::class.java))
                 finishAffinity()
@@ -199,6 +202,15 @@ class NfcActivity : AppCompatActivity() , ScanNfcFragment.NfcFragmentListener{
         startActivity(intent)
     }
 
+
+    private fun registerTopic(){
+        lifecycleScope.launch {
+            val contract = SessionManager.profileState.value?.contracts?.firstOrNull { it.isActive }
+            contract?.company?.id.let {
+                MyFirebaseService.registerTopic("group_${it}")
+            }
+        }
+    }
 
     private fun setListener() {
         binding.layoutHead.toolbar.setNavigationOnClickListener { onBackPressed() }

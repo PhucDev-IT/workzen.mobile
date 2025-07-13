@@ -1,6 +1,7 @@
 package vn.gmi.workzen.data.repository
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import vn.gmi.workzen.data.datasource.local.notification.NotificationLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.notification.NotificationRemoteDataSource
@@ -23,7 +24,7 @@ class NotificationRepositoryImpl(
       }
     }
 
-    override suspend fun getNotificationsLocal(accountId: String): List<Notification> {
+    override suspend fun getNotificationsLocal(accountId: String): List<Notification>{
       return withContext(ioDispatcher){
           localDataSource.getAll(accountId)
       }

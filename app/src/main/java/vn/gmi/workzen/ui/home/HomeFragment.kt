@@ -8,6 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvNewspaperAdapter
 import vn.gmi.workzen.core.base.BaseFragment
@@ -22,10 +26,10 @@ import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingFragment
 import vn.gmi.workzen.utils.MySharedPreferences
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
 
-    @Inject lateinit var presenter: HomeContract.Presenter
+    private lateinit var presenter: HomeContract.Presenter
     private lateinit var adapter:RvNewspaperAdapter
 
     override fun getViewBinding(
@@ -55,11 +59,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
         adapter = RvNewspaperAdapter()
         binding.rvNewspaper.adapter = adapter
         binding.rvNewspaper.layoutManager = LinearLayoutManager(requireContext())
-
+        presenter = HomePresenter()
         presenter.attachView(this)
-        presenter.getProfile()
         presenter.getNotificationAndEvent()
-
+        onGetProfile()
     }
 
     override fun showLoading() {
@@ -77,17 +80,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeContract.View {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        onGetProfile()
+    }
+
     //================= PRESENTER========================================
     override fun onResultNotificationAndEvents(items: List<NewspaperModel>) {
         adapter.addAll(items)
     }
 
-    override fun onGetProfile(model: ProfileEntity) {
-        SessionManager.profile = model
-        if(SessionManager.profile?.details?.isVerified == false){
-            binding.viewRequestOnboard.root.visibility = View.VISIBLE
-        }else{
-            binding.viewRequestOnboard.root.visibility = View.GONE
+    private fun onGetProfile() {
+        CoroutineScope(Dispatchers.Main).launch {
+            SessionManager.profileState.collectLatest { profile ->
+                if (profile != null) {
+                   if(profile.details?.isVerified == false){
+                       binding.viewRequestOnboard.root.visibility = View.VISIBLE
+                   }else{
+                       binding.viewRequestOnboard.root.visibility = View.GONE
+                   }
+                }
+            }
         }
     }
 

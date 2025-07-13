@@ -1,4 +1,4 @@
-package vn.gmi.workzen
+package vn.gmi.workzen.ui.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -11,21 +11,21 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import vn.gmi.workzen.R
 import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.databinding.ActivityMainBinding
 import vn.gmi.workzen.domain.entity.notification.Notification
-import vn.gmi.workzen.domain.entity.notification.NotifyType
-import vn.gmi.workzen.manager.schedule.ReminderScheduler
-import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
 import vn.gmi.workzen.ui.profile.ProfileFragment
 import vn.gmi.workzen.ui.worksheet.WorkSheetFragment
 import vn.gmi.workzen.utils.IntentData
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding:ActivityMainBinding
+class MainActivity : AppCompatActivity(), MainContract.View {
+    private lateinit var binding: ActivityMainBinding
+    @Inject lateinit var presenter: MainContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             v.updatePadding(bottom = 0)
             insets
         }
-
+        init()
         setListener()
         if(savedInstanceState == null){
             replaceFragment(HomeFragment())
@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun init(){
+        presenter.attachView(this)
+        presenter.observeProfile()
+    }
     private fun setListener(){
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -75,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(obj:Fragment){
+    private fun replaceFragment(obj: Fragment){
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, obj)
             .addToBackStack(null)
@@ -93,13 +97,22 @@ class MainActivity : AppCompatActivity() {
             ?.isAppearanceLightStatusBars = isLight
     }
 
-    private fun handleNavigatorView(notification: Notification){
+
+    override fun onDestroy() {
+        presenter.detachView()
+        RealmProvider.close()
+
+        super.onDestroy()
+    }
+
+    override fun showLoading() {
 
     }
 
-    override fun onDestroy() {
-        RealmProvider.close()
-        super.onDestroy()
+    override fun hideLoading() {
 
+    }
+
+    override fun onError(message: String) {
     }
 }

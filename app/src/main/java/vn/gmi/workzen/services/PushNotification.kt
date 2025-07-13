@@ -8,11 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import vn.gmi.workzen.MainActivity
+import vn.gmi.workzen.ui.main.MainActivity
 import vn.gmi.workzen.MyApplication
 import vn.gmi.workzen.R
 import vn.gmi.workzen.domain.entity.notification.NotifyType
-import vn.gmi.workzen.ui.chat.ChatActivity
+import vn.gmi.workzen.ui.chat.conversation.ChatActivity
 import vn.gmi.workzen.ui.notification.NotificationActivity
 import vn.gmi.workzen.utils.IntentData
 

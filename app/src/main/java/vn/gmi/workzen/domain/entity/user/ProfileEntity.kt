@@ -15,6 +15,7 @@ class ProfileEntity : RealmObject {
     var fullName: String?=null
     var note:String?=null
     var balance: Double = 0.0
+    var avatarUrl:String?=null
     var isActive: Boolean = true
     var details: IdentificationEntity?=null
     var contracts: RealmList<ContractEntity> = realmListOf()

@@ -28,15 +28,15 @@ class UserInfoFragment : Fragment() {
 
     private fun initView(){
 
-        val contract = SessionManager.profile?.contracts?.find { it.isActive }
+        val contract = SessionManager.profileState.value?.contracts?.find { it.isActive }
 
-        binding.tvValuePhone.text = SessionManager.profile?.phone?:"-"
-        binding.tvValueEmail.text = SessionManager.profile?.email?:"-"
-        binding.tvValueName.text = SessionManager.profile?.fullName?:"-"
-        binding.tvValueGender.text = SessionManager.profile?.details?.gender?:"-"
+        binding.tvValuePhone.text = SessionManager.profileState.value?.phone?:"-"
+        binding.tvValueEmail.text = SessionManager.profileState.value?.email?:"-"
+        binding.tvValueName.text = SessionManager.profileState.value?.fullName?:"-"
+        binding.tvValueGender.text = SessionManager.profileState.value?.details?.gender?:"-"
         binding.tvValuePosition.text = contract?.position?:"-"
         binding.tvValueWorkingForm.text = contract?.shift?.name?:"-"
-        binding.tvValueDob.text = SessionManager.profile?.details?.dateOfBirth?:"-"
+        binding.tvValueDob.text = SessionManager.profileState.value?.details?.dateOfBirth?:"-"
 
     }
 

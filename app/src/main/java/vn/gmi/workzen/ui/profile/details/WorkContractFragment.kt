@@ -29,7 +29,7 @@ class WorkContractFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
-        val contract = SessionManager.profile?.contracts?.find { it.isActive }
+        val contract = SessionManager.profileState.value?.contracts?.find { it.isActive }
 
         binding.tvJobName.text = contract?.jobName?:"-"
         binding.shiftName.text = contract?.shift?.name?:"-"
