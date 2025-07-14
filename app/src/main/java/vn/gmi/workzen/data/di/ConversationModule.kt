@@ -16,6 +16,7 @@ import vn.gmi.workzen.domain.usecase.GetConversationLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetConversationRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesRemoteUseCase
+import vn.gmi.workzen.domain.usecase.SendMessageUseCase
 import vn.gmi.workzen.domain.usecase.StoreConversationUseCase
 import vn.gmi.workzen.domain.usecase.StoreMessagesUseCase
 import vn.gmi.workzen.networks.ApiService
@@ -71,6 +72,10 @@ class ConversationModule {
         return FindConversationUseCase(repo)
     }
 
+    @Provides
+    fun provideSendMessageUseCase(repo: ConversationRepository): SendMessageUseCase {
+        return SendMessageUseCase(repo)
+    }
     //============================== DATA SOURCE ===============================
     @Provides
     fun provideConversationLocalDataSource(): ConversationLocalDataSource {
@@ -107,13 +112,15 @@ class ConversationModule {
         getMessagesLocalUseCase: GetMessagesLocalUseCase,
         getMessagesRemoteUseCase: GetMessagesRemoteUseCase,
         storeMessagesUseCase: StoreMessagesUseCase,
-        findConversationUseCase: FindConversationUseCase
+        findConversationUseCase: FindConversationUseCase,
+        sendMessageUseCase: SendMessageUseCase
     ): MessageContract.Presenter{
         return MessagePresenter(
             getMessagesLocalUseCase,
             getMessagesRemoteUseCase,
             storeMessagesUseCase,
-            findConversationUseCase
+            findConversationUseCase,
+            sendMessageUseCase
         )
 
     }

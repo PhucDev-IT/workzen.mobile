@@ -116,7 +116,7 @@ object ChatWebsocketManager {
 
         val json = Gson().toJson(message)
         send("/app/chat.send", json)
-
+        Log.d(TAG,"✅ Sent to /app/chat.send: $json")
         CoroutineScope(Dispatchers.IO).launch {
             RealmProvider.realm.write {
                 copyToRealm(entity, UpdatePolicy.ALL)

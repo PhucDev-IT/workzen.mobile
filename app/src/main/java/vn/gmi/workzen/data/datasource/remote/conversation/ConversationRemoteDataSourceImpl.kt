@@ -2,6 +2,7 @@ package vn.gmi.workzen.data.datasource.remote.conversation
 
 import retrofit2.Response
 import vn.gmi.workzen.data.mapper.PagedResponse
+import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.data.models.response.conversation.ConversationWithLastMessage
 import vn.gmi.workzen.data.models.response.conversation.MessageResponseModel
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
@@ -24,5 +25,9 @@ class ConversationRemoteDataSourceImpl(private val apiService: ConversationServi
         size: Int
     ): Response<ApiResponse<List<MessageResponseModel>>> {
         return apiService.getMessages(conversationId,page,size)
+    }
+
+    override suspend fun sendMessage(msg: ChatMessage): Response<ApiResponse<MessageResponseModel>> {
+        return apiService.sendMessage(msg)
     }
 }

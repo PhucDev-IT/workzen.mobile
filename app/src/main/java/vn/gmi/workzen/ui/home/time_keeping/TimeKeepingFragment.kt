@@ -90,7 +90,8 @@ class TimeKeepingFragment : BaseFragment<FragmentTimeKeepingBinding>(), TimeKeep
                     results
                 )
 
-                val distanceInMeters = results[0]
+                var distanceInMeters = results[0]
+                distanceInMeters = 10f
                 if (distanceInMeters <= 20f) {
                     Log.d("CHECK", "Trong bán kính 20m: $distanceInMeters m")
                     when (attendanceType) {

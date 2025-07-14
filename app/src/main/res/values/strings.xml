@@ -57,5 +57,6 @@
     <string name="guide_input_otp">Nhập mã OTP được gửi đến thiết bị của bạn xuống dưới</string>
     <string name="enter_otp">Nhập mã OTP:</string>
     <string name="re_send">Gửi lại</string>
+    <string name="todo">TODO</string>
 
 </resources>

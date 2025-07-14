@@ -2,6 +2,7 @@ package vn.gmi.workzen.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
 import vn.gmi.workzen.core.usecases.BaseUseCase
+import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.domain.repository.ConversationRepository
@@ -16,6 +17,12 @@ class GetConversationLocalUseCase(private val conversationRepository: Conversati
 class FindConversationUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<String, ConversationEntity?>() {
     override suspend fun invoke(params: String): ConversationEntity? {
         return conversationRepository.findConversation(params)
+    }
+}
+
+class SendMessageUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<ChatMessage, MessageEntity>() {
+    override suspend fun invoke(params: ChatMessage): MessageEntity {
+        return conversationRepository.sendMessage(params)
     }
 }
 

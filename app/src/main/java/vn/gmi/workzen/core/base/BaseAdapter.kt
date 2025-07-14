@@ -51,4 +51,6 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter.ItemViewHolder>
         set.clear()
         notifyDataSetChanged()
     }
+
+    fun getSize() = list.size
 }

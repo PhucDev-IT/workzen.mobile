@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import vn.gmi.workzen.data.datasource.local.conversation.ConversationLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.conversation.ConversationRemoteDataSource
 import vn.gmi.workzen.data.di.IoDispatcher
+import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.domain.repository.ConversationRepository
@@ -85,6 +86,20 @@ class ConversationRepositoryImpl @Inject constructor(
     override suspend fun findConversation(conversationId: String): ConversationEntity? {
         return withContext(ioDispatcher) {
             localDataSource.findConversation(conversationId)
+        }
+    }
+
+    override suspend fun sendMessage(msg: ChatMessage): MessageEntity {
+        return withContext(ioDispatcher) {
+            when (val result = remoteDataSource.sendMessage(msg).toApiResult()){
+                is ApiResult.Success -> {
+                    val data = result.data
+                    val entity = data.mapToEntity()
+                    localDataSource.saveMessages(listOf(entity))
+                    entity
+                }
+                is ApiResult.Error -> throw Exception(result.message)
+            }
         }
     }
 }

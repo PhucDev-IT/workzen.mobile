@@ -21,16 +21,35 @@ class ChatMessage : DataMapper<MessageEntity> (){
 
     var subContent: String? = null //Thông báo nhỏ, ví dụ add member, remove,...
 
-    var file: String? = null // base64-encoded content
-    var fileName: String? = null // Optional: name of the file
-    var fileType: String? = null // Optional: image/png, application/pdf, etc.
-    var fileSize: Long? = null // Optional
+    var file: FileMsgInfo? = null // base64-encoded content
 
+
+    class FileMsgInfo{
+        var id: String? = null
+        var file: String? = null
+        var fileName: String? = null
+        var fileType: String? = null
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as FileMsgInfo
+
+            return id == other.id
+        }
+
+        override fun hashCode(): Int {
+            return id?.hashCode() ?: 0
+        }
+
+
+    }
 
     var createdAt: String? = null
     var isEdited = false
     var replyMessageId: String? = null
     var receiverId: String? = null // For 1-1 messages or FCM target
+
 
     override fun mapToEntity(): MessageEntity {
         val profile = SessionManager.profileState.value
@@ -41,7 +60,7 @@ class ChatMessage : DataMapper<MessageEntity> (){
             messageType = this@ChatMessage.messageType?.name
             content = this@ChatMessage.content
             subContent = this@ChatMessage.subContent
-            fileUrl = this@ChatMessage.file
+            fileUrl = this@ChatMessage.file?.file
             createdAt = Instant.parse(this@ChatMessage.createdAt)?.toRealmInstant()
             isEdited = this@ChatMessage.isEdited
             replyToMessageId = this@ChatMessage.replyMessageId

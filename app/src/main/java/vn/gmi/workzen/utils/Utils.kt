@@ -1,8 +1,10 @@
 package vn.gmi.workzen.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.util.Base64
 import android.util.Log
@@ -43,6 +45,18 @@ object Utils {
         val second = calendar.get(Calendar.SECOND)
 
         return Triple(hour, minute, second)
+    }
+
+    fun uriToBase64(context: Context, uri: Uri): String? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val bytes = inputStream?.readBytes()
+            inputStream?.close()
+            if (bytes != null) Base64.encodeToString(bytes, Base64.NO_WRAP) else null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
 

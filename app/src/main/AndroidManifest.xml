@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <uses-feature
         android:name="android.hardware.camera.flash"
@@ -29,10 +31,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.chat.message.MessengerActivity"
-            android:windowSoftInputMode="adjustResize"
-
+            android:name=".ui.chat.details.MessageDetailsActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.chat.message.MessengerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.notification.NotificationActivity"
             android:exported="false" />

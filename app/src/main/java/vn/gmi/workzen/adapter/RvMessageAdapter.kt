@@ -171,5 +171,7 @@ enum class MessageTypeView(val code: Int) {
     IMAGE(1),
     FILE(2),
     EMOJI(3),
-    SYSTEM(4) // subContent như "A đã thêm B vào nhóm"
+    SYSTEM(4), // subContent như "A đã thêm B vào nhóm"
+    VIDEO(5),
+    UNKNOWN(-1)
 }

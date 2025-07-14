@@ -34,5 +34,8 @@ class EndPoints {
         const val GET_CONVERSATION = "/api/conversations"
         const val GET_MESSAGE = "/api/conversations/{conversationId}/messages"
 
+        //Message
+        const val SEND_MESSAGE = "/api/messenger"
+
     }
 }

@@ -4,5 +4,7 @@ enum class MessageType {
     TEXT,
     IMAGE,
     FILE,
-    EMOJI
+    EMOJI,
+    VIDEO,
+    UNKNOWN
 }
