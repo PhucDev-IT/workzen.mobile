@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.gmi.workzen.core.base.BaseAdapter
+import vn.gmi.workzen.core.extensions.toHourMinute
 import vn.gmi.workzen.databinding.ItemChatBinding
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 
@@ -34,7 +35,7 @@ class RvConversationAdapter(private val onClick: (ConversationEntity) -> Unit) :
             tvName.text = item.conversationName
             Glide.with(holder.itemView.context).load(item.avatarUrl).into(imgAvatar)
             tvLastChat.text = item.lastMessageContent?: item.lastMessageSubContent
-
+            tvTime.text = item.lastMessageCreatedAt?.toHourMinute()
             if((item.unreadCount ?: 0) > 0){
                 tvCount.text = item.unreadCount.toString()
                 llUnreadMessage.visibility = View.VISIBLE
@@ -56,12 +57,6 @@ class RvConversationAdapter(private val onClick: (ConversationEntity) -> Unit) :
         return ConversationViewHolder(view.root)
     }
 
-    override fun onBindViewHolder(
-        holder: ItemViewHolder,
-        position: Int
-    ) {
-      return bindView(holder, list[position])
-    }
 
     override fun getItemCount(): Int  = list.size
 }

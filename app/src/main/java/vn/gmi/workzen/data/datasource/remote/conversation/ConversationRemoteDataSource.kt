@@ -7,11 +7,12 @@ import vn.gmi.workzen.data.models.response.conversation.ConversationWithLastMess
 import vn.gmi.workzen.data.models.response.conversation.MessageResponseModel
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.networks.models.ApiResponse
+import java.io.File
 
 interface ConversationRemoteDataSource {
     suspend fun getConversations(userId:String,page:Int,size:Int):Response<ApiResponse<PagedResponse<ConversationWithLastMessage>>>
 
     suspend fun getMessages(conversationId:String,page:Int,size:Int):  Response<ApiResponse<List<MessageResponseModel>>>
 
-    suspend fun sendMessage(msg: ChatMessage): Response<ApiResponse<MessageResponseModel>>
+    suspend fun sendMessage(msg: ChatMessage, file: List<File>?): Response<ApiResponse<MessageResponseModel>>
 }

@@ -6,6 +6,7 @@ import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.domain.repository.ConversationRepository
+import java.io.File
 
 
 class GetConversationLocalUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<String, Flow<List<ConversationEntity>>>() {
@@ -20,11 +21,16 @@ class FindConversationUseCase(private val conversationRepository: ConversationRe
     }
 }
 
-class SendMessageUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<ChatMessage, MessageEntity>() {
-    override suspend fun invoke(params: ChatMessage): MessageEntity {
-        return conversationRepository.sendMessage(params)
+class SendMessageUseCase(
+    private val conversationRepository: ConversationRepository
+) : BaseUseCase<Pair<ChatMessage, List<File>?>, MessageEntity>() {
+
+    override suspend fun invoke(params: Pair<ChatMessage, List<File>?>): MessageEntity {
+        val (msg, files) = params
+        return conversationRepository.sendMessage(msg, files)
     }
 }
+
 
 class GetConversationRemoteUseCase(private val conversationRepository: ConversationRepository): BaseUseCase<Map<String,Any>, List<ConversationEntity>>(){
     override suspend fun invoke(params: Map<String, Any>): List<ConversationEntity> {

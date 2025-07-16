@@ -232,6 +232,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     }
 
     override fun onLoadFirstData(items: List<MessageEntity>) {
+        items.forEach { Log.d("Phuc", "items: $it") }
         adapter.addAll(items)
         if (items.size > 3) {
             binding.llInfo.visibility = View.GONE
@@ -263,10 +264,11 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         }
 
         if(adapterPreview.getSize() >0){
-            presenter.sendMessage(createMsgWithFile())
+            presenter.sendMessage(createMessagesFromFiles())
             adapterPreview.clear()
             binding.icSend.visibility = View.GONE
             binding.tvQuickEmoji.visibility = View.VISIBLE
+            binding.llViewMediaPreview.visibility = View.GONE
         }
     }
 
@@ -325,27 +327,74 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     }
 
 
-    private fun createMsgWithFile(): List<ChatMessage> {
-        val messages = mutableListOf<ChatMessage>()
-        adapterPreview.list.forEach {
-            val extension = it.fileName?.substringAfterLast('.', "")?.lowercase() ?: ""
-            val msg = ChatMessage().apply {
+    private fun createMessagesFromFiles(): List<ChatMessage> {
+        val imageFiles = mutableListOf<ChatMessage.FileMsgInfo>()
+        val otherMessages = mutableListOf<ChatMessage>()
+        val msg = binding.edtMessage.text.toString().trim()
+
+        adapterPreview.list.forEach { fileItem ->
+            val extension = fileItem.fileName?.substringAfterLast('.', "")?.lowercase() ?: ""
+            val fileType = handleExtensionFile(extension)
+
+            val fileInfo = ChatMessage.FileMsgInfo().apply {
+                file = fileItem.file
+                fileName = fileItem.fileName
+                this.fileType = fileItem.fileType
+            }
+
+            when (fileType) {
+                MessageType.IMAGE -> {
+                    imageFiles.add(fileInfo)
+                }
+
+                MessageType.VIDEO, MessageType.FILE -> {
+                    val msg = ChatMessage().apply {
+                        content = ""
+                        this.conversationId = conversationID
+                        this.senderId = SessionManager.profileState.value?.id
+                        this.messageType = fileType
+                        this.createdAt = Instant.now().toString()
+                        this.file = listOf(fileInfo)
+                    }
+                    otherMessages.add(msg)
+                }
+
+                else -> {
+                    // Bỏ qua hoặc xử lý MessageType.UNKNOWN
+                }
+            }
+        }
+
+        val result = mutableListOf<ChatMessage>()
+
+        // Gộp tất cả ảnh vào 1 message
+        if (imageFiles.isNotEmpty()) {
+            val imageMsg = ChatMessage().apply {
                 content = ""
                 this.conversationId = conversationID
                 this.senderId = SessionManager.profileState.value?.id
-                this.messageType = handleExtensionFile(extension)
+                this.messageType = MessageType.IMAGE
                 this.createdAt = Instant.now().toString()
-                this.file = ChatMessage.FileMsgInfo().apply {
-                    file = Utils.uriToBase64(this@MessengerActivity,it.file!!.toUri())
-                    fileName = it.fileName
-                    fileType = it.fileType
-                }
+                this.file = imageFiles
             }
-
-            messages.add(msg)
+            if(msg.isNotEmpty()){
+                imageMsg.content = msg
+            }
+            result.add(imageMsg)
         }
-        return messages
+        result.addAll(otherMessages)
+        if(msg.isNotEmpty()) {
+            val msg = ChatMessage().apply {
+                content = msg
+                this.conversationId = conversationID
+                this.senderId = SessionManager.profileState.value?.id
+                this.messageType = MessageType.TEXT
+            }
+            result.add(msg)
+        }
+        return result
     }
+
 
     private fun createMessage(message: String): ChatMessage {
         return ChatMessage().apply {

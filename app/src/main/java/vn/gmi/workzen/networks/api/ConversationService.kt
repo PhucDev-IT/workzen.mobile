@@ -1,9 +1,14 @@
 package vn.gmi.workzen.networks.api
 
+import com.airbnb.lottie.model.MutablePair
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.gmi.workzen.data.mapper.PagedResponse
@@ -27,6 +32,9 @@ interface ConversationService {
         @Query("size") size: Int
     ): Response<ApiResponse<List<MessageResponseModel>>>
 
+    @Multipart
     @POST(EndPoints.SEND_MESSAGE)
-    suspend fun sendMessage(@Body req: ChatMessage): Response<ApiResponse<MessageResponseModel>>
+    suspend fun sendMessage(
+        @Part files: List<MultipartBody.Part>?,
+        @Part("message") message: RequestBody): Response<ApiResponse<MessageResponseModel>>
 }

@@ -1,11 +1,16 @@
 package vn.gmi.workzen.ui.chat.conversation
 
+import android.animation.ValueAnimator
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +25,7 @@ import vn.gmi.workzen.services.socket.AppWebSocketListener
 import vn.gmi.workzen.ui.chat.message.MessengerActivity
 import vn.gmi.workzen.utils.IntentData
 import javax.inject.Inject
+import androidx.core.graphics.toColorInt
 
 @AndroidEntryPoint
 class ChatActivity : BaseActivity<ConversationContract.View, ConversationContract.Presenter>(), ConversationContract.View {
@@ -28,11 +34,7 @@ class ChatActivity : BaseActivity<ConversationContract.View, ConversationContrac
     private lateinit var adapter: RvConversationAdapter
 
     private lateinit var binding: ActivityChatBinding
-    var tabs = mutableListOf(
-        Triple("All", 6, true),
-        Triple("Group", 0, false),
-        Triple("Chats", 0, false)
-    )
+    var tabs = listOf<TextView>()
 
 
 
@@ -63,12 +65,36 @@ class ChatActivity : BaseActivity<ConversationContract.View, ConversationContrac
         binding.rvChats.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
         presenter.requestLoadConversations()
 
-
+        tabs = listOf(binding.tvAll,binding.tvGroup, binding.tvUnread)
+        setListenerTab(tabs[0])
     }
 
     override fun setListener() {
-
+        tabs.forEach { tab ->
+            tab.setOnClickListener {
+                setListenerTab(tab)
+            }
+        }
     }
+
+    private fun setListenerTab(tv: TextView) {
+        val selectedColor = "#F0F0F0".toColorInt()
+        val transparent = ContextCompat.getColor(this, android.R.color.transparent)
+
+        tabs.forEach { tab ->
+            val wasSelected = tab.isSelected
+            val nowSelected = (tab == tv)
+
+            if (wasSelected != nowSelected) {
+                val from = if (wasSelected) selectedColor else transparent
+                val to = if (nowSelected) selectedColor else transparent
+                animateBackground(tab, from, to)
+            }
+
+            tab.isSelected = nowSelected
+        }
+    }
+
 
     override fun onSingleClick(v: View?) {
 
@@ -78,13 +104,21 @@ class ChatActivity : BaseActivity<ConversationContract.View, ConversationContrac
 
     }
 
-    private val websocketListener = object : AppWebSocketListener{
-        override fun onReceiveMessage(data: String) {
-            Log.d("ChatActivity", "onReceiveMessage: $data")
-        }
-    }
-
     override fun onShowConversations(conversations: List<ConversationEntity>) {
         adapter.resetAndAddAll(conversations)
     }
+
+
+    fun animateBackground(view: TextView, fromColor: Int, toColor: Int) {
+        val background = view.background
+        if (background is GradientDrawable) {
+            val colorAnimation = ValueAnimator.ofArgb(fromColor, toColor)
+            colorAnimation.duration = 300
+            colorAnimation.addUpdateListener { animator ->
+                background.setColor(animator.animatedValue as Int)
+            }
+            colorAnimation.start()
+        }
+    }
+
 }

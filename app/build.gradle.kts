@@ -54,10 +54,10 @@ android {
     productFlavors {
         create("dev") {
                 buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
-                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.9:8080/ws\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.6:8080/ws\"")
         }
         create("production") {
-            buildConfigField("String", "API_BASE_URL", "\"https://ehubapi.gtelcds.vn/\"")
+
         }
     }
 }
@@ -81,7 +81,7 @@ dependencies {
     implementation ("com.karumi:dexter:6.2.3")
     implementation("com.airbnb.android:lottie:6.5.2")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
-
+    implementation("com.github.stfalcon-studio:StfalconImageViewer:1.0.1")
     implementation("io.realm.kotlin:library-base:2.2.0")
 
     implementation("com.google.dagger:hilt-android:2.56.2")

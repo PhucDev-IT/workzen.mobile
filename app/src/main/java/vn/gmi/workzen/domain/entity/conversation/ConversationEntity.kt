@@ -32,12 +32,6 @@ class ConversationEntity:  RealmObject, DataMapper<ConversationSerializable>(){
             conversationName = this@ConversationEntity.conversationName
             avatarUrl = this@ConversationEntity.avatarUrl
             role = this@ConversationEntity.role
-            lastReadAt = this@ConversationEntity.lastReadAt
-            lastMessageContent = this@ConversationEntity.lastMessageContent
-            lastMessageSubContent = this@ConversationEntity.lastMessageSubContent
-            lastMessageCreatedAt = this@ConversationEntity.lastMessageCreatedAt
-            lastMessageSenderId = this@ConversationEntity.lastMessageSenderId
-            unreadCount = this@ConversationEntity.unreadCount
             type = this@ConversationEntity.type
             userId = this@ConversationEntity.userId
         }
@@ -50,12 +44,6 @@ open class ConversationSerializable : Serializable{
     var conversationName:String?=null
     var avatarUrl:String?=null
     var role:String?=null
-    var lastReadAt: RealmInstant?=null
-    var lastMessageContent:String?=null
-    var lastMessageSubContent:String?=null
-    var lastMessageCreatedAt:RealmInstant?=null
-    var lastMessageSenderId:String?=null
-    var unreadCount:Int?=null
     var type: String = ConversationType.PRIVATE.name
     var userId:String?=null
 }

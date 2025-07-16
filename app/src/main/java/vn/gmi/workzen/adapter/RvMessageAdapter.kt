@@ -1,16 +1,20 @@
 package vn.gmi.workzen.adapter
 
+import android.media.Image
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.stfalcon.imageviewer.StfalconImageViewer
 import io.realm.kotlin.types.RealmInstant
 import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.core.extensions.toHourMinute
 import vn.gmi.workzen.core.extensions.toInstant
 import vn.gmi.workzen.databinding.ItemMessageBaseBinding
+import vn.gmi.workzen.databinding.ItemMgsEmojiBinding
+import vn.gmi.workzen.databinding.ItemMsgImageBinding
 import vn.gmi.workzen.databinding.ItemSystemMessageBinding
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.manager.SessionManager
@@ -25,9 +29,9 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
     private var nextSender: MessageEntity? = null
 
     class TextViewHolder(val binding: ItemMessageBaseBinding) : ItemViewHolder(binding.root)
-//    class ImageViewHolder(val binding: ItemMessageImageReceivedBinding) : ItemViewHolder(binding.root)
+    class ImageViewHolder(val binding: ItemMsgImageBinding) : ItemViewHolder(binding.root)
 //    class FileViewHolder(val binding: ItemMessageFileSentBinding) : ItemViewHolder(binding.root)
-//    class EmojiViewHolder(val binding: ItemMessageEmojiSentBinding) : ItemViewHolder(binding.root)
+    class EmojiViewHolder(val binding: ItemMgsEmojiBinding) : ItemViewHolder(binding.root)
     class SystemMessageViewHolder(val binding: ItemSystemMessageBinding) : ItemViewHolder(binding.root)
 
 
@@ -39,9 +43,11 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
         when (holder) {
             is TextViewHolder -> {handleTextMessage(holder, item) }
 
-//            is ImageSentViewHolder -> {
-//                // Load image from item.fileUrl
-//            }
+            is ImageViewHolder -> {
+                handleImageMessage(holder,item)
+            }
+
+            is  EmojiViewHolder ->{handleEmojiMessage(holder,item)}
 //            is ImageReceivedViewHolder -> {
 //                // Load image from item.fileUrl
 //            }
@@ -73,9 +79,9 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
                 ItemMessageBaseBinding.inflate(inflater, parent, false)
             )
 
-//            MessageTypeView.IMAGE_SENT.code -> ImageSentViewHolder(
-//                ItemMessageImageSentBinding.inflate(inflater, parent, false)
-//            )
+            MessageTypeView.IMAGE.code -> ImageViewHolder(
+                ItemMsgImageBinding.inflate(inflater, parent, false)
+            )
 //            MessageTypeView.IMAGE_RECEIVED.code -> ImageReceivedViewHolder(
 //                ItemMessageImageReceivedBinding.inflate(inflater, parent, false)
 //            )
@@ -88,9 +94,9 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
 //            MessageTypeView.EMOJI_SENT.code -> EmojiSentViewHolder(
 //                ItemMessageEmojiSentBinding.inflate(inflater, parent, false)
 //            )
-//            MessageTypeView.EMOJI_RECEIVED.code -> EmojiReceivedViewHolder(
-//                ItemMessageEmojiReceivedBinding.inflate(inflater, parent, false)
-//            )
+            MessageTypeView.EMOJI.code -> EmojiViewHolder(
+                ItemMgsEmojiBinding.inflate(inflater, parent, false)
+            )
             MessageTypeView.SYSTEM.code -> SystemMessageViewHolder(
                 ItemSystemMessageBinding.inflate(inflater, parent, false)
             )
@@ -127,6 +133,31 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
     }
 
 
+    private fun handleImageMessage(holder: ItemViewHolder, message: MessageEntity){
+        val view = holder as ImageViewHolder
+        with(view.binding){
+            Glide.with(holder.itemView.context).load(message.fileUrl).into(image)
+
+            tvTime.text = message.createdAt?.toHourMinute()
+
+            if(message.senderId == currentUserId){
+                container.gravity = Gravity.END
+                imgAvatar.visibility = View.GONE
+            }else{
+                container.gravity = Gravity.START
+                if(message.senderId != nextSender?.senderId){
+                    Glide.with(holder.itemView.context).load(message.senderAvatar).into(imgAvatar)
+                }
+
+            }
+
+            image.setOnClickListener {
+                StfalconImageViewer.Builder<String>(holder.itemView.context, message.fileUrl) { view, imageUrl ->
+                    Glide.with(holder.itemView.context).load(imageUrl).into(view)
+                }.show()
+            }
+        }
+    }
 
     private fun handleTextMessage(holder: ItemViewHolder, message: MessageEntity){
         val view = holder as TextViewHolder
@@ -163,7 +194,40 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
         }
     }
 
+    private fun handleEmojiMessage(holder: ItemViewHolder, message: MessageEntity){
+        val view = holder as TextViewHolder
+        with(view.binding){
+            tvContent.text = message.content
 
+
+            val msgTime = message.createdAt?.toInstant()
+            val nextMsgTime = nextSender?.createdAt?.toInstant()
+
+            val shouldShowTime = when {
+                message.senderId != nextSender?.senderId -> true
+                msgTime != null && nextMsgTime != null -> {
+                    Duration.between(msgTime, nextMsgTime).toMinutes() > 15
+                }
+                else -> false
+            }
+
+            if (shouldShowTime) {
+                tvTime.visibility = View.VISIBLE
+                tvTime.text = message.createdAt?.toHourMinute()
+            }
+
+            if(message.senderId == currentUserId){
+                container.gravity = Gravity.END
+                imgAvatar.visibility = View.GONE
+            }else{
+                container.gravity = Gravity.START
+                if(message.senderId != nextSender?.senderId){
+                    Glide.with(holder.itemView.context).load(message.senderAvatar).into(imgAvatar)
+                }
+
+            }
+        }
+    }
 }
 
 enum class MessageTypeView(val code: Int) {

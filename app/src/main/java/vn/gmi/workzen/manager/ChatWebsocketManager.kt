@@ -29,7 +29,7 @@ import java.lang.ref.WeakReference
 object ChatWebsocketManager {
 
     private val handler = Handler(Looper.getMainLooper())
-    private const val reconnectDelayMillis = 300000L
+    private const val reconnectDelayMillis = 30000L
 
     private val TAG = ChatWebsocketManager::class.java.simpleName
     private const val SOCKET_URL = BuildConfig.WEB_SOCKET_URL
@@ -114,9 +114,8 @@ object ChatWebsocketManager {
     fun sendMessage(message: ChatMessage){
         val entity = message.mapToEntity()
 
-        val json = Gson().toJson(message)
+        val json = ApiService.instance.GSON.toJson(message)
         send("/app/chat.send", json)
-        Log.d(TAG,"✅ Sent to /app/chat.send: $json")
         CoroutineScope(Dispatchers.IO).launch {
             RealmProvider.realm.write {
                 copyToRealm(entity, UpdatePolicy.ALL)
@@ -126,7 +125,6 @@ object ChatWebsocketManager {
 
     private fun decodeMessage(message: String){
         try{
-
             val response = ApiService.instance.GSON.fromJson<MessageResponseModel>(message, MessageResponseModel::class.java)
             val entity = response.mapToEntity()
             RealmProvider.realm.writeBlocking {

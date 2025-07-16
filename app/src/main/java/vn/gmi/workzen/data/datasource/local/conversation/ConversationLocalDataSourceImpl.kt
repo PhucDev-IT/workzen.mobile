@@ -1,5 +1,6 @@
 package vn.gmi.workzen.data.datasource.local.conversation
 
+import android.util.Log
 import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.copyFromRealm
 import io.realm.kotlin.ext.query
@@ -24,9 +25,9 @@ class ConversationLocalDataSourceImpl : ConversationLocalDataSource {
         }
     }
 
-    override suspend fun getMessages(conversationId: String): Flow<List<MessageEntity>> {
+    override suspend fun getMessages(conversationId: String, limit:Int): Flow<List<MessageEntity>> {
         return RealmProvider.realm.query<MessageEntity>("conversationId == $0",conversationId).sort("createdAt" ,
-            Sort.ASCENDING).limit(50).asFlow().map { it.list.copyFromRealm() }
+            Sort.ASCENDING).limit(limit).asFlow().map { it.list.copyFromRealm() }
     }
 
     override suspend fun saveMessages(messages: List<MessageEntity>) {

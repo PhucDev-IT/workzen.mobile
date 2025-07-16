@@ -52,6 +52,48 @@
             android:background="@drawable/bg_search_input"
             android:drawablePadding="@dimen/_10sdp"/>
 
+        <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:layout_margin="@dimen/_10sdp"
+            app:corner_radius="@dimen/_15sdp"
+            android:background="@color/white"
+            android:elevation="@dimen/_3sdp"
+            android:animateLayoutChanges="true"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_all"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tab_selected"
+                android:text="All"
+                android:gravity="center"
+                android:layout_weight="1"
+                style="@style/TextView.Medium.Medium"/>
+            <TextView
+                android:id="@+id/tv_group"
+                android:background="@drawable/bg_tab_selected"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Group"
+                android:layout_weight="1"
+                android:gravity="center"
+                style="@style/TextView.Medium.Medium"/>
+            <TextView
+                android:id="@+id/tv_unread"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chưa đọc"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_selected"
+                android:gravity="center"
+                style="@style/TextView.Medium.Medium"/>
+        </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -9,7 +9,7 @@ interface ConversationLocalDataSource {
     suspend fun saveConversation(conversations: List<ConversationEntity>)
     suspend fun findConversation(conversationId:String): ConversationEntity?
 
-    suspend fun getMessages(conversationId:String): Flow<List<MessageEntity>>
+    suspend fun getMessages(conversationId:String, limit:Int): Flow<List<MessageEntity>>
     suspend fun saveMessages(messages: List<MessageEntity>)
 
 

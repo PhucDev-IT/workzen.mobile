@@ -12,6 +12,7 @@ import vn.gmi.workzen.domain.entity.conversation.MessageEntity
 import vn.gmi.workzen.domain.repository.ConversationRepository
 import vn.gmi.workzen.networks.rest.ApiResult
 import vn.gmi.workzen.networks.rest.toApiResult
+import java.io.File
 import javax.inject.Inject
 
 class ConversationRepositoryImpl @Inject constructor(
@@ -55,7 +56,7 @@ class ConversationRepositoryImpl @Inject constructor(
         limit: Int
     ):  Flow<List<MessageEntity>> {
         return withContext(ioDispatcher) {
-            localDataSource.getMessages(conversationId)
+            localDataSource.getMessages(conversationId, limit)
         }
     }
 
@@ -89,9 +90,9 @@ class ConversationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendMessage(msg: ChatMessage): MessageEntity {
+    override suspend fun sendMessage(msg: ChatMessage, files: List<File>?): MessageEntity {
         return withContext(ioDispatcher) {
-            when (val result = remoteDataSource.sendMessage(msg).toApiResult()){
+            when (val result = remoteDataSource.sendMessage(msg, files).toApiResult()){
                 is ApiResult.Success -> {
                     val data = result.data
                     val entity = data.mapToEntity()

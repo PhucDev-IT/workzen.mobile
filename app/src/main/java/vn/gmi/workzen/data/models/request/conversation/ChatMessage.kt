@@ -1,5 +1,6 @@
 package vn.gmi.workzen.data.models.request.conversation
 
+import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.internal.interop.Enumerated
 import vn.gmi.workzen.core.extensions.toRealmInstant
 import vn.gmi.workzen.data.mapper.DataMapper
@@ -21,7 +22,7 @@ class ChatMessage : DataMapper<MessageEntity> (){
 
     var subContent: String? = null //Thông báo nhỏ, ví dụ add member, remove,...
 
-    var file: FileMsgInfo? = null // base64-encoded content
+    var file: List<FileMsgInfo>? = null // base64-encoded content
 
 
     class FileMsgInfo{
@@ -52,6 +53,12 @@ class ChatMessage : DataMapper<MessageEntity> (){
 
 
     override fun mapToEntity(): MessageEntity {
+        val realmFiles = realmListOf<String>().apply {
+            this@ChatMessage.file?.forEach { file->
+                file.file?.let { add(it) }
+
+            }
+        }
         val profile = SessionManager.profileState.value
         return MessageEntity().apply {
             id = this@ChatMessage.id
@@ -60,7 +67,7 @@ class ChatMessage : DataMapper<MessageEntity> (){
             messageType = this@ChatMessage.messageType?.name
             content = this@ChatMessage.content
             subContent = this@ChatMessage.subContent
-            fileUrl = this@ChatMessage.file?.file
+            fileUrl = realmFiles
             createdAt = Instant.parse(this@ChatMessage.createdAt)?.toRealmInstant()
             isEdited = this@ChatMessage.isEdited
             replyToMessageId = this@ChatMessage.replyMessageId

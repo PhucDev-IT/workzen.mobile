@@ -10,6 +10,7 @@ import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -59,5 +60,20 @@ object Utils {
         }
     }
 
+    fun uriToFile(context: Context, uri: Uri): File? {
+        return try {
+            val contentResolver = context.contentResolver
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+
+            val tempFile = File.createTempFile("upload_", "${System.currentTimeMillis()}", context.cacheDir)
+            tempFile.outputStream().use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+            tempFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 
 }

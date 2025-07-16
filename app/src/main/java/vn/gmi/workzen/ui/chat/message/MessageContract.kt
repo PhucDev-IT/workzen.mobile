@@ -14,6 +14,6 @@ interface MessageContract {
     interface Presenter: BaseContract.Presenter<View>{
         fun requestLoadMessages(conversationId:String)
         fun getInfoConversation(conversationId: String)
-        fun sendMessage(messages: List<ChatMessage>)
+        fun sendMessage(messages: List<ChatMessage> )
     }
 }
