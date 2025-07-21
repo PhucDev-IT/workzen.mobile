@@ -29,12 +29,27 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter.ItemViewHolder>
     }
 
     fun addAll(items: List<T>) {
-        val newItems = items.filter { set.add(it) }
-        if (newItems.isNotEmpty()) {
-            list.addAll(newItems)
-            notifyItemRangeInserted(list.size - newItems.size, newItems.size)
+        addOrUpdateAll(items)
+    }
+
+    fun addOrUpdateAll(items: List<T>) {
+        var changed = false
+        for (item in items) {
+            val index = list.indexOf(item)
+            if (index >= 0) {
+                // Đã tồn tại → cập nhật
+                list[index] = item
+                notifyItemChanged(index)
+            } else {
+                // Mới hoàn toàn → thêm
+                list.add(item)
+                notifyItemInserted(list.lastIndex)
+            }
+            set.add(item) // Cập nhật set luôn
+            changed = true
         }
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun removeItem(position: Int) {

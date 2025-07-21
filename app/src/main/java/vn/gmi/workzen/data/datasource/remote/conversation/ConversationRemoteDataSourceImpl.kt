@@ -1,10 +1,13 @@
 package vn.gmi.workzen.data.datasource.remote.conversation
 
+import io.realm.kotlin.ext.query
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
+import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.data.mapper.PagedResponse
 import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.data.models.response.conversation.ConversationWithLastMessage
@@ -34,8 +37,9 @@ class ConversationRemoteDataSourceImpl(private val apiService: ConversationServi
     }
 
     override suspend fun sendMessage(msg: ChatMessage, files: List<File>?): Response<ApiResponse<MessageResponseModel>> {
+        msg.files = null
         val jsonMessage = ApiService.instance.GSON.toJson(msg)
-        val messageBody = jsonMessage.toRequestBody("application/json; charset=utf-8".toMediaType())
+        val messageBody = jsonMessage.toRequestBody("text/plain".toMediaTypeOrNull())
 
         val filesBody = files?.map { file ->
             val requestFile = file.asRequestBody("multipart/form-data".toMediaType())

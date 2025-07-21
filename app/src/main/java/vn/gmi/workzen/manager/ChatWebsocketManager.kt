@@ -2,6 +2,7 @@ package vn.gmi.workzen.manager
 
 import android.annotation.SuppressLint
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
@@ -28,8 +29,9 @@ import java.lang.ref.WeakReference
 
 object ChatWebsocketManager {
 
-    private val handler = Handler(Looper.getMainLooper())
-    private const val reconnectDelayMillis = 30000L
+    private val reconnectThread = HandlerThread("ReconnectThread").apply { start() }
+    private val handler = Handler(reconnectThread.looper)
+    private const val reconnectDelayMillis = 300000L
 
     private val TAG = ChatWebsocketManager::class.java.simpleName
     private const val SOCKET_URL = BuildConfig.WEB_SOCKET_URL
@@ -75,6 +77,8 @@ object ChatWebsocketManager {
     }
 
     fun disconnect() {
+        reconnectThread.quitSafely()
+
         stompClient.disconnect()
     }
 
@@ -127,6 +131,7 @@ object ChatWebsocketManager {
         try{
             val response = ApiService.instance.GSON.fromJson<MessageResponseModel>(message, MessageResponseModel::class.java)
             val entity = response.mapToEntity()
+            Log.d("Phuc","decodeMessage: $entity")
             RealmProvider.realm.writeBlocking {
                 copyToRealm(entity, UpdatePolicy.ALL)
             }

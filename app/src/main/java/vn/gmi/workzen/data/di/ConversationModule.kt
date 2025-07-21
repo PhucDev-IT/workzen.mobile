@@ -11,6 +11,7 @@ import vn.gmi.workzen.data.datasource.remote.conversation.ConversationRemoteData
 import vn.gmi.workzen.data.datasource.remote.conversation.ConversationRemoteDataSourceImpl
 import vn.gmi.workzen.data.repository.ConversationRepositoryImpl
 import vn.gmi.workzen.domain.repository.ConversationRepository
+import vn.gmi.workzen.domain.usecase.ClearMessageConversationIdUseCase
 import vn.gmi.workzen.domain.usecase.FindConversationUseCase
 import vn.gmi.workzen.domain.usecase.GetConversationLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetConversationRemoteUseCase
@@ -76,6 +77,12 @@ class ConversationModule {
     fun provideSendMessageUseCase(repo: ConversationRepository): SendMessageUseCase {
         return SendMessageUseCase(repo)
     }
+
+    @Provides
+    fun provideClearMessageConversationIdUseCase(repo: ConversationRepository): ClearMessageConversationIdUseCase {
+        return ClearMessageConversationIdUseCase(repo)
+    }
+
     //============================== DATA SOURCE ===============================
     @Provides
     fun provideConversationLocalDataSource(): ConversationLocalDataSource {
@@ -113,14 +120,16 @@ class ConversationModule {
         getMessagesRemoteUseCase: GetMessagesRemoteUseCase,
         storeMessagesUseCase: StoreMessagesUseCase,
         findConversationUseCase: FindConversationUseCase,
-        sendMessageUseCase: SendMessageUseCase
+        sendMessageUseCase: SendMessageUseCase,
+        clearMessageConversationIdUseCase: ClearMessageConversationIdUseCase
     ): MessageContract.Presenter{
         return MessagePresenter(
             getMessagesLocalUseCase,
             getMessagesRemoteUseCase,
             storeMessagesUseCase,
             findConversationUseCase,
-            sendMessageUseCase
+            sendMessageUseCase,
+            clearMessageConversationIdUseCase
         )
 
     }

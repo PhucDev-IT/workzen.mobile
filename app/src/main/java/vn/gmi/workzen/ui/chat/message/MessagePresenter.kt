@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import vn.gmi.workzen.MyApplication
 import vn.gmi.workzen.core.base.BasePresenter
 import vn.gmi.workzen.data.models.request.conversation.ChatMessage
+import vn.gmi.workzen.domain.usecase.ClearMessageConversationIdUseCase
 import vn.gmi.workzen.domain.usecase.FindConversationUseCase
 import vn.gmi.workzen.domain.usecase.GetConversationLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesLocalUseCase
@@ -23,7 +24,8 @@ class MessagePresenter @Inject constructor(
     private val getMessagesRemoteUseCase: GetMessagesRemoteUseCase,
     private val storeMessagesUseCase: StoreMessagesUseCase,
     private val findConversationUseCase: FindConversationUseCase,
-    private val sendMessageUseCase: SendMessageUseCase
+    private val sendMessageUseCase: SendMessageUseCase,
+    private val clearMessageConversationIdUseCase: ClearMessageConversationIdUseCase
 ) : BasePresenter<MessageContract.View>(), MessageContract.Presenter {
 
 
@@ -58,6 +60,7 @@ class MessagePresenter @Inject constructor(
                     "size" to 1000
                 )
                 val result = getMessagesRemoteUseCase.invoke(mapRemote)
+              //  clearMessageConversationIdUseCase.invoke(conversationId)
                 storeMessagesUseCase.invoke(result)
 
             } catch (e: Exception) {
@@ -69,8 +72,11 @@ class MessagePresenter @Inject constructor(
     override fun sendMessage(msgs: List<ChatMessage>) {
         scope.launch {
             try {
+                scope.launch{
+                    storeMessagesUseCase.invoke(msgs.map { it.mapToEntity() })
+                }
                 msgs.forEach { msg ->
-                    val files = msg.file?.mapNotNull { data ->
+                    val files = msg.files?.mapNotNull { data ->
                         Utils.uriToFile(MyApplication.instance, data.file?.toUri()!!)
                     }
                     val pair = Pair(msg, files)

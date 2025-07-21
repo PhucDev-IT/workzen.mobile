@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.Base64
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -62,13 +63,18 @@ object Utils {
 
     fun uriToFile(context: Context, uri: Uri): File? {
         return try {
+
             val contentResolver = context.contentResolver
+            val mimeType = contentResolver.getType(uri) ?: "application/octet-stream"
+
             val inputStream = contentResolver.openInputStream(uri) ?: return null
 
-            val tempFile = File.createTempFile("upload_", "${System.currentTimeMillis()}", context.cacheDir)
+            val fileName =  "upload_${System.currentTimeMillis()}.${MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "bin"}"
+            val tempFile = File(context.cacheDir, fileName)
             tempFile.outputStream().use { outputStream ->
                 inputStream.copyTo(outputStream)
             }
+            Log.d("uriToFile", "uriToFile: ${tempFile.name}")
             tempFile
         } catch (e: Exception) {
             e.printStackTrace()

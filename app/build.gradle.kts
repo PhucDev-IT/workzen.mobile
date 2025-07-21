@@ -54,7 +54,7 @@ android {
     productFlavors {
         create("dev") {
                 buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
-                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.6:8080/ws\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.0.104:8080/ws\"")
         }
         create("production") {
 
@@ -90,6 +90,8 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.10.1")
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
+    implementation("androidx.media3:media3-exoplayer:1.7.1")
+    implementation("androidx.media3:media3-ui:1.7.1")
     //Network
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")

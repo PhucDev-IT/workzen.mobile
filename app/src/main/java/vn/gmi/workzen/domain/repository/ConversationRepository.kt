@@ -17,5 +17,5 @@ interface ConversationRepository {
     suspend fun getMessageRemote(conversationId:String,page:Int,size:Int): List<MessageEntity>
     suspend fun storeMessage(messages: List<MessageEntity>)
     suspend fun sendMessage(msg: ChatMessage, files: List<File>?):MessageEntity
-
+    suspend fun clearMessageConversationId(conversationId:String)
 }

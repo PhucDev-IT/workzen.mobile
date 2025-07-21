@@ -42,4 +42,11 @@ class ConversationLocalDataSourceImpl : ConversationLocalDataSource {
     override suspend fun findConversation(conversationId: String): ConversationEntity? {
        return RealmProvider.realm.query<ConversationEntity>("conversationId == $0",conversationId).first().find()
     }
+
+    override suspend fun clearMessage(conversationId: String) {
+        RealmProvider.realm.write {
+            val messagesToDelete = query<MessageEntity>("conversationId == $0", conversationId).find()
+            delete(messagesToDelete)
+        }
+    }
 }

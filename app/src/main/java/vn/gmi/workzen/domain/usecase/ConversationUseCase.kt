@@ -68,3 +68,9 @@ class StoreMessagesUseCase(private val conversationRepository: ConversationRepos
         return conversationRepository.storeMessage(params)
     }
 }
+
+class ClearMessageConversationIdUseCase(private val conversationRepository: ConversationRepository) : BaseUseCase<String, Unit>() {
+    override suspend fun invoke(params: String) {
+        return conversationRepository.clearMessageConversationId(params)
+    }
+}

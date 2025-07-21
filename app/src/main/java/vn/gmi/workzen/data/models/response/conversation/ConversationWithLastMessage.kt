@@ -3,6 +3,7 @@ package vn.gmi.workzen.data.models.response.conversation
 import vn.gmi.workzen.core.extensions.toRealmInstant
 import vn.gmi.workzen.data.mapper.DataMapper
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
+import vn.gmi.workzen.domain.entity.enums.MessageType
 import vn.gmi.workzen.manager.SessionManager
 import java.time.Instant
 import java.util.UUID
@@ -19,6 +20,8 @@ class ConversationWithLastMessage : DataMapper<ConversationEntity>(){
     var lastMessageSenderId:String?=null
     var unreadCount:Int?=null
     var conversationType:String?=null
+    var lastMessageSenderName:String?=null
+    var lastMessageType: MessageType?=null
 
 
     override fun mapToEntity(): ConversationEntity {
@@ -36,7 +39,8 @@ class ConversationWithLastMessage : DataMapper<ConversationEntity>(){
             this.unreadCount = this@ConversationWithLastMessage.unreadCount
             this.type = this@ConversationWithLastMessage.conversationType.toString()
             this.userId =userId
-
+            this.lastMessageSenderName = this@ConversationWithLastMessage.lastMessageSenderName
+            this.lastMessageType = this@ConversationWithLastMessage.lastMessageType?.name
         }
     }
 }

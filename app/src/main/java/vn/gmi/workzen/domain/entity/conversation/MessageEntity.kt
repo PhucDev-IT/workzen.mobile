@@ -20,6 +20,7 @@ class MessageEntity : RealmObject{
     var senderId:String?=null
     var senderName:String?=null
     var senderAvatar:String?=null
+    var isSent:Boolean?=null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -35,7 +36,7 @@ class MessageEntity : RealmObject{
     }
 
     override fun toString(): String {
-        return "MessageEntity(id='$id', conversationId=$conversationId, content=$content, subContent=$subContent, fileUrl=$fileUrl, senderId=$senderId)"
+        return "MessageEntity(id='$id', conversationId=$conversationId, content=$content, subContent=$subContent, fileUrl=$fileUrl, senderId=$senderId), isSent=$isSent"
     }
 
 

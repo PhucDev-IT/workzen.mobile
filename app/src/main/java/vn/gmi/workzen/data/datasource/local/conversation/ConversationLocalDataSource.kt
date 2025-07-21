@@ -11,6 +11,6 @@ interface ConversationLocalDataSource {
 
     suspend fun getMessages(conversationId:String, limit:Int): Flow<List<MessageEntity>>
     suspend fun saveMessages(messages: List<MessageEntity>)
-
+    suspend fun clearMessage(conversationId: String)
 
 }

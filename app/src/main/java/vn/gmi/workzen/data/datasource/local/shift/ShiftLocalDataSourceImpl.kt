@@ -7,12 +7,12 @@ import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.domain.entity.shift.ShiftEntity
 
 class ShiftLocalDataSourceImpl : ShiftLocalDataSource {
-    override fun getShift(): ShiftEntity? {
+    override suspend fun getShift(): ShiftEntity? {
         return RealmProvider.realm.query<ShiftEntity>().first().find()?.copyFromRealm()
     }
 
-    override fun saveShift(shift: ShiftEntity) {
-        RealmProvider.realm.writeBlocking {
+    override  suspend fun saveShift(shift: ShiftEntity) {
+        RealmProvider.realm.write {
             copyToRealm(shift,updatePolicy = UpdatePolicy.ALL)
         }
     }

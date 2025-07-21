@@ -11,21 +11,17 @@ import java.time.Instant
 import java.util.UUID
 
 
-class ChatMessage : DataMapper<MessageEntity> (){
-     private val id: String = "${System.currentTimeMillis()}_${UUID.randomUUID().toString()}"
+class ChatMessage : DataMapper<MessageEntity>() {
+    private val id: String = "${System.currentTimeMillis()}_${UUID.randomUUID().toString()}"
     var conversationId: String? = null
     var senderId: String? = null
-
     var messageType: MessageType? = null // TEXT, IMAGE, FILE, EMOJI
-
-     var content: String? = null
-
+    var content: String? = null
     var subContent: String? = null //Thông báo nhỏ, ví dụ add member, remove,...
+    var files: List<FileMsgInfo>? = null // base64-encoded content
 
-    var file: List<FileMsgInfo>? = null // base64-encoded content
 
-
-    class FileMsgInfo{
+    class FileMsgInfo {
         var id: String? = null
         var file: String? = null
         var fileName: String? = null
@@ -50,11 +46,11 @@ class ChatMessage : DataMapper<MessageEntity> (){
     var isEdited = false
     var replyMessageId: String? = null
     var receiverId: String? = null // For 1-1 messages or FCM target
-
+    var isSent: Boolean? = null
 
     override fun mapToEntity(): MessageEntity {
         val realmFiles = realmListOf<String>().apply {
-            this@ChatMessage.file?.forEach { file->
+            this@ChatMessage.files?.forEach { file ->
                 file.file?.let { add(it) }
 
             }
@@ -74,7 +70,7 @@ class ChatMessage : DataMapper<MessageEntity> (){
             senderId = profile?.id
             senderName = profile?.fullName
             senderAvatar = profile?.avatarUrl
-
+            isSent = this@ChatMessage.isSent ?: false
 
         }
     }

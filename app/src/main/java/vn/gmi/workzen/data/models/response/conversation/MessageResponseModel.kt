@@ -47,7 +47,7 @@ class MessageResponseModel : DataMapper<MessageEntity>(){
             senderId = this@MessageResponseModel.sender?.id
             senderName = this@MessageResponseModel.sender?.name
             senderAvatar = this@MessageResponseModel.sender?.avatar
-
+            isSent = true
 
         }
     }

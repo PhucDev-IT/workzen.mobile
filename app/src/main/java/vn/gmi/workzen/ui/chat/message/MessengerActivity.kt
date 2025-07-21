@@ -15,6 +15,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -114,7 +115,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
             override fun onRemoved(item: ChatMessage.FileMsgInfo) {
                 if (adapterPreview.getSize() <= 0) {
                     binding.llViewMediaPreview.visibility = View.GONE
-                    if(binding.edtMessage.text.toString().isEmpty()){
+                    if (binding.edtMessage.text.toString().isEmpty()) {
                         binding.icSend.visibility = View.GONE
                         binding.tvQuickEmoji.visibility = View.VISIBLE
                     }
@@ -169,8 +170,6 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         }
         this.conversationID = conversationId!!
         presenter.getInfoConversation(conversationId.toString())
-        presenter.requestLoadMessages(conversationId.toString())
-
 
 
         mediaPlayer = MediaPlayer.create(this, R.raw.sound_send_msg)
@@ -232,7 +231,6 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     }
 
     override fun onLoadFirstData(items: List<MessageEntity>) {
-        items.forEach { Log.d("Phuc", "items: $it") }
         adapter.addAll(items)
         if (items.size > 3) {
             binding.llInfo.visibility = View.GONE
@@ -263,7 +261,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
             binding.edtMessage.text = null
         }
 
-        if(adapterPreview.getSize() >0){
+        if (adapterPreview.getSize() > 0) {
             presenter.sendMessage(createMessagesFromFiles())
             adapterPreview.clear()
             binding.icSend.visibility = View.GONE
@@ -354,7 +352,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
                         this.senderId = SessionManager.profileState.value?.id
                         this.messageType = fileType
                         this.createdAt = Instant.now().toString()
-                        this.file = listOf(fileInfo)
+                        this.files = listOf(fileInfo)
                     }
                     otherMessages.add(msg)
                 }
@@ -375,15 +373,17 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
                 this.senderId = SessionManager.profileState.value?.id
                 this.messageType = MessageType.IMAGE
                 this.createdAt = Instant.now().toString()
-                this.file = imageFiles
+                this.files = imageFiles
             }
-            if(msg.isNotEmpty()){
+
+            //nếu chỉ có 1 ảnh + 1 tin nhắn thì gộp thành 1 chat
+            if (msg.isNotEmpty() && imageFiles.size == 1) {
                 imageMsg.content = msg
             }
             result.add(imageMsg)
         }
         result.addAll(otherMessages)
-        if(msg.isNotEmpty()) {
+        if (msg.isNotEmpty() && imageFiles.size > 1) {
             val msg = ChatMessage().apply {
                 content = msg
                 this.conversationId = conversationID
@@ -437,22 +437,36 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     //============================== HANDLE ACTION =====================================
 
     private fun displayPreview(uris: List<Uri>) {
-        val list = mutableListOf<ChatMessage.FileMsgInfo>()
-        uris.forEach {
-            val (name, type, size) = getFileInfo(this, it)
-            list.add(ChatMessage.FileMsgInfo().apply {
+        val list = uris.mapNotNull { uri ->
+            contentResolver.takePersistableUriPermission(
+                uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            val (name, type, size) = getFileInfo(this, uri)
+
+            if (size != null && size > 10 * 1024 * 1024) {
+                Log.w("displayPreview", "File too large: $name - $size bytes")
+                Toast.makeText(this@MessengerActivity, "File too large: $name - $size bytes", Toast.LENGTH_SHORT).show()
+                return@mapNotNull null
+            }
+
+            Log.d("displayPreview", "Accepted file: $name - type: $type - size: $size")
+
+            ChatMessage.FileMsgInfo().apply {
                 id = UUID.randomUUID().toString()
-                file = it.toString()
+                file = uri.toString()
                 fileName = name
                 fileType = type
-            })
-
-            Log.d("TAG", "displayPreview: $name - type: $type - size: $size")
+            }
         }
-        binding.llViewMediaPreview.visibility = View.VISIBLE
-        adapterPreview.addAll(list)
 
+        if (list.isNotEmpty()) {
+            binding.llViewMediaPreview.visibility = View.VISIBLE
+            adapterPreview.addAll(list)
+        } else {
+            binding.llViewMediaPreview.visibility = View.GONE
+        }
     }
+
 
     fun openPicker() {
         pickMultipleMedia.launch(arrayOf("image/*", "video/*"))
@@ -464,7 +478,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     ) { uris ->
         // uris: List<Uri>
         displayPreview(uris)
-        if(!binding.icSend.isVisible){
+        if (!binding.icSend.isVisible) {
             binding.icSend.visibility = View.VISIBLE
             binding.tvQuickEmoji.visibility = View.GONE
         }
@@ -491,13 +505,18 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         return Triple(name, type, size)
     }
 
-    private fun handleExtensionFile(extension:String): MessageType{
-        Log.d("Phuc","Type = $extension")
+    private fun handleExtensionFile(extension: String): MessageType {
         return when (extension) {
             in listOf("jpg", "jpeg", "png", "gif", "webp") -> MessageType.IMAGE
             in listOf("mp4", "mov", "avi", "mkv") -> MessageType.VIDEO
             in listOf("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt") -> MessageType.FILE
             else -> MessageType.UNKNOWN
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        presenter.requestLoadMessages(conversationID)
     }
 }

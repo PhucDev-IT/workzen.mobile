@@ -103,4 +103,10 @@ class ConversationRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun clearMessageConversationId(conversationId: String) {
+        withContext(ioDispatcher) {
+            localDataSource.clearMessage(conversationId)
+        }
+    }
 }

@@ -22,9 +22,12 @@ class ConversationEntity:  RealmObject, DataMapper<ConversationSerializable>(){
     var lastMessageSubContent:String?=null
     var lastMessageCreatedAt:RealmInstant?=null
     var lastMessageSenderId:String?=null
+    var lastMessageSenderName:String?=null
+    var lastMessageType:String?=null
     var unreadCount:Int?=null
     var type: String = ConversationType.PRIVATE.name
     var userId:String?=null
+
 
     override fun mapToEntity(): ConversationSerializable {
         return ConversationSerializable().apply {
