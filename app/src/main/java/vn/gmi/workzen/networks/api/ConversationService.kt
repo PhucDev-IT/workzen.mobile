@@ -16,6 +16,7 @@ import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.data.models.response.conversation.ConversationWithLastMessage
 import vn.gmi.workzen.data.models.response.conversation.MessageResponseModel
 import vn.gmi.workzen.networks.models.ApiResponse
+import java.time.Instant
 
 interface ConversationService {
     @GET(EndPoints.GET_CONVERSATION)
@@ -25,16 +26,29 @@ interface ConversationService {
         @Query("userId") userId: String
     ): Response<ApiResponse<PagedResponse<ConversationWithLastMessage>>>
 
+
+    @GET(EndPoints.GET_CONVERSATION_GROUP)
+    suspend fun getConversationsGroup(): Response<ApiResponse<List<ConversationWithLastMessage>>>
+
+    @GET(EndPoints.GET_CONVERSATION_UN_READ)
+    suspend fun getConversationsUnread(): Response<ApiResponse<List<ConversationWithLastMessage>>>
+
     @GET(EndPoints.GET_MESSAGE)
     suspend fun getMessages(
         @Path("conversationId") conversationId: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Response<ApiResponse<List<MessageResponseModel>>>
+    ): Response<ApiResponse<PagedResponse<MessageResponseModel>>>
 
     @Multipart
     @POST(EndPoints.SEND_MESSAGE)
     suspend fun sendMessage(
         @Part files: List<MultipartBody.Part>?,
         @Part("message") message: RequestBody): Response<ApiResponse<MessageResponseModel>>
+
+    @GET(EndPoints.GET_MESSAGE_SINCE)
+    suspend fun getMessagesSince(
+        @Query("conversationId") conversationId: String,
+        @Query("lastSyncedAt") lastTime: Instant
+    ): Response<ApiResponse<List<MessageResponseModel>>>
 }

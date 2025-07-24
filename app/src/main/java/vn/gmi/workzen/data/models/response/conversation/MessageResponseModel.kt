@@ -19,6 +19,7 @@ class MessageResponseModel : DataMapper<MessageEntity>(){
     var messageType: MessageType?=null
     var isEdited: Boolean?=null
     var createdAt: Instant?=null
+    var updatedAt: Instant?=null
     var sender: SenderRp?=null
 
 
@@ -44,6 +45,7 @@ class MessageResponseModel : DataMapper<MessageEntity>(){
             messageType = this@MessageResponseModel.messageType?.name
             isEdited = this@MessageResponseModel.isEdited
             createdAt = this@MessageResponseModel.createdAt?.toRealmInstant()
+            updatedAt = this@MessageResponseModel.updatedAt?.toRealmInstant()
             senderId = this@MessageResponseModel.sender?.id
             senderName = this@MessageResponseModel.sender?.name
             senderAvatar = this@MessageResponseModel.sender?.avatar

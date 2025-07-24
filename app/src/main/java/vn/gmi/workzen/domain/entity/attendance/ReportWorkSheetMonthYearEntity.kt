@@ -22,6 +22,10 @@ class ReportWorkSheetDayEntity : RealmObject{
     var salary: Double?=null
     var attendanceStatus:String?=null
     var data: AttendanceDataEntity?=null
+    override fun toString(): String {
+        return "ReportWorkSheetDayEntity(id='$id', workDate=$workDate, status=$status)"
+    }
+
 
 }
 class AttendanceDataEntity : RealmObject{

@@ -15,8 +15,11 @@ import vn.gmi.workzen.domain.usecase.ClearMessageConversationIdUseCase
 import vn.gmi.workzen.domain.usecase.FindConversationUseCase
 import vn.gmi.workzen.domain.usecase.GetConversationLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetConversationRemoteUseCase
+import vn.gmi.workzen.domain.usecase.GetConversationTypeGroupRemoteUseCase
+import vn.gmi.workzen.domain.usecase.GetConversationUnReadRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetMessagesRemoteUseCase
+import vn.gmi.workzen.domain.usecase.GetMessagesSinceRemoteUseCase
 import vn.gmi.workzen.domain.usecase.SendMessageUseCase
 import vn.gmi.workzen.domain.usecase.StoreConversationUseCase
 import vn.gmi.workzen.domain.usecase.StoreMessagesUseCase
@@ -83,6 +86,21 @@ class ConversationModule {
         return ClearMessageConversationIdUseCase(repo)
     }
 
+    @Provides
+    fun provideGetMessagesSinceRemoteUseCase(repo: ConversationRepository): GetMessagesSinceRemoteUseCase{
+        return GetMessagesSinceRemoteUseCase(repo)
+    }
+
+    @Provides
+    fun provideGetConversationTypeGroupRemoteUseCase(repo: ConversationRepository): GetConversationTypeGroupRemoteUseCase{
+        return GetConversationTypeGroupRemoteUseCase(repo)
+    }
+
+    @Provides
+    fun provideGetConversationUnReadRemoteUseCase(repo: ConversationRepository): GetConversationUnReadRemoteUseCase{
+        return GetConversationUnReadRemoteUseCase(repo)
+    }
+
     //============================== DATA SOURCE ===============================
     @Provides
     fun provideConversationLocalDataSource(): ConversationLocalDataSource {
@@ -93,7 +111,6 @@ class ConversationModule {
     fun providerConversationRemoteDataSource(service: ConversationService): ConversationRemoteDataSource {
         return ConversationRemoteDataSourceImpl(service)
     }
-
 
     @Provides
     fun providerConversationRepository(
@@ -109,9 +126,11 @@ class ConversationModule {
     fun provideConversationPresenter(
         getConversationRemoteUseCase: GetConversationRemoteUseCase,
         getConversationLocalUseCase: GetConversationLocalUseCase,
-        storeConversationUseCase: StoreConversationUseCase
+        storeConversationUseCase: StoreConversationUseCase,
+        getConversationTypeGroupRemoteUseCase: GetConversationTypeGroupRemoteUseCase,
+        getConversationUnReadRemoteUseCase: GetConversationUnReadRemoteUseCase
     ): ConversationContract.Presenter{
-        return ConversationPresenter(getConversationLocalUseCase,getConversationRemoteUseCase,storeConversationUseCase)
+        return ConversationPresenter(getConversationLocalUseCase,getConversationRemoteUseCase,storeConversationUseCase, getConversationTypeGroupRemoteUseCase, getConversationUnReadRemoteUseCase)
     }
 
     @Provides
@@ -121,7 +140,8 @@ class ConversationModule {
         storeMessagesUseCase: StoreMessagesUseCase,
         findConversationUseCase: FindConversationUseCase,
         sendMessageUseCase: SendMessageUseCase,
-        clearMessageConversationIdUseCase: ClearMessageConversationIdUseCase
+        clearMessageConversationIdUseCase: ClearMessageConversationIdUseCase,
+        getMessagesSinceRemoteUseCase: GetMessagesSinceRemoteUseCase
     ): MessageContract.Presenter{
         return MessagePresenter(
             getMessagesLocalUseCase,
@@ -129,7 +149,8 @@ class ConversationModule {
             storeMessagesUseCase,
             findConversationUseCase,
             sendMessageUseCase,
-            clearMessageConversationIdUseCase
+            clearMessageConversationIdUseCase,
+            getMessagesSinceRemoteUseCase
         )
 
     }

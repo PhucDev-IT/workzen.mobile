@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import vn.gmi.workzen.data.datasource.local.conversation.ConversationLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.conversation.ConversationRemoteDataSource
 import vn.gmi.workzen.data.di.IoDispatcher
+import vn.gmi.workzen.data.mapper.PagedResponse
 import vn.gmi.workzen.data.models.request.conversation.ChatMessage
 import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 import vn.gmi.workzen.domain.entity.conversation.MessageEntity
@@ -13,6 +14,7 @@ import vn.gmi.workzen.domain.repository.ConversationRepository
 import vn.gmi.workzen.networks.rest.ApiResult
 import vn.gmi.workzen.networks.rest.toApiResult
 import java.io.File
+import java.time.Instant
 import javax.inject.Inject
 
 class ConversationRepositoryImpl @Inject constructor(
@@ -53,10 +55,11 @@ class ConversationRepositoryImpl @Inject constructor(
 
     override suspend fun getMessageLocal(
         conversationId: String,
-        limit: Int
+        limit: Int,
+        page:Int
     ):  Flow<List<MessageEntity>> {
         return withContext(ioDispatcher) {
-            localDataSource.getMessages(conversationId, limit)
+            localDataSource.getMessages(conversationId, limit,page)
         }
     }
 
@@ -64,14 +67,22 @@ class ConversationRepositoryImpl @Inject constructor(
         conversationId: String,
         page: Int,
         size: Int
-    ): List<MessageEntity> {
+    ):  PagedResponse<MessageEntity> {
         return withContext(ioDispatcher) {
             when (val result =
                 remoteDataSource.getMessages(conversationId, page, size).toApiResult()) {
                 is ApiResult.Success -> {
                     val data = result.data
-                    val messages = data.map { it.mapToEntity() }
-                    messages
+                    val mgs = result.data.data?.mapNotNull { it.mapToEntity() }
+
+                    val dataCopy = PagedResponse<MessageEntity>().apply {
+                        this.data = mgs
+                        this.page = data.page
+                        this.size = data.size
+                        this.totalElements = data.totalElements
+
+                    }
+                    dataCopy
                 }
                 is ApiResult.Error -> throw Exception(result.message)
             }
@@ -107,6 +118,51 @@ class ConversationRepositoryImpl @Inject constructor(
     override suspend fun clearMessageConversationId(conversationId: String) {
         withContext(ioDispatcher) {
             localDataSource.clearMessage(conversationId)
+        }
+    }
+
+    override suspend fun getMessageSinceRemote(
+        conversationId: String,
+        lastTime: Instant
+    ): List<MessageEntity> {
+        return withContext(ioDispatcher) {
+            when (val result =
+                remoteDataSource.getMessageSince(conversationId, lastTime).toApiResult()) {
+                is ApiResult.Success -> {
+                    val data = result.data
+                    val messages = data.map { it.mapToEntity() }
+                    messages
+                }
+                is ApiResult.Error -> throw Exception(result.message)
+            }
+
+        }
+    }
+
+    override suspend fun getConversationsTypeGroupRemote(): List<ConversationEntity> {
+        return withContext(ioDispatcher) {
+            when (val result = remoteDataSource.getConversationsGroups().toApiResult()) {
+                is ApiResult.Success -> {
+                    val data = result.data
+                    val conversations = data.map { it.mapToEntity() }
+                    conversations
+                    }
+                is ApiResult.Error -> throw Exception(result.message)
+            }
+        }
+    }
+
+    override suspend fun getConversationsUnReadRemote(): List<ConversationEntity> {
+        return withContext(ioDispatcher) {
+            when (val result = remoteDataSource.getConversationsUnRead().toApiResult()) {
+                is ApiResult.Success -> {
+                    val data = result.data
+                    val conversations = data.map { it.mapToEntity() }
+                    conversations
+                }
+
+                is ApiResult.Error -> throw Exception(result.message)
+            }
         }
     }
 }

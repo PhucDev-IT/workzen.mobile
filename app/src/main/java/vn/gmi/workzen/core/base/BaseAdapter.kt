@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import android.widget.BaseAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter.ItemViewHolder>() {
@@ -33,22 +34,22 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter.ItemViewHolder>
     }
 
     fun addOrUpdateAll(items: List<T>) {
-        var changed = false
-        for (item in items) {
-            val index = list.indexOf(item)
-            if (index >= 0) {
-                // Đã tồn tại → cập nhật
-                list[index] = item
-                notifyItemChanged(index)
-            } else {
-                // Mới hoàn toàn → thêm
-                list.add(item)
-                notifyItemInserted(list.lastIndex)
-            }
-            set.add(item) // Cập nhật set luôn
-            changed = true
-        }
+        val diffCallback = BaseDiffCallback(
+            oldList = list,
+            newList = items,
+            areItemsSame = { old, new -> old == new }, // hoặc tự override theo ID
+            areContentsSame = { old, new -> old == new }
+        )
+
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        list.clear()
+        list.addAll(items)
+        set.clear()
+        set.addAll(items)
+
+        diffResult.dispatchUpdatesTo(this)
     }
+
 
 
     @SuppressLint("NotifyDataSetChanged")

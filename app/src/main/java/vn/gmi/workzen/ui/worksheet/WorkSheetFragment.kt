@@ -28,6 +28,7 @@ import vn.gmi.workzen.ui.home.models.EAttendanceType
 import vn.gmi.workzen.utils.DateUtils
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.ranges.until
 
 
 @AndroidEntryPoint
@@ -125,6 +126,7 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
 
     override fun onGetReportAttendanceByMonthYear(entity: ReportWorkSheetMonthYearEntity?) {
         Log.d("onGetReportAttendanceByMonthYear", entity.toString());
+        buildMatrix(entity?.days ?: emptyList())
         val fullData = buildFullMonthDays(entity?.days ?: emptyList(), 6, 2025)
         adapter.setFullData(fullData)
     }
@@ -172,6 +174,39 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
         return result
     }
 
+
+    private fun buildMatrix( dataFromServer: List<ReportWorkSheetDayEntity>,): Array<Array<WorkDayItem>>? {
+        val columns = weekdays.size
+        val rows = 6
+        val matrix = Array(rows){Array(columns){ ReportWorkSheetDayEntity() } }
+        val firstDate = dataFromServer.first().workDate
+        if(firstDate == null) return null
+        val date = DateUtils.stringToLocalDate(firstDate)
+        val dayOfWeek = date?.dayOfWeek?.value
+        val firstIndex = (dayOfWeek?:-1) - 1
+
+        matrix[0][firstIndex] = dataFromServer.first()
+        var currentColumn = firstIndex
+        var currentRow = 0
+        dataFromServer.forEachIndexed { index,value->
+            currentColumn++
+            if(index > 0){
+                matrix[currentRow][currentColumn] = value
+
+                if(currentColumn == columns-1){
+                    currentColumn = 0
+                    currentRow++
+                }
+            }
+        }
+
+        for ((i, row) in matrix.withIndex()) {
+            for ((j, person) in row.withIndex()) {
+                println("[$i][$j] = $person")
+            }
+        }
+        return null
+    }
 
     private fun showBottomSelectTimeReport() {
         val listener = object : Consumer<Pair<Int, Int>>{

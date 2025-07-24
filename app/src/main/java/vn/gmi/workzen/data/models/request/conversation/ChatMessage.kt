@@ -52,7 +52,6 @@ class ChatMessage : DataMapper<MessageEntity>() {
         val realmFiles = realmListOf<String>().apply {
             this@ChatMessage.files?.forEach { file ->
                 file.file?.let { add(it) }
-
             }
         }
         val profile = SessionManager.profileState.value

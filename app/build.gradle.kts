@@ -53,8 +53,8 @@ android {
     flavorDimensions.add("dev")
     productFlavors {
         create("dev") {
-                buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
-                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.0.104:8080/ws\"")
+                buildConfigField("String", "API_BASE_URL", "\"http://192.168.0.102:8080/\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.0.102:8080/ws\"")
         }
         create("production") {
 

@@ -70,9 +70,16 @@ class ChatActivity : BaseActivity<ConversationContract.View, ConversationContrac
     }
 
     override fun setListener() {
-        tabs.forEach { tab ->
+        tabs.forEachIndexed { index,tab ->
             tab.setOnClickListener {
                 setListenerTab(tab)
+                if(index == 0){
+                    presenter.requestLoadConversations()
+                }else if(index == 1){
+                    presenter.requestGetConversationsTypeGroup()
+                }else{
+                    presenter.requestGetConversationsUnRead()
+                }
             }
         }
     }
@@ -121,4 +128,14 @@ class ChatActivity : BaseActivity<ConversationContract.View, ConversationContrac
         }
     }
 
+
+    override fun onLoading() {
+        Log.d("Phuc", "onLoading loading")
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun onHideLoadingChat() {
+        Log.d("Phuc", "hidden loading")
+        binding.progressBar.visibility = View.GONE
+    }
 }

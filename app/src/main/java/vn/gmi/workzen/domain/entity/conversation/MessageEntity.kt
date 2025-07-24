@@ -17,10 +17,16 @@ class MessageEntity : RealmObject{
     var messageType: String?=null
     var isEdited: Boolean?=null
     var createdAt: RealmInstant?=null
+    var updatedAt: RealmInstant?=null
     var senderId:String?=null
     var senderName:String?=null
     var senderAvatar:String?=null
     var isSent:Boolean?=null
+
+
+    override fun toString(): String {
+        return "MessageEntity(id='$id', conversationId=$conversationId, content=$content, subContent=$subContent, fileUrl=$fileUrl, senderId=$senderId), isSent=$isSent"
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -28,15 +34,16 @@ class MessageEntity : RealmObject{
 
         other as MessageEntity
 
-        return id == other.id
+        if (isSent != other.isSent) return false
+        if (id != other.id) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun toString(): String {
-        return "MessageEntity(id='$id', conversationId=$conversationId, content=$content, subContent=$subContent, fileUrl=$fileUrl, senderId=$senderId), isSent=$isSent"
+        var result = isSent?.hashCode() ?: 0
+        result = 31 * result + id.hashCode()
+        return result
     }
 
 

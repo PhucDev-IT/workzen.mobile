@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.stfalcon.imageviewer.StfalconImageViewer
+import vn.gmi.workzen.BuildConfig
 import vn.gmi.workzen.core.base.BaseAdapter
-import vn.gmi.workzen.core.extensions.asList
+
 import vn.gmi.workzen.core.extensions.toHourMinute
 import vn.gmi.workzen.core.extensions.toInstant
 import vn.gmi.workzen.databinding.*
@@ -20,6 +23,8 @@ import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.ui.chat.message.VideoPlayerActivity
 import java.time.Duration
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.extensions.asToList
+
 class RvMessageAdapter : BaseAdapter<MessageEntity>() {
 
     private val currentUserId = SessionManager.profileState.value?.id
@@ -74,12 +79,19 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
 
     private fun handleImageMessage(holder: ImageViewHolder, message: MessageEntity) {
         with(holder.binding) {
-            message.fileUrl.asList().forEachIndexed { index, url ->
-                when (index) {
-                    0 -> Glide.with(holder.itemView.context).load(url).thumbnail(0.1f).into(image)
-                    1 -> Glide.with(holder.itemView.context).load(url).thumbnail(0.1f).into(image2)
-                    2 -> Glide.with(holder.itemView.context).load(url).thumbnail(0.1f).into(image3)
-                }
+            val url = message.fileUrl.asToList().firstOrNull()
+            var fullUrl = if(message.isSent == true){
+                "${BuildConfig.API_BASE_URL}$url"
+            }else{
+                url
+            }
+            Glide.with(holder.itemView.context).load(fullUrl).thumbnail(0.1f).into(image)
+
+            if(message.fileUrl.asToList().size > 1){
+                tvSizeFile.visibility = View.VISIBLE
+                tvSizeFile.text = "+${message.fileUrl.asToList().size - 1} ảnh"
+            }else{
+                tvSizeFile.visibility = View.GONE
             }
 
             tvTime.text = if (message.isSent == true) message.createdAt?.toHourMinute() else "Đang gửi"
@@ -93,16 +105,20 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
             if (message.messageType == MessageType.IMAGE.name) {
                 image.setOnClickListener {
                     StfalconImageViewer.Builder(holder.itemView.context, message.fileUrl) { view, imageUrl ->
-                        Glide.with(holder.itemView.context).load(imageUrl).into(view)
+                        var urlImg = if(message.isSent == true){
+                            "${BuildConfig.API_BASE_URL}$imageUrl"
+                        }else{
+                            imageUrl
+                        }
+                        Glide.with(holder.itemView.context).load(urlImg).into(view)
                     }.show()
                 }
             } else if (message.messageType == MessageType.VIDEO.name) {
+                icPlayVideo.visibility = View.VISIBLE
                 image.setOnClickListener {
-                    message.fileUrl.firstOrNull()?.let {
-                        val intent = Intent(holder.itemView.context, VideoPlayerActivity::class.java)
-                        intent.putExtra("video_url", it)
-                        holder.itemView.context.startActivity(intent)
-                    }
+                    val intent = Intent(holder.itemView.context, VideoPlayerActivity::class.java)
+                    intent.putExtra("video_url", fullUrl)
+                    holder.itemView.context.startActivity(intent)
                 }
             }
         }

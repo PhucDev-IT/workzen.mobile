@@ -25,7 +25,8 @@ class ConversationLocalDataSourceImpl : ConversationLocalDataSource {
         }
     }
 
-    override suspend fun getMessages(conversationId: String, limit:Int): Flow<List<MessageEntity>> {
+    override suspend fun getMessages(conversationId: String, limit:Int, page:Int): Flow<List<MessageEntity>> {
+        val offset = page * limit
         return RealmProvider.realm.query<MessageEntity>("conversationId == $0",conversationId).sort("createdAt" ,
             Sort.ASCENDING).limit(limit).asFlow().map { it.list.copyFromRealm() }
     }

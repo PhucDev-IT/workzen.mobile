@@ -6,9 +6,13 @@ import vn.gmi.workzen.domain.entity.conversation.ConversationEntity
 interface ConversationContract {
     interface View: BaseContract.View{
         fun onShowConversations(conversations:List<ConversationEntity>)
+        fun onLoading()
+        fun onHideLoadingChat()
     }
 
     interface Presenter: BaseContract.Presenter<View>{
         fun requestLoadConversations()
+        fun requestGetConversationsTypeGroup()
+        fun requestGetConversationsUnRead()
     }
 }

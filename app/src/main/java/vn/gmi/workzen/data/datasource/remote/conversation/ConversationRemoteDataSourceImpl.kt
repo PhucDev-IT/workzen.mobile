@@ -18,6 +18,7 @@ import vn.gmi.workzen.networks.api.AuthenticationService
 import vn.gmi.workzen.networks.api.ConversationService
 import vn.gmi.workzen.networks.models.ApiResponse
 import java.io.File
+import java.time.Instant
 
 class ConversationRemoteDataSourceImpl(private val apiService: ConversationService): ConversationRemoteDataSource  {
     override suspend fun getConversations(
@@ -32,7 +33,7 @@ class ConversationRemoteDataSourceImpl(private val apiService: ConversationServi
         conversationId: String,
         page: Int,
         size: Int
-    ): Response<ApiResponse<List<MessageResponseModel>>> {
+    ): Response<ApiResponse<PagedResponse<MessageResponseModel>>> {
         return apiService.getMessages(conversationId,page,size)
     }
 
@@ -47,5 +48,20 @@ class ConversationRemoteDataSourceImpl(private val apiService: ConversationServi
         }
 
         return apiService.sendMessage(filesBody,messageBody)
+    }
+
+    override suspend fun getMessageSince(
+        conversationId: String,
+        lastTime: Instant
+    ): Response<ApiResponse<List<MessageResponseModel>>> {
+      return apiService.getMessagesSince(conversationId,lastTime)
+    }
+
+    override suspend fun getConversationsGroups(): Response<ApiResponse<List<ConversationWithLastMessage>>> {
+        return apiService.getConversationsGroup()
+    }
+
+    override suspend fun getConversationsUnRead(): Response<ApiResponse<List<ConversationWithLastMessage>>> {
+       return apiService.getConversationsUnread()
     }
 }

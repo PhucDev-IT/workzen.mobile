@@ -32,10 +32,13 @@ class EndPoints {
 
         //Conversation
         const val GET_CONVERSATION = "/api/conversations"
+        const val GET_CONVERSATION_GROUP = "/api/conversations/groups"
+        const val GET_CONVERSATION_UN_READ = "/api/conversations/un-read"
         const val GET_MESSAGE = "/api/conversations/{conversationId}/messages"
 
         //Message
-        const val SEND_MESSAGE = "/api/messenger"
+        const val SEND_MESSAGE = "/api/messages"
+        const val GET_MESSAGE_SINCE = "/api/messages/sync"
 
     }
 }

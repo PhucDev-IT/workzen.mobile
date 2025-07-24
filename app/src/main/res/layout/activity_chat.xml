@@ -100,6 +100,13 @@
             tools:listitem="@layout/item_chat"
             android:id="@+id/rv_chats"/>
 
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_10sdp"/>
 
     </LinearLayout>
 

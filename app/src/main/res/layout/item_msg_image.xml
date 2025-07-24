@@ -36,31 +36,24 @@
                     android:scaleType="centerCrop"
                     android:id="@+id/image"/>
             </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
-            <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_size_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rotation="10"
-                app:corner_radius="@dimen/_7sdp">
-                <ImageView
-                    android:layout_width="@dimen/_100sdp"
-                    android:contentDescription="@string/todo"
-                    android:layout_height="@dimen/_120sdp"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/image2"/>
-            </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+                style="@style/TextView.Regular.Regular"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/gray_light"/>
 
-            <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/ic_play_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rotation="10"
-                app:corner_radius="@dimen/_7sdp">
-                <ImageView
-                    android:layout_width="@dimen/_100sdp"
-                    android:contentDescription="@string/todo"
-                    android:layout_height="@dimen/_120sdp"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/image3"/>
-            </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+                android:src="@drawable/baseline_play_circle_24"
+                android:layout_gravity="center"
+                app:tint="@color/gray_light" />
         </FrameLayout>
 
 
