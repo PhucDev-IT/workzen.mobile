@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.WorkDayAdapter
+import vn.gmi.workzen.adapter.WorkSheetCalendarAdapter
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentWorkSheetBinding
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetDayEntity
@@ -36,8 +37,8 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
 
     @Inject
     lateinit var workSheetPresenter: WorkSheetPresenter
-    val weekdays = listOf("CN", "T.2", "T.3", "T.4", "T.5", "T.6", "T.7")
-    private lateinit var adapter: WorkDayAdapter
+    val weekdays = listOf("T.2", "T.3", "T.4", "T.5", "T.6", "T.7", "CN")
+    private lateinit var adapter: WorkSheetCalendarAdapter
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -96,7 +97,7 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
 
         workSheetPresenter.attachView(this)
 
-        adapter = WorkDayAdapter(binding.gridWorkSheet)
+        adapter = WorkSheetCalendarAdapter()
         binding.gridWorkSheet.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.gridWorkSheet.adapter = adapter
 
@@ -125,10 +126,12 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
 
 
     override fun onGetReportAttendanceByMonthYear(entity: ReportWorkSheetMonthYearEntity?) {
-        Log.d("onGetReportAttendanceByMonthYear", entity.toString());
-        buildMatrix(entity?.days ?: emptyList())
-        val fullData = buildFullMonthDays(entity?.days ?: emptyList(), 6, 2025)
-        adapter.setFullData(fullData)
+        val matrix = buildMatrix(entity?.days ?: emptyList())
+        val flatten = matrix?.flatten()
+
+        flatten?.let {
+            adapter.setFullData(it)
+        }
     }
 
     fun buildFullMonthDays(
@@ -175,41 +178,44 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
     }
 
 
-    private fun buildMatrix( dataFromServer: List<ReportWorkSheetDayEntity>,): Array<Array<WorkDayItem>>? {
-        val columns = weekdays.size
+    private fun buildMatrix(dataFromServer: List<ReportWorkSheetDayEntity>): Array<Array<ReportWorkSheetDayEntity>>? {
+        val columns = 7 // weekdays.size
         val rows = 6
-        val matrix = Array(rows){Array(columns){ ReportWorkSheetDayEntity() } }
-        val firstDate = dataFromServer.first().workDate
-        if(firstDate == null) return null
-        val date = DateUtils.stringToLocalDate(firstDate)
-        val dayOfWeek = date?.dayOfWeek?.value
-        val firstIndex = (dayOfWeek?:-1) - 1
+        val matrix = Array(rows) { Array(columns) { ReportWorkSheetDayEntity() } }
 
-        matrix[0][firstIndex] = dataFromServer.first()
+        // Step 1: Get first date
+        val firstDate = dataFromServer.firstOrNull()?.workDate ?: return null
+
+        // Step 2: Get day of week
+        val date = DateUtils.stringToLocalDate(firstDate)
+        val dayOfWeek = date?.dayOfWeek?.value ?: return null // 1=Monday, 7=Sunday
+
+        val firstIndex = dayOfWeek - 1 // 0-based index
         var currentColumn = firstIndex
         var currentRow = 0
-        dataFromServer.forEachIndexed { index,value->
-            currentColumn++
-            if(index > 0){
-                matrix[currentRow][currentColumn] = value
 
-                if(currentColumn == columns-1){
-                    currentColumn = 0
-                    currentRow++
-                }
+        for (i in dataFromServer.indices) {
+            matrix[currentRow][currentColumn] = dataFromServer[i]
+
+            currentColumn++
+            if (currentColumn == columns) {
+                currentColumn = 0
+                currentRow++
             }
         }
 
         for ((i, row) in matrix.withIndex()) {
             for ((j, person) in row.withIndex()) {
-                println("[$i][$j] = $person")
+                println("[$i][$j] - dayOfWeek = $dayOfWeek, person = $person")
             }
         }
-        return null
+
+        return matrix
     }
 
+
     private fun showBottomSelectTimeReport() {
-        val listener = object : Consumer<Pair<Int, Int>>{
+        val listener = object : Consumer<Pair<Int, Int>> {
             override fun accept(value: Pair<Int, Int>) {
                 val (month, year) = value
                 workSheetPresenter.getReportAttendanceByMonthYear(month, year)
