@@ -154,10 +154,11 @@
             android:gravity="center"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_total_day_off"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="02"
-                android:textColor="@color/textPrimary"
+                android:textColor="@color/failed"
                 style="@style/TextView.Bold.Bold"
                 android:textSize="@dimen/text_size_xmedium"/>
 
@@ -176,6 +177,7 @@
             android:gravity="center"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_total_attendance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="02"
@@ -198,10 +200,11 @@
             android:gravity="center"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_total_hour_overtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12h"
-                android:textColor="@color/textPrimary"
+                android:textColor="@color/orange"
                 style="@style/TextView.Bold.Bold"
                 android:textSize="@dimen/text_size_xmedium"/>
 

@@ -13,6 +13,10 @@ import vn.gmi.workzen.data.repository.AttendanceRepositoryImpl
 import vn.gmi.workzen.domain.repository.AttendanceRepository
 import vn.gmi.workzen.domain.usecase.CheckInUseCase
 import vn.gmi.workzen.domain.usecase.CheckOutUseCase
+import vn.gmi.workzen.domain.usecase.GetMonthlyWorkOverviewLocalUseCase
+import vn.gmi.workzen.domain.usecase.GetMonthlyWorkOverviewRemoteUseCase
+import vn.gmi.workzen.domain.usecase.GetReportSalaryOfYearLocalUseCase
+import vn.gmi.workzen.domain.usecase.GetReportSalaryOfYearRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetWorkScheduleTodayUseCase
 import vn.gmi.workzen.domain.usecase.ReportAttendanceByMonthYearLocalUseCase
 import vn.gmi.workzen.domain.usecase.ReportAttendanceByMonthYearRemoteUseCase
@@ -20,6 +24,10 @@ import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.networks.api.AttendanceService
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingContract
 import vn.gmi.workzen.ui.home.time_keeping.TimeKeepingPresenter
+import vn.gmi.workzen.ui.payroll.PayRollContract
+import vn.gmi.workzen.ui.payroll.PayRollPresenter
+import vn.gmi.workzen.ui.profile.ProfileContract
+import vn.gmi.workzen.ui.profile.ProfilePresenter
 import vn.gmi.workzen.ui.worksheet.WorkSheetContract
 import vn.gmi.workzen.ui.worksheet.WorkSheetPresenter
 
@@ -69,13 +77,32 @@ class AttendanceModule {
     }
 
     @Provides
+    fun provideGetMonthlyWorkOverviewLocalUseCase(attendanceRepository: AttendanceRepository): GetMonthlyWorkOverviewLocalUseCase {
+        return GetMonthlyWorkOverviewLocalUseCase(attendanceRepository)
+    }
+
+    @Provides
+    fun provideGetMonthlyWorkOverviewRemoteUseCase(attendanceRepository: AttendanceRepository): GetMonthlyWorkOverviewRemoteUseCase {
+        return GetMonthlyWorkOverviewRemoteUseCase(attendanceRepository)
+    }
+
+    @Provides
+    fun providerGetReportSalaryOfYearRemoteUseCase(attendanceRepository: AttendanceRepository): GetReportSalaryOfYearRemoteUseCase {
+        return GetReportSalaryOfYearRemoteUseCase(attendanceRepository)
+    }
+
+    @Provides
+    fun providerGetReportSalaryOfYearLocalUseCase(attendanceRepository: AttendanceRepository): GetReportSalaryOfYearLocalUseCase {
+        return GetReportSalaryOfYearLocalUseCase(attendanceRepository)
+    }
+
+    @Provides
     fun provideWorkSheetPresenter(
         reportAttendanceByMonthYearLocalUseCase: ReportAttendanceByMonthYearLocalUseCase,
         reportAttendanceByMonthYearRemoteUseCase: ReportAttendanceByMonthYearRemoteUseCase
     ): WorkSheetContract.Presenter {
         return WorkSheetPresenter(reportAttendanceByMonthYearLocalUseCase, reportAttendanceByMonthYearRemoteUseCase)
     }
-
 
 
     @Provides
@@ -96,5 +123,12 @@ class AttendanceModule {
         return TimeKeepingPresenter(getWorkScheduleTodayUseCase, checkInUseCase, checkOutUseCase)
     }
 
+    @Provides
+    fun providerPayRollPresenter(
+        getReportSalaryOfYearRemoteUseCase: GetReportSalaryOfYearRemoteUseCase,
+        getReportSalaryOfYearLocalUseCase: GetReportSalaryOfYearLocalUseCase
+    ): PayRollContract.Presenter{
+        return  PayRollPresenter(getReportSalaryOfYearRemoteUseCase, getReportSalaryOfYearLocalUseCase)
+    }
 
 }

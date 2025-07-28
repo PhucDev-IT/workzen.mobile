@@ -1,11 +1,12 @@
 package vn.gmi.workzen.ui.payroll
 
 import vn.gmi.workzen.core.base.BaseContract
-import vn.gmi.workzen.data.models.PayRollOfYearModel
+import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
+import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity
 
 interface PayRollContract  {
     interface View: BaseContract.View{
-        fun onResultBalance(items:List<PayRollOfYearModel>)
+        fun onResultBalance(response:  StatisticSalaryOfYearEntity)
     }
 
     interface Presenter: BaseContract.Presenter<View>{

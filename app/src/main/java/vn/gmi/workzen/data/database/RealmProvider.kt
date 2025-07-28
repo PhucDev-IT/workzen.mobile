@@ -6,8 +6,10 @@ import io.realm.kotlin.RealmConfiguration
 import vn.gmi.workzen.BuildConfig
 
 import vn.gmi.workzen.domain.entity.attendance.AttendanceDataEntity
+import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetDayEntity
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetMonthYearEntity
+import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity
 import vn.gmi.workzen.domain.entity.company.CompanyEntity
 import vn.gmi.workzen.domain.entity.contract.ContractEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
@@ -32,7 +34,10 @@ object RealmProvider {
         AttendanceDataEntity::class,
         Notification::class,
         MessageEntity::class,
-        ConversationEntity::class
+        ConversationEntity::class,
+        MonthlyWorkOverviewEntity::class,
+        StatisticSalaryOfYearEntity.StatisticSalaryOfYearDataEntity::class,
+        StatisticSalaryOfYearEntity::class
     )
 
     private val config: RealmConfiguration by lazy {

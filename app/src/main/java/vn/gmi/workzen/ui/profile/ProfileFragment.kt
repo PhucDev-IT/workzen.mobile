@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.base.BaseFragment
 import vn.gmi.workzen.databinding.FragmentProfileBinding
+import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
@@ -70,6 +71,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
     override fun initView() {
         Glide.with(this).load(R.drawable.ic_dot_red).into(binding.icDotChat)
         presenter.attachView(this)
+
+        presenter.getMonthlyWorkOverview()
     }
 
     override fun showLoading() {
@@ -78,6 +81,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
 
     override fun hideLoading() {
 
+    }
+
+    override fun onMonthlyWorkOverview(entity: MonthlyWorkOverviewEntity) {
+        Log.d(TAG, "onMonthlyWorkOverview: $entity")
+        binding.tvTotalAttendance.text = entity.totalAttendance.toString()
+        binding.tvTotalDayOff.text = entity.totalDayOff.toString()
+        binding.tvTotalHourOvertime.text = entity.hourOvertime.toString()
     }
 
     private fun logout(){
@@ -91,4 +101,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
         presenter.detachView()
         super.onDestroyView()
     }
+
+
 }

@@ -8,7 +8,9 @@ import vn.gmi.workzen.data.di.IoDispatcher
 import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
+import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetMonthYearEntity
+import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity
 import vn.gmi.workzen.domain.repository.AttendanceRepository
 import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.networks.rest.ApiResult
@@ -86,5 +88,51 @@ class AttendanceRepositoryImpl @Inject constructor(
             }
             entity
         }
+    }
+
+    override suspend fun getReportSalaryOfYearRemote(year: Int): StatisticSalaryOfYearEntity? {
+      return withContext(dispatcher){
+          val entity = when(val result = attendanceRemoteDataSource.getReportSalaryOfYear(year).toApiResult()){
+            is ApiResult.Success -> {
+                val mapped = result.data?.mapToEntity()
+                mapped
+            }
+              is ApiResult.Error -> throw Exception(result.message)
+          }
+          entity
+      }
+    }
+
+    override suspend fun getReportSalaryOfYearLocal(year: Int): StatisticSalaryOfYearEntity? {
+        return withContext(dispatcher){
+            val entity = attendanceLocalDataSource.getReportSalaryOfYear(year)
+            entity
+        }
+    }
+
+    override suspend fun getMonthlyWorkOverviewRemote(
+        month: Int,
+        year: Int
+    ): MonthlyWorkOverviewEntity? {
+      return  withContext(dispatcher){
+          val entity = when(val result = attendanceRemoteDataSource.getMonthlyWorkOverview(month,year).toApiResult()){
+              is ApiResult.Success -> {
+                  val mapped = result.data?.mapToEntity()
+                  mapped
+              }
+              is ApiResult.Error -> throw Exception(result.message)
+          }
+          entity
+      }
+    }
+
+    override suspend fun getMonthlyWorkOverviewLocal(
+        month: Int,
+        year: Int
+    ): MonthlyWorkOverviewEntity? {
+         return  withContext(dispatcher){
+             val entity = attendanceLocalDataSource.getReportMonthlyWorkOverview(month, year, SessionManager.profileState.value?.id!!)
+             entity
+         }
     }
 }

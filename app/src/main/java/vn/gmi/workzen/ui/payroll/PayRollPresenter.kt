@@ -1,24 +1,34 @@
 package vn.gmi.workzen.ui.payroll
 
+import android.util.Log
+import kotlinx.coroutines.launch
 import vn.gmi.workzen.core.base.BasePresenter
-import vn.gmi.workzen.data.models.PayRollOfYearModel
+import vn.gmi.workzen.domain.usecase.GetReportSalaryOfYearLocalUseCase
+import vn.gmi.workzen.domain.usecase.GetReportSalaryOfYearRemoteUseCase
+import java.time.LocalDate
 import java.util.Random
+import javax.inject.Inject
 
 
-class PayRollPresenter : BasePresenter<PayRollContract.View>(), PayRollContract.Presenter {
+class PayRollPresenter @Inject constructor(
+    private val getReportSalaryOfYearRemoteUseCase: GetReportSalaryOfYearRemoteUseCase,
+    private val getReportSalaryOfYearLocalUseCase: GetReportSalaryOfYearLocalUseCase
+): BasePresenter<PayRollContract.View>(), PayRollContract.Presenter {
 
     override fun requestGetBalance() {
-        getView()?.onResultBalance(randomData())
+       scope.launch {
+           try{
+               val now = LocalDate.now()
+               val local = getReportSalaryOfYearRemoteUseCase.invoke(now.year)
+               local?.let { getView()?.onResultBalance(it) }
+
+               val remote = getReportSalaryOfYearLocalUseCase.invoke(now.year)
+               remote?.let { getView()?.onResultBalance(it) }
+           }catch (e: Exception){
+               Log.e("PayRollPresenter", "requestGetBalance: ${e.message}")
+           }
+       }
     }
 
-    private fun randomData(): List<PayRollOfYearModel> {
-       val list = arrayListOf<PayRollOfYearModel>()
-        val random = Random()
-        for (i in 1..12) {
-            val value = random.nextInt(9_000_001) + 1_000_000 // từ 1_000_000 đến 10_000_000
-            list.add(PayRollOfYearModel(i,value.toDouble()))
-        }
-        return list
-    }
 
 }

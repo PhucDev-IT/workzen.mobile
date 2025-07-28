@@ -12,26 +12,30 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import dagger.hilt.android.AndroidEntryPoint
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvBalanceMonthAdapter
 import vn.gmi.workzen.core.base.BaseFragment
-import vn.gmi.workzen.data.models.PayRollOfYearModel
 import vn.gmi.workzen.databinding.FragmentPayRollBinding
+import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity
+import javax.inject.Inject
+import androidx.core.graphics.toColorInt
 
-
+@AndroidEntryPoint
 class PayRollFragment : BaseFragment<FragmentPayRollBinding>(), PayRollContract.View {
     private lateinit var adapter: RvBalanceMonthAdapter
-    private lateinit var presenter: PayRollPresenter
+    @Inject
+    lateinit var presenter: PayRollPresenter
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentPayRollBinding {
-        return FragmentPayRollBinding.inflate(inflater,container,false)
+        return FragmentPayRollBinding.inflate(inflater, container, false)
     }
 
     override fun initBindingData() {
-        chart()
+
     }
 
     override fun onSingleClick(v: View?) {
@@ -39,7 +43,6 @@ class PayRollFragment : BaseFragment<FragmentPayRollBinding>(), PayRollContract.
     }
 
     override fun initView() {
-        presenter = PayRollPresenter()
         presenter.attachView(this)
 
         adapter = RvBalanceMonthAdapter()
@@ -49,35 +52,26 @@ class PayRollFragment : BaseFragment<FragmentPayRollBinding>(), PayRollContract.
 
     }
 
-    private fun chart(){
+    private fun drawChart(list: List< StatisticSalaryOfYearEntity.StatisticSalaryOfYearDataEntity>) {
         val barChart = binding.barChart
 
-// 1. Dữ liệu doanh thu 12 tháng
-        val entries = listOf(
-            BarEntry(0f, 10f),  // Tháng 1: 10 triệu
-            BarEntry(1f, 15f),
-            BarEntry(2f, 12f),
-            BarEntry(3f, 18f),
-            BarEntry(4f, 20f),
-            BarEntry(5f, 25f),
-            BarEntry(6f, 22f),
-            BarEntry(7f, 28f),
-            BarEntry(8f, 30f),
-            BarEntry(9f, 27f),
-            BarEntry(10f, 35f),
-            BarEntry(11f, 40f)  // Tháng 12: 40 triệu
-        )
+        // 1. Dữ liệu doanh thu 12 tháng
+        val entries = mutableListOf<BarEntry>()
+        for(i in 0 until list.size){
+            entries.add(BarEntry(i.toFloat(), list[i].totalSalary!!.toFloat()))
+        }
 
         val dataSet = BarDataSet(entries, "Doanh thu (triệu VND)")
-        dataSet.color = Color.parseColor("#4CAF50") // màu xanh lá
+        dataSet.color = "#4CAF50".toColorInt() // màu xanh lá
         dataSet.valueTextSize = 12f
 
-// 2. Đặt dữ liệu lên biểu đồ
+        // 2. Đặt dữ liệu lên biểu đồ
         val barData = BarData(dataSet)
         barChart.data = barData
 
-// 3. Tùy chỉnh hiển thị
-        val months = listOf("T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12")
+        // 3. Tùy chỉnh hiển thị
+        val months =
+            listOf("T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12")
         barChart.xAxis.valueFormatter = IndexAxisValueFormatter(months)
         barChart.xAxis.granularity = 1f
         barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -88,7 +82,6 @@ class PayRollFragment : BaseFragment<FragmentPayRollBinding>(), PayRollContract.
     }
 
 
-
     override fun showLoading() {
     }
 
@@ -96,8 +89,21 @@ class PayRollFragment : BaseFragment<FragmentPayRollBinding>(), PayRollContract.
 
     }
 
-    override fun onResultBalance(items: List<PayRollOfYearModel>) {
-        adapter.addAll(items)
+    override fun onResultBalance(response: StatisticSalaryOfYearEntity) {
+        var list: MutableList<StatisticSalaryOfYearEntity.StatisticSalaryOfYearDataEntity> =
+            mutableListOf()
+        response.months?.let { list.addAll(it) }
+        for (i in 1 until 13) {
+            var item = list.find { it.month == i }
+            if (item == null) {
+                list?.add(StatisticSalaryOfYearEntity.StatisticSalaryOfYearDataEntity().apply {
+                    month = i
+                })
+            }
+
+        }
+        adapter.addAll(list)
+        drawChart(list)
     }
 
     override fun onError(message: String) {

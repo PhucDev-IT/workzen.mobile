@@ -9,6 +9,8 @@ import retrofit2.http.Query
 import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
+import vn.gmi.workzen.data.models.response.attendance.MonthlyWorkOverviewRes
+import vn.gmi.workzen.data.models.response.attendance.StatisticSalaryOfYearRes
 import vn.gmi.workzen.data.models.response.attendance.WorkSheetByMonthYearResModel
 import vn.gmi.workzen.networks.models.ApiResponse
 
@@ -24,4 +26,9 @@ interface AttendanceService {
 
     @GET(EndPoints.REPORT_ATTENDANCE_USER_IN_MONTH)
     suspend fun reportAttendanceUserInMonth(@Query("month") month:Int, @Query("year") year:Int): Response<ApiResponse<WorkSheetByMonthYearResModel?>>
+
+    @GET(EndPoints.REPORT_WORKING_TIME_BASE)
+    suspend fun reportGetWorkingTimeBase(@Query("month") month:Int, @Query("year") year:Int):  Response<ApiResponse<MonthlyWorkOverviewRes?>>
+    @GET(EndPoints.REPORT_SALARY_OF_YEAR)
+    suspend fun getReportSalaryOfYear( @Query("year") year:Int):  Response<ApiResponse<StatisticSalaryOfYearRes?>>
 }

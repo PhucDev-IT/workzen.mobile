@@ -11,6 +11,8 @@ import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSource
 import vn.gmi.workzen.data.datasource.remote.user.UserRemoteDataSourceImpl
 import vn.gmi.workzen.data.repository.UserRepositoryImpl
 import vn.gmi.workzen.domain.repository.UserRepository
+import vn.gmi.workzen.domain.usecase.GetMonthlyWorkOverviewLocalUseCase
+import vn.gmi.workzen.domain.usecase.GetMonthlyWorkOverviewRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetProfileUseCase
@@ -88,10 +90,11 @@ class UserModule {
 
     @Provides
     fun provideProfilePresenter(
-        getProfileUseCase: GetProfileUseCase,
+        getMonthlyWorkOverviewLocalUseCase: GetMonthlyWorkOverviewLocalUseCase,
+        getMonthlyWorkOverviewRemoteUseCase: GetMonthlyWorkOverviewRemoteUseCase,
         logoutUseCase: LogoutUseCase
     ): ProfileContract.Presenter{
-        return ProfilePresenter(getProfileUseCase,logoutUseCase)
+        return ProfilePresenter(getMonthlyWorkOverviewLocalUseCase,getMonthlyWorkOverviewRemoteUseCase,logoutUseCase)
     }
 
 }
