@@ -61,7 +61,7 @@ object Utils {
         }
     }
 
-    fun uriToFile(context: Context, uri: Uri): File? {
+    fun uriToFile(context: Context, uri: Uri, fileName:String? = null): File? {
         return try {
 
             val contentResolver = context.contentResolver
@@ -69,7 +69,9 @@ object Utils {
 
             val inputStream = contentResolver.openInputStream(uri) ?: return null
 
-            val fileName =  "upload_${System.currentTimeMillis()}.${MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "bin"}"
+            val fileName = fileName ?: ("upload_${System.currentTimeMillis()}" + ".${
+                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "bin"
+            }")
             val tempFile = File(context.cacheDir, fileName)
             tempFile.outputStream().use { outputStream ->
                 inputStream.copyTo(outputStream)

@@ -191,6 +191,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         binding.llViewInfo.setOnClickListener(this)
         binding.bottomAction.llClose.setOnClickListener(this)
         binding.bottomAction.btnPhoto.setOnClickListener(this)
+        binding.bottomAction.btnFile.setOnClickListener(this)
 
     }
 
@@ -223,6 +224,8 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
             binding.bottomAction.btnPhoto -> {
                 openPicker()
             }
+
+            binding.bottomAction.btnFile -> openPickerFile()
         }
     }
 
@@ -335,7 +338,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
             val fileType = handleExtensionFile(extension)
 
             val fileInfo = ChatMessage.FileMsgInfo().apply {
-                file = fileItem.file
+                filePath = fileItem.filePath
                 fileName = fileItem.fileName
                 this.fileType = fileItem.fileType
             }
@@ -389,6 +392,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
                 this.conversationId = conversationID
                 this.senderId = SessionManager.profileState.value?.id
                 this.messageType = MessageType.TEXT
+                this.files = imageFiles
             }
             result.add(msg)
         }
@@ -453,9 +457,10 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
 
             ChatMessage.FileMsgInfo().apply {
                 id = UUID.randomUUID().toString()
-                file = uri.toString()
+                filePath = uri.toString()
                 fileName = name
                 fileType = type
+                fileSize = size
             }
         }
 
@@ -472,6 +477,21 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         pickMultipleMedia.launch(arrayOf("image/*", "video/*"))
         hideSlideView()
     }
+
+    fun openPickerFile() {
+        pickMultipleMedia.launch(
+            arrayOf(
+                "application/pdf",                  // PDF
+                "application/msword",               // .doc
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+                "application/vnd.ms-excel",         // .xls
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+                "text/plain",                       // .txt
+            )
+        )
+        hideSlideView()
+    }
+
 
     val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.OpenMultipleDocuments()

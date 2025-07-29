@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.response.conversation.MessageResponseModel
+import vn.gmi.workzen.domain.entity.notification.NotifyType
 import vn.gmi.workzen.networks.ApiService
 import vn.gmi.workzen.utils.MySharedPreferences
 
@@ -55,6 +56,11 @@ class MyFirebaseService : FirebaseMessagingService() {
         Log.d(TAG, "onMessageReceived: ${message.from}")
 
         var body = message.data["title"] ?: ""
+        val title = message.data["title"] ?: "Thông báo"
+        val dataJson = message.data["data"]
+        val type = message.data["type"]
+        val isClick = message.data["isClick"]?.toBoolean() == true
+
         var senderId:String? = null
         try {
             val notificationModel = ApiService.instance.GSON.fromJson<MessageResponseModel>(message.data["data"],
@@ -66,15 +72,9 @@ class MyFirebaseService : FirebaseMessagingService() {
             }
         }catch (e: Exception){}
 
-        if(senderId == MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)){
+        if(type == NotifyType.CHAT.name && senderId == MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)){
             return
         }
-
-        val title = message.data["title"] ?: "Thông báo"
-        val dataJson = message.data["data"]
-        val type = message.data["type"]
-        val isClick = message.data["isClick"]?.toBoolean() == true
-
 
         if(isClick){
             PushNotification.notificationHandleClick(title,body, dataJson.toString(),

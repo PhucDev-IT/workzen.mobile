@@ -26,8 +26,9 @@ class RvMgsPreviewFileAdapter(private val listener:OnDataChange?) : BaseAdapter<
         viewType: Int
     ): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
+        ItemMsgPreviewImgBinding.inflate(inflater, parent, false)
         return when (viewType) {
-            MessageTypeView.IMAGE.code,  MessageTypeView.VIDEO.code -> ImageViewHolder(
+            MessageTypeView.IMAGE.code,  MessageTypeView.VIDEO.code, MessageTypeView.FILE.code -> ImageViewHolder(
                 ItemMsgPreviewImgBinding.inflate(inflater, parent, false)
             )
 
@@ -53,8 +54,15 @@ class RvMgsPreviewFileAdapter(private val listener:OnDataChange?) : BaseAdapter<
     private fun handleImageView(holder: ItemViewHolder,
                                 item: ChatMessage.FileMsgInfo){
         val view = holder as ImageViewHolder
+
+        val extension = item.fileName?.substringAfterLast('.', "")?.lowercase() ?: ""
+
        with(view.binding) {
-           Glide.with(view.itemView.context).load(item.file).into(img)
+           if(extension in listOf("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt")){
+               Glide.with(view.itemView.context).load("https://i.pinimg.com/564x/8e/b6/56/8eb656ee4829bbf6709a724b36def067.jpg").into(img)
+           }else{
+               Glide.with(view.itemView.context).load(item.filePath).into(img)
+           }
 
            icRemove.setOnClickListener {
                list.remove(item)

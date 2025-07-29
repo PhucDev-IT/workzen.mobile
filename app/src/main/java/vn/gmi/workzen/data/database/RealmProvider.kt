@@ -37,7 +37,8 @@ object RealmProvider {
         ConversationEntity::class,
         MonthlyWorkOverviewEntity::class,
         StatisticSalaryOfYearEntity.StatisticSalaryOfYearDataEntity::class,
-        StatisticSalaryOfYearEntity::class
+        StatisticSalaryOfYearEntity::class,
+        MessageEntity.FileMsgInfoEntity::class
     )
 
     private val config: RealmConfiguration by lazy {

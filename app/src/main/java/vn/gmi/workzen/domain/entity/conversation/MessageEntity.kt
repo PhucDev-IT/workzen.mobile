@@ -12,7 +12,7 @@ class MessageEntity : RealmObject{
     var conversationId:String?=null
     var content:String?=null
     var subContent:String?=null
-    var fileUrl: RealmList<String> = realmListOf()
+    var files: RealmList<FileMsgInfoEntity> = realmListOf()
     var replyToMessageId:String?=null
     var messageType: String?=null
     var isEdited: Boolean?=null
@@ -23,10 +23,6 @@ class MessageEntity : RealmObject{
     var senderAvatar:String?=null
     var isSent:Boolean?=null
 
-
-    override fun toString(): String {
-        return "MessageEntity(id='$id', conversationId=$conversationId, content=$content, subContent=$subContent, fileUrl=$fileUrl, senderId=$senderId), isSent=$isSent"
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -46,5 +42,28 @@ class MessageEntity : RealmObject{
         return result
     }
 
+
+    class FileMsgInfoEntity : RealmObject{
+        var id: String? = null
+        var filePath: String? = null
+        var fileName: String? = null
+        var fileSize: Long? = null
+        var fileType: String? = null
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as FileMsgInfoEntity
+
+            return id == other.id
+        }
+
+        override fun hashCode(): Int {
+            return id?.hashCode() ?: 0
+        }
+
+
+    }
 
 }

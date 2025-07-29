@@ -1,5 +1,6 @@
 package vn.gmi.workzen.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.Gravity
@@ -33,6 +34,7 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
 
     class TextViewHolder(val binding: ItemMessageBaseBinding) : ItemViewHolder(binding.root)
     class ImageViewHolder(val binding: ItemMsgImageBinding) : ItemViewHolder(binding.root)
+    class FileViewHolder(val binding: ItemMsgFileBinding) : ItemViewHolder(binding.root)
     class EmojiViewHolder(val binding: ItemMgsEmojiBinding) : ItemViewHolder(binding.root)
     class SystemMessageViewHolder(val binding: ItemSystemMessageBinding) : ItemViewHolder(binding.root)
 
@@ -43,6 +45,7 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
             MessageTypeView.IMAGE.code, MessageTypeView.VIDEO.code -> ImageViewHolder(ItemMsgImageBinding.inflate(inflater, parent, false))
             MessageTypeView.EMOJI.code -> EmojiViewHolder(ItemMgsEmojiBinding.inflate(inflater, parent, false))
             MessageTypeView.SYSTEM.code -> SystemMessageViewHolder(ItemSystemMessageBinding.inflate(inflater, parent, false))
+            MessageTypeView.FILE.code -> FileViewHolder(ItemMsgFileBinding.inflate(inflater, parent, false))
             else -> throw IllegalArgumentException("Invalid viewType: $viewType")
         }
     }
@@ -73,13 +76,58 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
             is TextViewHolder -> handleTextMessage(holder, item)
             is ImageViewHolder -> handleImageMessage(holder, item)
             is EmojiViewHolder -> handleEmojiMessage(holder, item)
+            is FileViewHolder -> handleFileMessage(holder, item)
             is SystemMessageViewHolder -> holder.binding.tvContent.text = item.subContent
         }
     }
 
+    private fun handleFileMessage(holder: FileViewHolder, message: MessageEntity) {
+        with(holder.binding) {
+            if(!message.content.isNullOrEmpty()){
+                tvContent.text = message.content
+                tvContent.visibility = View.VISIBLE
+            }
+
+            if(message.senderId == currentUserId){
+                container.gravity = Gravity.END
+            }
+
+            tvTime.visibility = if (shouldShowTime(message)) View.VISIBLE else View.GONE
+            tvTime.text = message.createdAt?.toHourMinute()
+
+            //Get file name
+            tvName.text = message.files.asToList().firstOrNull()?.fileName
+
+            // Check file type extension
+            val extension = message.files.asToList()
+                .firstOrNull()
+                ?.fileName
+                ?.substringAfterLast('.', "")
+                ?.lowercase() ?: ""
+
+            val iconUrl = when (extension) {
+                "pdf" -> "https://img.icons8.com/color/96/pdf.png"
+                "doc", "docx" -> "https://img.icons8.com/color/96/word.png"
+                "xls", "xlsx" -> "https://img.icons8.com/color/96/excel.png"
+                "ppt", "pptx" -> "https://img.icons8.com/color/96/powerpoint.png"
+                "txt" -> "https://img.icons8.com/color/96/notepad.png"
+                "jpg", "jpeg", "png", "gif", "bmp", "webp" -> "https://img.icons8.com/color/96/image.png"
+                "zip", "rar", "7z" -> "https://img.icons8.com/color/96/zip.png"
+                else -> "https://img.icons8.com/color/96/file.png"
+            }
+
+            Glide.with(holder.itemView.context)
+                .load(iconUrl)
+                .into(image)
+
+
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun handleImageMessage(holder: ImageViewHolder, message: MessageEntity) {
         with(holder.binding) {
-            val url = message.fileUrl.asToList().firstOrNull()
+            val url = message.files.asToList().firstOrNull()?.filePath
             var fullUrl = if(message.isSent == true){
                 "${BuildConfig.API_BASE_URL}$url"
             }else{
@@ -87,9 +135,9 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
             }
             Glide.with(holder.itemView.context).load(fullUrl).thumbnail(0.1f).into(image)
 
-            if(message.fileUrl.asToList().size > 1){
+            if(message.files.asToList().size > 1){
                 tvSizeFile.visibility = View.VISIBLE
-                tvSizeFile.text = "+${message.fileUrl.asToList().size - 1} ảnh"
+                tvSizeFile.text = "+${message.files.asToList().size - 1} ảnh"
             }else{
                 tvSizeFile.visibility = View.GONE
             }
@@ -104,7 +152,8 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
 
             if (message.messageType == MessageType.IMAGE.name) {
                 image.setOnClickListener {
-                    StfalconImageViewer.Builder(holder.itemView.context, message.fileUrl) { view, imageUrl ->
+                    val paths = message.files.map { it.filePath }
+                    StfalconImageViewer.Builder(holder.itemView.context,paths) { view, imageUrl ->
                         var urlImg = if(message.isSent == true){
                             "${BuildConfig.API_BASE_URL}$imageUrl"
                         }else{

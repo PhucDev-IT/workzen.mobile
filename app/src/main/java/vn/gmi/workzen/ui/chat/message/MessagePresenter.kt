@@ -1,6 +1,7 @@
 package vn.gmi.workzen.ui.chat.message
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.core.net.toUri
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
@@ -101,8 +102,9 @@ class MessagePresenter @Inject constructor(
                 }
                 msgs.forEach { msg ->
                     val files = msg.files?.mapNotNull { data ->
-                        Utils.uriToFile(MyApplication.instance, data.file?.toUri()!!)
+                        Utils.uriToFile(MyApplication.instance, data.filePath?.toUri()!!, data.fileName)
                     }
+
                     val pair = Pair(msg, files)
                     sendMessageUseCase.invoke(pair)
                 }

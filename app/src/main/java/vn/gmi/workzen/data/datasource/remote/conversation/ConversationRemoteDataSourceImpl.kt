@@ -1,5 +1,6 @@
 package vn.gmi.workzen.data.datasource.remote.conversation
 
+import android.util.Log
 import io.realm.kotlin.ext.query
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,7 +39,6 @@ class ConversationRemoteDataSourceImpl(private val apiService: ConversationServi
     }
 
     override suspend fun sendMessage(msg: ChatMessage, files: List<File>?): Response<ApiResponse<MessageResponseModel>> {
-        msg.files = null
         val jsonMessage = ApiService.instance.GSON.toJson(msg)
         val messageBody = jsonMessage.toRequestBody("text/plain".toMediaTypeOrNull())
 
