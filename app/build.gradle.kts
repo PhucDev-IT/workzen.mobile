@@ -54,7 +54,7 @@ android {
     productFlavors {
         create("dev") {
                 buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
-                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.8:8080/ws\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.10:8080/ws\"")
         }
         create("production") {
 
@@ -111,6 +111,9 @@ dependencies {
     implementation ("androidx.camera:camera-mlkit-vision:1.3.0-beta02")
 
 
+    implementation("com.github.alexzhirkevich:custom-qr-generator:2.0.0-alpha01")
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
+
 }

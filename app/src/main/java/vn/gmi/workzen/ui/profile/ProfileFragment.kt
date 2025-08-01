@@ -17,6 +17,7 @@ import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
+import vn.gmi.workzen.ui.account.BottomSheetAccountPaymentFragment
 import vn.gmi.workzen.ui.authentication.login.LoginActivity
 import vn.gmi.workzen.ui.chat.conversation.ChatActivity
 import vn.gmi.workzen.ui.profile.details.ProfileDetailActivity
@@ -73,6 +74,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
         presenter.attachView(this)
 
         presenter.getMonthlyWorkOverview()
+        showBottomSheetAccountPayment()
+
     }
 
     override fun showLoading() {
@@ -88,6 +91,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
         binding.tvTotalAttendance.text = entity.totalAttendance.toString()
         binding.tvTotalDayOff.text = entity.totalDayOff.toString()
         binding.tvTotalHourOvertime.text = entity.hourOvertime.toString()
+    }
+
+    private fun showBottomSheetAccountPayment(){
+        val bottomSheet = BottomSheetAccountPaymentFragment()
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
     }
 
     private fun logout(){
