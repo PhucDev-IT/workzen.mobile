@@ -13,4 +13,6 @@ object IntentData {
     val KEY_QRCODE_INFO = "KEY_QR_CODE_RESULT"
     val KEY_CAN_KEY = "KEY_CAN_KEY"
     val KEY_MODE_SCAN_NFC = "KEY_MODE_SCAN_NFC"
+
+
 }

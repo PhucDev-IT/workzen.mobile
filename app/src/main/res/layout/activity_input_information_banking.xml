@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/primary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.account.banking.InputInformationBankingActivity">
+
+    <include layout="@layout/toolbar_header"
+        android:id="@+id/ll_header"/>
+
+    <LinearLayout
+        android:layout_below="@id/ll_header"
+        android:gravity="center"
+        android:background="@color/background"
+        android:id="@+id/container_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:id="@+id/logo_bank"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextView.Medium.Medium"
+            android:textColor="@color/textPrimary"
+            android:gravity="center"
+            android:id="@+id/tv_header"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            style="@style/TextView.Regular.Regular"
+            android:textColor="@color/textSecondary"
+            android:text="Vui lòng nhập chính xác thông tin của bạn để đảm bảo quyền lợi sau này"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:background="@color/background"
+        android:layout_below="@id/container_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số CCCD"
+                style="@style/TextView.Medium.Medium"
+                android:layout_marginTop="@dimen/_10sdp"/>
+            <EditText
+                android:id="@+id/edt_eid_number"
+                android:inputType="number"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:textSize="@dimen/text_size_medium"
+                android:background="@drawable/bg_input_text"
+                android:maxLength="12"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:hint="012345678"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Họ và tên"
+                style="@style/TextView.Medium.Medium"
+                android:layout_marginTop="@dimen/_10sdp"/>
+            <EditText
+                android:id="@+id/edt_owner_name"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_input_text"
+                android:textSize="@dimen/text_size_medium"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:hint="NGUYEN VAN A"/>
+
+            <TextView
+                android:id="@+id/tv_number_banking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số tài khoản"
+                style="@style/TextView.Medium.Medium"
+                android:layout_marginTop="@dimen/_10sdp"/>
+            <EditText
+                android:id="@+id/edt_id_card"
+                android:inputType="number"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_input_text"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:textSize="@dimen/text_size_medium"
+                android:hint="000 000 0000 0000"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày cấp"
+                style="@style/TextView.Medium.Medium"
+                android:layout_marginTop="@dimen/_10sdp"/>
+            <EditText
+                android:id="@+id/edt_date_card"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_input_text"
+                android:textSize="@dimen/text_size_medium"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:hint="MM/YY"/>
+
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_continue"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="Tiếp tục"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

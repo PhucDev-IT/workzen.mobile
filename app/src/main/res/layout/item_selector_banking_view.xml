@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/_3sdp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="@dimen/_5sdp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:id="@+id/img_logo"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp" />
+
+    <TextView
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_weight="1"
+        android:id="@+id/tv_name_banking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextView.Bold.Bold"
+        android:textSize="@dimen/text_size_xnormal" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_navigate_before_24"
+        android:rotation="180"
+        app:tint="@color/grey" />
+</LinearLayout>

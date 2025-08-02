@@ -20,6 +20,7 @@ import vn.gmi.workzen.networks.api.ConversationService
 import vn.gmi.workzen.networks.api.NotificationService
 import vn.gmi.workzen.networks.api.ShiftService
 import vn.gmi.workzen.networks.api.UserService
+import vn.gmi.workzen.networks.api.WalletService
 import vn.gmi.workzen.networks.rest.RestClient
 import vn.gmi.workzen.services.socket.AppWebSocketListener
 import vn.gmi.workzen.utils.MySharedPreferences
@@ -93,6 +94,11 @@ class ApiService private constructor() {
 
     val conversationService: ConversationService
         get() = retrofit?.create(ConversationService::class.java)
+            ?: throw IllegalStateException("Retrofit chưa được init. Gọi initBaseUrl() trước.")
+
+
+    val walletService: WalletService
+        get() = retrofit?.create(WalletService::class.java)
             ?: throw IllegalStateException("Retrofit chưa được init. Gọi initBaseUrl() trước.")
 }
 

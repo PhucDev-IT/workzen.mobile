@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".ui.account.banking.InputInfoCardPaymentActivity">
+
+
+    <include android:id="@+id/ll_header"
+        layout="@layout/toolbar_header"/>
+
+    <ScrollView
+        android:layout_below="@id/ll_header"
+        android:layout_above="@id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thông tin thẻ"
+                style="@style/TextView.Bold.Bold"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:hint="Số thẻ"
+                app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+                app:boxCornerRadiusTopStart="@dimen/_7sdp"
+                app:boxStrokeColor="@color/borderColor"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:hint="Chủ thẻ"
+                android:layout_marginVertical="@dimen/_5sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+                app:boxCornerRadiusTopStart="@dimen/_7sdp"
+                app:boxStrokeColor="@color/borderColor"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_owner_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Nhập họ tên chủ thẻ"
+                    android:inputType="textPersonName"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_7sdp"
+                    app:boxStrokeColor="@color/borderColor"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Ngày hết hạn"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_7sdp"
+                    app:boxStrokeColor="@color/borderColor"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_cvv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="CVV"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:hint="CMND/CCCD/Hộ chiếu"
+                android:layout_marginVertical="@dimen/_5sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+                app:boxCornerRadiusTopStart="@dimen/_7sdp"
+                app:boxStrokeColor="@color/borderColor"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_id_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Nhập họ tên chủ thẻ"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:hint="Email"
+                android:layout_marginVertical="@dimen/_5sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+                app:boxCornerRadiusTopStart="@dimen/_7sdp"
+                app:boxStrokeColor="@color/borderColor"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Nhập họ tên chủ thẻ"
+                    android:inputType="textEmailAddress"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mọi thông tin của bạn đều được bảo mâ theo tiêu chuẩn quốc tế PCI DSS"
+                style="@style/TextView.Medium.Medium"
+                android:layout_marginTop="@dimen/_20sdp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/_10sdp"
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tiếp tục"/>
+    </LinearLayout>
+</RelativeLayout>
