@@ -20,6 +20,8 @@ import vn.gmi.workzen.domain.entity.notification.Notification
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
 import vn.gmi.workzen.domain.entity.shift.ShiftEntity
 import vn.gmi.workzen.domain.entity.wallet.LinkedWalletEntity
+import vn.gmi.workzen.domain.entity.wallet.PaymentTransactionEntity
+import vn.gmi.workzen.domain.entity.wallet.UserInfoTransaction
 import vn.gmi.workzen.domain.entity.wallet.WalletEntity
 
 object RealmProvider {
@@ -42,6 +44,8 @@ object RealmProvider {
         StatisticSalaryOfYearEntity::class,
         LinkedWalletEntity::class,
         WalletEntity::class,
+        UserInfoTransaction::class,
+        PaymentTransactionEntity::class,
         MessageEntity.FileMsgInfoEntity::class
     )
 

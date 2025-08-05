@@ -33,6 +33,7 @@
             android:layout_height="@dimen/_37sdp"
             android:background="@drawable/bg_input_text"
             android:hint="1.000.000"
+            android:inputType="number"
             style="@style/TextView.Regular.Regular"
             android:textSize="@dimen/text_size_xnormal"
             android:paddingHorizontal="@dimen/_10sdp"
@@ -66,6 +67,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_linked_wallet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:itemCount="3"

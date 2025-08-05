@@ -45,9 +45,11 @@ class EndPoints {
         const val GET_MESSAGE_SINCE = "/api/messages/sync"
 
         //Wallet
-        const val GET_ALL_WALLET = "api/wallets"
-        const val GET_ALl_LINKED_WALLET = "api/wallets/linked"
-        const val REQUEST_LINK_WALLET = "api/wallets/linked"
+        const val GET_ALL_WALLET = "/api/wallets"
+        const val GET_ALl_LINKED_WALLET = "/api/users/{userId}/wallet-links"
+        const val REQUEST_LINK_WALLET = "/api/users/{userId}/wallet-links"
+        const val GET_TRANSACTION_HISTORIES ="/api/users/{userId}/transactions"
+        const val CREATE_TRANSACTION = "/api/users/{userId}/transactions"
 
     }
 }

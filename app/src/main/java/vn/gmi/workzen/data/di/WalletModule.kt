@@ -11,7 +11,9 @@ import vn.gmi.workzen.data.datasource.remote.wallet.WalletRemoteDataSource
 import vn.gmi.workzen.data.datasource.remote.wallet.WalletRemoteDataSourceImpl
 import vn.gmi.workzen.data.repository.WalletRepositoryImpl
 import vn.gmi.workzen.domain.repository.WalletRepository
+import vn.gmi.workzen.domain.usecase.CreateTransactionUseCase
 import vn.gmi.workzen.domain.usecase.GetLinkedWalletsUseCase
+import vn.gmi.workzen.domain.usecase.GetTransactionHistoriesUseCase
 import vn.gmi.workzen.domain.usecase.GetWalletsUseCase
 import vn.gmi.workzen.domain.usecase.RequestLinkWalletUseCase
 import vn.gmi.workzen.networks.ApiService
@@ -53,6 +55,16 @@ class WalletModule {
     @Provides
     fun provideGetLinkedWalletsUseCase(repository: WalletRepository): GetLinkedWalletsUseCase {
         return GetLinkedWalletsUseCase(repository)
+    }
+
+    @Provides
+    fun provideGetTransactionHistoriesUseCase(repository: WalletRepository): GetTransactionHistoriesUseCase {
+        return GetTransactionHistoriesUseCase(repository)
+    }
+
+    @Provides
+    fun provideCreateTransactionUseCase(repository: WalletRepository): CreateTransactionUseCase {
+        return CreateTransactionUseCase(repository)
     }
 
     //================================ REPOSITORY ===================================

@@ -54,7 +54,7 @@ android {
     productFlavors {
         create("dev") {
                 buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
-                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.7:8080/ws\"")
+                buildConfigField("String", "WEB_SOCKET_URL", "\"ws://192.168.201.5:8080/ws\"")
         }
         create("production") {
 

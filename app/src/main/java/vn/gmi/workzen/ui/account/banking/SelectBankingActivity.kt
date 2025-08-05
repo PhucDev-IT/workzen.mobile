@@ -52,10 +52,10 @@ class SelectBankingActivity : AppCompatActivity() {
     }
 
     private fun initUI(){
-        binding.llHeader.title.text = if(walletType == WalletType.BANKING) "Chọn ngân hàng" else "Chọn thẻ"
+        binding.llHeader.title.text = if(walletType == WalletType.BANKING) "Chọn ngân hàng" else if(walletType == WalletType.CARD_PAYMENT) "Chọn thẻ" else "Chọn ví điện tử"
         adapter = RvSelectorBankingAdapter(object : Consumer<WalletEntity>{
             override fun accept(value: WalletEntity) {
-                val intent = Intent(this@SelectBankingActivity, if(walletType == WalletType.BANKING) InputInformationBankingActivity::class.java else InputInfoCardPaymentActivity::class.java)
+                val intent = Intent(this@SelectBankingActivity, if(walletType == WalletType.BANKING) InputInformationBankingActivity::class.java else  InputInfoCardPaymentActivity::class.java)
                 intent.putExtra("id", value.id)
                 intent.putExtra("shortName", value.shortName)
                 intent.putExtra("logo", value.logo)
@@ -75,8 +75,8 @@ class SelectBankingActivity : AppCompatActivity() {
         lifecycleScope.launch {
            try{
                val list = getWalletsUseCase.invoke(Unit)
-               val banks= if(walletType == WalletType.BANKING) list.filter { it.type == WalletType.BANKING.name } else list.filter { it.type == WalletType.CARD_PAYMENT.name }
-               adapter.addAll(banks)
+               val banks= if(walletType == WalletType.BANKING) list.filter { it.type == WalletType.BANKING.name } else  if(walletType == WalletType.CARD_PAYMENT)  list.filter { it.type == WalletType.CARD_PAYMENT.name } else null
+               banks?.let { adapter.addAll(banks) }
            }catch (e: Exception){
                e.printStackTrace()
            }

@@ -1,14 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp"
+    android:background="@color/background"
     tools:context=".ui.account.transaction.TransactionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số tiền muốn chuyển"
+            style="@style/TextView.Regular.Regular"
+            android:inputType="numberDecimal"
+            android:id="@+id/edt_amount"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-</FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/bg_corner_border"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:textSize="@dimen/text_size_xxnormal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tv_guide_amount_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông tin người nhận"
+            style="@style/TextView.Regular.Regular"/>
+        <EditText
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/edt_phone"
+            app:layout_constraintTop_toBottomOf="@id/tv_guide_amount_money"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_37sdp"
+            android:background="@drawable/bg_input_text"
+            android:hint="Số điện thoại người nhận"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_xnormal"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:text="Tìm"
+            app:layout_constraintEnd_toEndOf="@id/edt_phone"
+            app:layout_constraintTop_toTopOf="@id/edt_phone"
+            app:layout_constraintBottom_toBottomOf="@id/edt_phone"/>
+
+        <LinearLayout
+            android:layout_marginVertical="@dimen/_5sdp"
+            app:layout_constraintTop_toBottomOf="@id/edt_phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                app:shapeAppearanceOverlay="@style/one_rounded"
+                android:id="@+id/img_avt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                style="@style/TextView.Regular.Regular"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chuyển ngay"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:id="@+id/btn_transfer"/>
+</LinearLayout>

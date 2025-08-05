@@ -23,12 +23,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ví điện tử Zalo Pay"
                 style="@style/TextView.Bold.Bold"/>
 
             <TextView
+                android:id="@+id/tv_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Miễn phí giao dịch"
@@ -37,6 +39,7 @@
         </LinearLayout>
 
         <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

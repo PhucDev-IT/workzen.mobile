@@ -1,12 +1,16 @@
 package vn.gmi.workzen.data.repository
 
+import com.google.android.gms.internal.location.zze
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import vn.gmi.workzen.data.datasource.local.wallet.WalletLocalDataSource
 import vn.gmi.workzen.data.datasource.remote.wallet.WalletRemoteDataSource
 import vn.gmi.workzen.data.di.IoDispatcher
 import vn.gmi.workzen.data.models.request.wallet.CreateLinkPaymentReq
+import vn.gmi.workzen.data.models.request.wallet.CreateTransactionReq
+import vn.gmi.workzen.data.models.response.wallet.TransactionResp
 import vn.gmi.workzen.domain.entity.wallet.LinkedWalletEntity
+import vn.gmi.workzen.domain.entity.wallet.PaymentTransactionEntity
 import vn.gmi.workzen.domain.entity.wallet.WalletEntity
 import vn.gmi.workzen.domain.repository.WalletRepository
 import vn.gmi.workzen.networks.rest.ApiResult
@@ -49,10 +53,43 @@ class WalletRepositoryImpl(
         }
     }
 
-    override suspend fun createLinkPayment(request: CreateLinkPaymentReq): LinkedWalletEntity {
+    override suspend fun createLinkPayment(userId: String,request: CreateLinkPaymentReq): LinkedWalletEntity {
        return withContext (dispatcher){
-           when(val result = remoteDataSource.requestLinkWallet(request).toApiResult()){
+           when(val result = remoteDataSource.requestLinkWallet(userId,request).toApiResult()){
                is ApiResult.Success -> result.data.mapToEntity()
+               is ApiResult.Error -> throw Exception(result.message)
+           }
+       }
+    }
+
+    override suspend fun getTransactionHistories(
+        userId: String,
+        page: Int,
+        size: Int
+    ): List<PaymentTransactionEntity> {
+        return withContext(dispatcher) {
+            when (val result = remoteDataSource.getTransactionHistories(userId, page, size).toApiResult()) {
+                is ApiResult.Success -> {
+                    val entities = result.data.data?.map { it.mapToEntity() }?: emptyList()
+                    localDataSource.saveTransactionHistory(entities)
+                    entities
+                }
+                is ApiResult.Error -> throw Exception(result.message)
+            }
+        }
+    }
+
+    override suspend fun createTransaction(
+        userId: String,
+        request: CreateTransactionReq
+    ): PaymentTransactionEntity {
+       return withContext (dispatcher){
+           when(val result = remoteDataSource.createTransaction(userId,request).toApiResult()){
+               is ApiResult.Success ->{
+                   val entity =  result.data.mapToEntity()
+                   localDataSource.saveTransactionHistory(listOf(entity))
+                   entity
+               }
                is ApiResult.Error -> throw Exception(result.message)
            }
        }
