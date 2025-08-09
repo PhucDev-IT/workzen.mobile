@@ -51,5 +51,6 @@ class EndPoints {
         const val GET_TRANSACTION_HISTORIES ="/api/users/{userId}/transactions"
         const val CREATE_TRANSACTION = "/api/users/{userId}/transactions"
 
+        const val GET_WALLET_ID_BY_PHONE = "/api/wallets/exists"
     }
 }

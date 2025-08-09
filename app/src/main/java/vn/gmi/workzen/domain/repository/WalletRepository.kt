@@ -18,4 +18,5 @@ interface WalletRepository {
 
     suspend fun createTransaction(userId: String,request: CreateTransactionReq): PaymentTransactionEntity
 
+    suspend fun getWalletIdByPhone(phone: String): String
 }

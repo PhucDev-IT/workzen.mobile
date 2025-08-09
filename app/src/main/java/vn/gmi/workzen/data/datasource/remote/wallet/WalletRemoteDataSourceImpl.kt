@@ -37,4 +37,8 @@ class WalletRemoteDataSourceImpl (private val apiService: WalletService):  Walle
     ): Response<ApiResponse<TransactionResp>> {
         return apiService.createTransaction(userId,request)
     }
+
+    override suspend fun getWalletIdByPhone(phone: String): Response<ApiResponse<String>> {
+        return apiService.getWalletIdByPhone(phone)
+    }
 }

@@ -20,5 +20,5 @@ interface WalletRemoteDataSource {
     suspend fun getTransactionHistories(userId: String,page: Int,size: Int): Response<ApiResponse<PagedResponse<TransactionResp>>>
 
     suspend fun createTransaction(userId: String,request: CreateTransactionReq): Response<ApiResponse<TransactionResp>>
-
+    suspend fun getWalletIdByPhone(phone: String): Response<ApiResponse<String>>
 }

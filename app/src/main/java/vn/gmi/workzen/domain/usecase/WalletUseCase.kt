@@ -53,3 +53,9 @@ class CreateTransactionUseCase(private val repository: WalletRepository) : BaseU
         return repository.createTransaction(params["userId"] as String,params["request"] as CreateTransactionReq)
     }
 }
+
+class GetWalletIdByPhoneUseCase(private val repository: WalletRepository) : BaseUseCase<String, String>(){
+    override suspend fun invoke(params: String): String {
+        return repository.getWalletIdByPhone(params)
+    }
+}

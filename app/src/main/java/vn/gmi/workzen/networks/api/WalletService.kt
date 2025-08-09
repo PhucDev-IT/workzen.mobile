@@ -4,6 +4,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.gmi.workzen.data.mapper.PagedResponse
@@ -29,4 +30,9 @@ interface WalletService {
 
     @GET(EndPoints.GET_TRANSACTION_HISTORIES)
     suspend fun getTransactionHistories(@Path("userId") userId: String, @Query("page") page: Int, @Query("size") size: Int): Response<ApiResponse<PagedResponse<TransactionResp>>>
+
+    @GET(EndPoints.GET_WALLET_ID_BY_PHONE)
+    suspend fun getWalletIdByPhone(@Query("phone") phone: String): Response<ApiResponse<String>>
+
+
 }

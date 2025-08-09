@@ -94,4 +94,14 @@ class WalletRepositoryImpl(
            }
        }
     }
+
+    override suspend fun getWalletIdByPhone(phone: String): String {
+        return withContext (dispatcher){
+            when(val result = remoteDataSource.getWalletIdByPhone(phone).toApiResult()){
+                is ApiResult.Success -> result.data
+                is ApiResult.Error -> throw Exception(result.message)
+            }
+
+        }
+    }
 }
