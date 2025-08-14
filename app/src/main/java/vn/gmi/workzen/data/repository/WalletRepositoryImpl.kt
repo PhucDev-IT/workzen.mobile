@@ -42,6 +42,10 @@ class WalletRepositoryImpl(
 
     override suspend fun getLinkedWallets(userId: String): List<LinkedWalletEntity> {
         return withContext (dispatcher){
+            val local = localDataSource.getLinkedWallets()
+            if(local.isNotEmpty()){
+                return@withContext local
+            }
             when(val result = remoteDataSource.getAllLinkedWallet(userId).toApiResult()){
                 is ApiResult.Success -> {
                    val entities = result.data.map { it.mapToEntity() }

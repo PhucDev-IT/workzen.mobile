@@ -10,6 +10,7 @@
     tools:context=".ui.account.transaction.TransactionFragment">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
@@ -49,6 +50,7 @@
             android:hint="Số điện thoại người nhận"
             style="@style/TextView.Regular.Regular"
             android:textSize="@dimen/text_size_xnormal"
+            android:inputType="phone"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"/>
 
@@ -71,10 +73,11 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_marginTop="@dimen/_4sdp"
                 android:id="@+id/tv_response_find_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
                 style="@style/TextView.Regular.Regular"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -84,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Chuyển ngay"
+        android:backgroundTint="@color/gray_light"
         android:layout_marginVertical="@dimen/_20sdp"
         android:id="@+id/btn_transfer"/>
 </LinearLayout>

@@ -11,6 +11,6 @@ class CreateTransactionReq {
     var rawData:String?=null
     var recipientType:String?=null
     var recipientId:String?=null
-    var transactionTime: LocalDateTime?=null
+    var transactionTime: String?=null
     var type: TransactionType?=null
 }

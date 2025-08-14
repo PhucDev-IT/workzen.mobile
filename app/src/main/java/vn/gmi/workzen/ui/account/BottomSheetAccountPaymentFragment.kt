@@ -8,21 +8,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.github.alexzhirkevich.customqrgenerator.vector.style.QrVectorBallShape
 import com.github.alexzhirkevich.customqrgenerator.vector.style.QrVectorFrameShape
 import com.github.alexzhirkevich.customqrgenerator.vector.style.QrVectorPixelShape
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.databinding.ViewPaymentAccountBinding
+import vn.gmi.workzen.domain.entity.enums.WalletType
+import vn.gmi.workzen.domain.entity.wallet.LinkedWalletEntity
+import vn.gmi.workzen.domain.usecase.GetLinkedWalletsUseCase
 import vn.gmi.workzen.ui.account.model.QrStyleOption
 import vn.gmi.workzen.ui.account.topup.TopupFragment
 import vn.gmi.workzen.ui.account.transaction.TransactionFragment
 import vn.gmi.workzen.ui.account.withdraw.WithDrawFragment
+import vn.gmi.workzen.utils.FormatUtils
+import vn.gmi.workzen.utils.MySharedPreferences
+import vn.gmi.workzen.utils.Utils
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment() {
     private lateinit var binding: ViewPaymentAccountBinding
+    private var wallets : List<LinkedWalletEntity>?=null
 
+
+    @Inject lateinit var getLinkedWalletsUseCase: GetLinkedWalletsUseCase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,6 +101,27 @@ class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment() {
     }
 
 
+    private fun getLinkedWallets(){
+        lifecycleScope.launch {
+            try {
+                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
+                wallets = getLinkedWalletsUseCase.invoke(userId ?: "")
+                displayData()
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun displayData(){
+        if(wallets.isNullOrEmpty()) return
+
+        val systemWallet = wallets!!.find { it.walletInfo?.type == WalletType.SYSTEM_WALLET.name }
+        systemWallet?.let {
+            binding.tvBalance.text = FormatUtils.numberFormat.format(systemWallet.balance)
+        }
+    }
+
     private fun showTab(tab: Int) {
         val fragment = when (tab) {
             0 -> TopupFragment()
@@ -99,5 +135,9 @@ class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment() {
             .commit()
     }
 
+    override fun onResume() {
+        getLinkedWallets()
+        super.onResume()
+    }
 
 }

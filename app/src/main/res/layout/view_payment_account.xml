@@ -86,6 +86,7 @@
                     style="@style/TextView.Regular.Regular"
                     android:textSize="@dimen/text_size_medium"/>
                 <TextView
+                    android:id="@+id/tv_balance"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_width="wrap_content"
