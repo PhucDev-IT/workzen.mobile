@@ -42,10 +42,7 @@ class WalletRepositoryImpl(
 
     override suspend fun getLinkedWallets(userId: String): List<LinkedWalletEntity> {
         return withContext (dispatcher){
-            val local = localDataSource.getLinkedWallets()
-            if(local.isNotEmpty()){
-                return@withContext local
-            }
+
             when(val result = remoteDataSource.getAllLinkedWallet(userId).toApiResult()){
                 is ApiResult.Success -> {
                    val entities = result.data.map { it.mapToEntity() }
@@ -57,7 +54,13 @@ class WalletRepositoryImpl(
         }
     }
 
-    override suspend fun createLinkPayment(userId: String,request: CreateLinkPaymentReq): LinkedWalletEntity {
+    override suspend fun getLinkedWalletLocal(userId: String): List<LinkedWalletEntity> {
+        return withContext (dispatcher){
+            localDataSource.getLinkedWallets()
+        }
+    }
+
+    override suspend fun createLinkPayment(userId: String, request: CreateLinkPaymentReq): LinkedWalletEntity {
        return withContext (dispatcher){
            when(val result = remoteDataSource.requestLinkWallet(userId,request).toApiResult()){
                is ApiResult.Success -> result.data.mapToEntity()

@@ -29,12 +29,13 @@ import vn.gmi.workzen.ui.account.withdraw.WithDrawFragment
 import vn.gmi.workzen.utils.FormatUtils
 import vn.gmi.workzen.utils.MySharedPreferences
 import vn.gmi.workzen.utils.Utils
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment() {
+class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment(), WalletListener {
     private lateinit var binding: ViewPaymentAccountBinding
-    private var wallets : List<LinkedWalletEntity>?=null
+
 
 
     @Inject lateinit var getLinkedWalletsUseCase: GetLinkedWalletsUseCase
@@ -101,24 +102,12 @@ class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment() {
     }
 
 
-    private fun getLinkedWallets(){
-        lifecycleScope.launch {
-            try {
-                val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
-                wallets = getLinkedWalletsUseCase.invoke(userId ?: "")
-                displayData()
-            }catch (e: Exception){
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun displayData(){
+     fun displayData(wallets:List<LinkedWalletEntity>?){
         if(wallets.isNullOrEmpty()) return
 
         val systemWallet = wallets!!.find { it.walletInfo?.type == WalletType.SYSTEM_WALLET.name }
         systemWallet?.let {
-            binding.tvBalance.text = FormatUtils.numberFormat.format(systemWallet.balance)
+            binding.tvBalance.text = FormatUtils.numberFormat.format(BigDecimal(systemWallet.balance))
         }
     }
 
@@ -135,9 +124,13 @@ class BottomSheetAccountPaymentFragment : BottomSheetDialogFragment() {
             .commit()
     }
 
-    override fun onResume() {
-        getLinkedWallets()
-        super.onResume()
+
+    override fun onReloadWalletSystem(wallets: List<LinkedWalletEntity>) {
+        displayData(wallets)
     }
 
+}
+
+interface WalletListener{
+    fun onReloadWalletSystem(wallets: List<LinkedWalletEntity>)
 }

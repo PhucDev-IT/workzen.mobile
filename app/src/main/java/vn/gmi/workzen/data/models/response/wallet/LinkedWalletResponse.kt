@@ -1,7 +1,9 @@
 package vn.gmi.workzen.data.models.response.wallet
 
+import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.mapper.DataMapper
 import vn.gmi.workzen.domain.entity.wallet.LinkedWalletEntity
+import vn.gmi.workzen.utils.MySharedPreferences
 
 class LinkedWalletResponse : DataMapper<LinkedWalletEntity>() {
     var idLinkedWallet:String?=null
@@ -21,6 +23,7 @@ class LinkedWalletResponse : DataMapper<LinkedWalletEntity>() {
             this.idCard = this@LinkedWalletResponse.idCard
             this.eidNumber = this@LinkedWalletResponse.eidNumber
             this.ownerName = this@LinkedWalletResponse.ownerName
+            this.userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
 
         }
     }

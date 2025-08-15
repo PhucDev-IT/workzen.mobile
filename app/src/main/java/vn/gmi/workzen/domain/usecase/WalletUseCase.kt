@@ -36,6 +36,12 @@ class RequestLinkWalletUseCase(private val repository: WalletRepository) : BaseU
     }
 }
 
+class GetLinkedWalletLocalUseCase(private val repository: WalletRepository) : BaseUseCase<String, List<LinkedWalletEntity>>(){
+    override suspend fun invoke(params: String): List<LinkedWalletEntity> {
+        return repository.getLinkedWalletLocal(params)
+    }
+}
+
 class GetLinkedWalletsUseCase(private val repository: WalletRepository) : BaseUseCase<String, List<LinkedWalletEntity>>(){
     override suspend fun invoke(params: String): List<LinkedWalletEntity> {
         return repository.getLinkedWallets(params)

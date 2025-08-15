@@ -83,11 +83,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <vn.gmi.workzen.core.ui.LoadingButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chuyển ngay"
-        android:backgroundTint="@color/gray_light"
+        app:text="Chuyển ngay"
+        app:textColor="@color/white"
+        app:fontFamily="@font/helvetica_neue_bold"
         android:layout_marginVertical="@dimen/_20sdp"
         android:id="@+id/btn_transfer"/>
 </LinearLayout>

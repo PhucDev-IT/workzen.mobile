@@ -12,6 +12,6 @@ class LinkedWalletEntity : RealmObject{
     var idCard:String?=null
     var eidNumber:String?=null
     var ownerName:String?=null
-
+    var userId:String?=null
     var walletInfo: WalletEntity?=null
 }

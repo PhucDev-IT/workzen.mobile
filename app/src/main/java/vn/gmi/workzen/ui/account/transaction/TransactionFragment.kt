@@ -1,5 +1,6 @@
 package vn.gmi.workzen.ui.account.transaction
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
@@ -13,17 +14,22 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import vn.gmi.workzen.R
+import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.data.models.request.wallet.CreateTransactionReq
 import vn.gmi.workzen.databinding.FragmentTransactionBinding
+import vn.gmi.workzen.domain.entity.enums.TransactionType
 import vn.gmi.workzen.domain.entity.enums.WalletType
 import vn.gmi.workzen.domain.entity.wallet.LinkedWalletEntity
 import vn.gmi.workzen.domain.usecase.CreateTransactionUseCase
+import vn.gmi.workzen.domain.usecase.GetLinkedWalletLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetLinkedWalletsUseCase
 import vn.gmi.workzen.domain.usecase.GetWalletIdByPhoneUseCase
-import vn.gmi.workzen.manager.SessionManager
+import vn.gmi.workzen.ui.account.BottomSheetAccountPaymentFragment
+import vn.gmi.workzen.ui.account.WalletListener
 import vn.gmi.workzen.utils.Constants
 import vn.gmi.workzen.utils.MySharedPreferences
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -32,12 +38,14 @@ class TransactionFragment : Fragment() {
     private lateinit var _binding: FragmentTransactionBinding
     private val binding get() = _binding
     private var receiverId : String?=null
-    private var myWallet : LinkedWalletEntity?=null
 
+    private var myWallet : LinkedWalletEntity?=null
+    private var callback: WalletListener? = null
 
     @Inject lateinit var getWalletIdByPhoneUseCase: GetWalletIdByPhoneUseCase
     @Inject lateinit var createTransactionUseCase: CreateTransactionUseCase
     @Inject lateinit var getLinkedWalletsUseCase: GetLinkedWalletsUseCase
+    @Inject lateinit var getLinkedWalletLocalUseCase: GetLinkedWalletLocalUseCase
 
 
     override fun onCreateView(
@@ -46,7 +54,6 @@ class TransactionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
-        getLinkedWallets()
         setListener()
         return binding.root
     }
@@ -119,7 +126,13 @@ class TransactionFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
+
+                val local = getLinkedWalletLocalUseCase.invoke(userId ?: "")
+                if(local.isNotEmpty()){
+                    myWallet = local.find { it.walletInfo?.type == WalletType.SYSTEM_WALLET.name }
+                }
                 val result = getLinkedWalletsUseCase.invoke(userId ?: "")
+                callback?.onReloadWalletSystem(result)
                myWallet = result.find { it.walletInfo?.type == WalletType.SYSTEM_WALLET.name }
             }catch (e: Exception){
                 e.printStackTrace()
@@ -183,10 +196,16 @@ class TransactionFragment : Fragment() {
             return
         }
 
+        if(BigDecimal(amount) > BigDecimal(myWallet?.balance ?: "0")){
+            AppToast.showError(requireContext(),"Số dư không đủ")
+            return
+        }
+
         val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
         val req = CreateTransactionReq().apply {
             senderWalletLinkedId = myWallet?.idLinkedWallet
             receiverWalletLinkedId = receiverId
+            type = TransactionType.TRANSFER_USER
             this.amount = amount
             this.transactionTime = LocalDateTime.now().toString()
             this.recipientType = "user"
@@ -194,15 +213,32 @@ class TransactionFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
+                binding.btnTransfer.showLoading()
                 val maps = mapOf(
                     "userId" to userId!!,
                     "request" to req
                 )
                 val result = createTransactionUseCase.invoke(maps)
+                AppToast.showSuccess(requireContext(),"Giao dịch thành công")
+                getLinkedWallets()
             }catch (e: Exception){
                 e.printStackTrace()
+            }finally {
+                binding.btnTransfer.hideLoading()
             }
         }
     }
 
+    override fun onResume() {
+        getLinkedWallets()
+        super.onResume()
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = parentFragment as? WalletListener
+    }
+    override fun onDetach() {
+        super.onDetach()
+        callback = null
+    }
 }

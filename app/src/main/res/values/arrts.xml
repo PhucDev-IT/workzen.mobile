@@ -6,6 +6,14 @@
     <attr name="bottom_right_corner_radius" format="dimension" />
     <attr name="bottom_left_corner_radius" format="dimension" />
 
+    <declare-styleable name="LoadingButton">
+        <attr name="text" format="string" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="fontFamily" format="string"/>
+        <attr name="style" format="reference"/>
+    </declare-styleable>
+
     <declare-styleable name="RoundCornerFrameLayout">
         <attr name="corner_radius" />
         <attr name="top_left_corner_radius" />

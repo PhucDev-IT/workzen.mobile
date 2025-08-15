@@ -82,7 +82,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Active balance"
+                    android:text="Số dư hiện có"
                     style="@style/TextView.Regular.Regular"
                     android:textSize="@dimen/text_size_medium"/>
                 <TextView

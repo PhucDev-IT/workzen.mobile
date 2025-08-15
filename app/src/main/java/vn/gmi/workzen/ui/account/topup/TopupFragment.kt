@@ -1,5 +1,6 @@
 package vn.gmi.workzen.ui.account.topup
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,7 +18,11 @@ import vn.gmi.workzen.adapter.RvCheckBoxWalletLinkedAdapter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
 import vn.gmi.workzen.databinding.FragmentTopupBinding
 import vn.gmi.workzen.domain.entity.enums.WalletType
+import vn.gmi.workzen.domain.usecase.GetLinkedWalletLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetLinkedWalletsUseCase
+import vn.gmi.workzen.ui.account.BottomSheetAccountPaymentFragment
+import vn.gmi.workzen.ui.account.WalletListener
+
 import vn.gmi.workzen.ui.account.banking.SelectBankingActivity
 import vn.gmi.workzen.utils.IntentData
 import vn.gmi.workzen.utils.MySharedPreferences
@@ -25,11 +30,14 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class TopupFragment : Fragment() {
+class TopupFragment (): Fragment() {
     private lateinit var binding: FragmentTopupBinding
     private lateinit var adapter: RvCheckBoxWalletLinkedAdapter
+    private var callback: WalletListener? = null
 
     @Inject lateinit var getLinkedWalletsUseCase: GetLinkedWalletsUseCase
+    @Inject lateinit var getLinkedWalletLocalUseCase: GetLinkedWalletLocalUseCase
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,15 +86,31 @@ class TopupFragment : Fragment() {
 
     private fun getLinkedWallets(){
         lifecycleScope.launch {
-            try{
+            try {
                 val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
-                val result = getLinkedWalletsUseCase.invoke(userId?:"")
 
+                val local = getLinkedWalletLocalUseCase.invoke(userId ?: "")
+                if(local.isNotEmpty()){
+                    adapter.addAll(local)
+                }
+                val result = getLinkedWalletsUseCase.invoke(userId ?: "")
                 adapter.addAll(result)
+
+                callback?.onReloadWalletSystem(result)
             }catch (e: Exception){
                 e.printStackTrace()
             }
         }
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = parentFragment as? WalletListener
+    }
+    override fun onDetach() {
+        super.onDetach()
+        callback = null
     }
 
 }

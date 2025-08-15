@@ -11,6 +11,7 @@ interface WalletRepository {
     suspend fun getWallets(): List<WalletEntity>
 
     suspend fun getLinkedWallets(userId: String): List<LinkedWalletEntity>
+    suspend fun getLinkedWalletLocal(userId: String): List<LinkedWalletEntity>
 
     suspend fun createLinkPayment(userId: String,request: CreateLinkPaymentReq): LinkedWalletEntity
 
