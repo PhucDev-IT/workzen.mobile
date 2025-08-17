@@ -59,4 +59,6 @@
     <string name="re_send">Gửi lại</string>
     <string name="todo">TODO</string>
 
+    <string name="label_view_wallet">💰 <u>Xem ví tiền</u></string>
+
 </resources>

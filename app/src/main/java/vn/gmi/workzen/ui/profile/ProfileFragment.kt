@@ -17,6 +17,7 @@ import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
 import vn.gmi.workzen.domain.entity.user.IdentificationEntity
 import vn.gmi.workzen.domain.entity.contract.ContractRole
 import vn.gmi.workzen.domain.entity.user.ProfileEntity
+import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.ui.account.BottomSheetAccountPaymentFragment
 import vn.gmi.workzen.ui.authentication.login.LoginActivity
 import vn.gmi.workzen.ui.chat.conversation.ChatActivity
@@ -49,6 +50,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
         binding.llProfileDetail.setOnClickListener(this)
         binding.icChat.setOnClickListener(this)
         binding.icLogout.setOnClickListener(this)
+        binding.tvViewWallet.setOnClickListener(this)
     }
 
     override fun onSingleClick(v: View?) {
@@ -62,6 +64,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
             binding.icLogout->{
                 logout()
             }
+
+            binding.tvViewWallet->{
+                showBottomSheetAccountPayment()
+            }
         }
     }
 
@@ -74,7 +80,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),ProfileContract.V
         presenter.attachView(this)
 
         presenter.getMonthlyWorkOverview()
-        showBottomSheetAccountPayment()
+
+        Glide.with(requireContext()).load(SessionManager.profileState.value?.avatarUrl).placeholder(R.drawable.logo).into(binding.imgAvatar)
+        binding.tvName.text = SessionManager.profileState.value?.fullName
 
     }
 
