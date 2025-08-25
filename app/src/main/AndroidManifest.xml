@@ -32,9 +32,11 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.account.banking.InputInfoCardPaymentActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".ui.account.banking.InputInformationBankingActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".ui.account.banking.SelectBankingActivity"
@@ -69,6 +71,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.onboard_user.NfcActivity"

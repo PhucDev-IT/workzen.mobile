@@ -17,6 +17,7 @@ import vn.gmi.workzen.domain.usecase.GetMonthlyWorkOverviewLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetMonthlyWorkOverviewRemoteUseCase
 import vn.gmi.workzen.domain.usecase.GetReportSalaryOfYearLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetReportSalaryOfYearRemoteUseCase
+import vn.gmi.workzen.domain.usecase.GetReportWorkSheetTheDayLocalUseCase
 import vn.gmi.workzen.domain.usecase.GetWorkScheduleTodayUseCase
 import vn.gmi.workzen.domain.usecase.ReportAttendanceByMonthYearLocalUseCase
 import vn.gmi.workzen.domain.usecase.ReportAttendanceByMonthYearRemoteUseCase
@@ -50,6 +51,10 @@ class AttendanceModule {
         return AttendanceLocalDataSourceImpl()
     }
 
+    @Provides
+    fun provideGetReportWorkSheetTheDayLocalUseCase(attendanceRepository: AttendanceRepository): GetReportWorkSheetTheDayLocalUseCase{
+        return GetReportWorkSheetTheDayLocalUseCase(attendanceRepository)
+    }
 
     @Provides
     fun provideCheckInUseCase(attendanceRepository: AttendanceRepository): CheckInUseCase {

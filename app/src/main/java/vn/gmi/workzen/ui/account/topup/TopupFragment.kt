@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.RvCheckBoxWalletLinkedAdapter
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
+import vn.gmi.workzen.core.extensions.addCurrencyFormatter
 import vn.gmi.workzen.databinding.FragmentTopupBinding
 import vn.gmi.workzen.domain.entity.enums.WalletType
 import vn.gmi.workzen.domain.usecase.GetLinkedWalletLocalUseCase
@@ -82,6 +83,7 @@ class TopupFragment (): Fragment() {
             startActivity(intent)
         }
 
+        binding.edtAmount.addCurrencyFormatter()
     }
 
     private fun getLinkedWallets(){

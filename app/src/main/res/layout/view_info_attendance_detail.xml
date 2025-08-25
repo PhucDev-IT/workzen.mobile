@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="@dimen/_10sdp"
     app:cardBackgroundColor="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,11 +27,12 @@
                 android:layout_gravity="end"/>
 
             <TextView
+                android:id="@+id/tv_time"
+                style="@style/TextView.Medium.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thời gian: 16/08/2025"
-                style="@style/TextView.Medium.Medium"
-                android:textSize="@dimen/text_size_xxnormal"/>
+                android:textSize="@dimen/text_size_xxnormal" />
 
             <LinearLayout
                 android:layout_marginVertical="@dimen/_10sdp"
@@ -51,6 +52,7 @@
                         style="@style/TextView.Medium.Medium"
                         android:textColor="@color/textSecondary"/>
                     <TextView
+                        android:id="@+id/tv_time_checkin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10:00"
@@ -71,6 +73,7 @@
                         style="@style/TextView.Medium.Medium"
                         android:textColor="@color/textSecondary"/>
                     <TextView
+                        android:id="@+id/tv_time_checkout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="17:00"
@@ -131,47 +134,158 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView  android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tổng giờ làm"
+                        android:text="Tổng giờ làm thực"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
                         style="@style/TextView.Regular.Regular"/>
                     <TextView
+                        android:id="@+id/tv_total_hour_time_work"
+                        android:layout_weight="1"
+                        android:gravity="end"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tổng giờ làm"
-                        style="@style/TextView.Regular.Regular"/>
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
                 </TableRow>
                 <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <TextView  android:layout_width="wrap_content"
+                    <TextView  
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tổng giờ làm"
+                        android:text="Tổng giờ tăng ca"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
                         style="@style/TextView.Regular.Regular"/>
                     <TextView
+                        android:id="@+id/tv_total_hour_overtime"
+                        android:layout_weight="1"
+                        android:gravity="end"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tổng giờ làm"
-                        style="@style/TextView.Regular.Regular"/>
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
                 </TableRow>
                 <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView  android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tổng giờ làm"
+                        android:text="Tiền phạt đi muộn"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
                         style="@style/TextView.Regular.Regular"/>
                     <TextView
+                        android:layout_weight="1"
+                        android:gravity="end"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tổng giờ làm"
-                        style="@style/TextView.Regular.Regular"/>
+                        android:text="0"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
                 </TableRow>
+                <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiền phạt về sớm"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
+                        style="@style/TextView.Regular.Regular"/>
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiền phạt nghỉ không lý do"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
+                        style="@style/TextView.Regular.Regular"/>
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiền thưởng"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
+                        style="@style/TextView.Regular.Regular"/>
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:background="@drawable/bg_border_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nội dung bổ sung"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        android:textColor="@color/textSecondary"
+                        style="@style/TextView.Regular.Regular"/>
+                    <TextView
+                        android:id="@+id/tv_note"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Không"
+                        android:textSize="@dimen/text_size_xxnormal"
+                        style="@style/TextView.Medium.Medium"/>
+                </TableRow>
+
+
             </TableLayout>
         </LinearLayout>
     </ScrollView>

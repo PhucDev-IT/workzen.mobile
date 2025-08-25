@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.constants.AppToast
 import vn.gmi.workzen.core.constants.SharedPreferenceKey
+import vn.gmi.workzen.core.extensions.addCurrencyFormatter
 import vn.gmi.workzen.data.models.request.wallet.CreateTransactionReq
 import vn.gmi.workzen.databinding.FragmentTransactionBinding
 import vn.gmi.workzen.domain.entity.enums.TransactionType
@@ -94,29 +95,7 @@ class TransactionFragment : Fragment() {
         })
 
 
-        binding.edtAmount.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-
-            }
-
-            override fun onTextChanged(
-                s: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                handleFindPhone(receiverId!=null)
-            }
-        })
+        binding.edtAmount.addCurrencyFormatter()
 
 
     }

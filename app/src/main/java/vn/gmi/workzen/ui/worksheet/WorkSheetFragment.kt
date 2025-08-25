@@ -97,7 +97,11 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
 
         workSheetPresenter.attachView(this)
 
-        adapter = WorkSheetCalendarAdapter()
+        adapter = WorkSheetCalendarAdapter(object : Consumer<ReportWorkSheetDayEntity>{
+            override fun accept(value: ReportWorkSheetDayEntity) {
+                showBottomSheetInfo(value)
+            }
+        })
         binding.gridWorkSheet.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.gridWorkSheet.adapter = adapter
 
@@ -132,49 +136,6 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
         flatten?.let {
             adapter.setFullData(it)
         }
-    }
-
-    fun buildFullMonthDays(
-        dataFromServer: List<ReportWorkSheetDayEntity>,
-        month: Int,
-        year: Int
-    ): List<WorkDayItem> {
-        val result = mutableListOf<WorkDayItem>()
-
-        val daysMap = dataFromServer.associateBy { it.workDate } // map theo chuỗi ngày
-
-        val startOfMonth = LocalDate.of(year, month, 1)
-        val endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth())
-
-        // Tính số ngày trống cần thêm phía trước
-        val dayOfWeekIndex = (startOfMonth.dayOfWeek.value % 7) // 0 = CN, 1 = T2,...
-
-        // Ngày bắt đầu hiển thị (có thể là cuối tháng trước)
-        val firstCalendarDay = startOfMonth.minusDays(dayOfWeekIndex.toLong())
-
-        // Tạo đủ 42 ngày liên tục
-        for (i in 0 until 42) {
-            val date = firstCalendarDay.plusDays(i.toLong())
-            val dateStr = date.toString() // yyyy-MM-dd
-
-            val entity = daysMap[dateStr]
-            if (entity != null) {
-                result.add(WorkDayItem.WorkDay(entity))
-            } else {
-                val fake = ReportWorkSheetDayEntity().apply {
-                    workDate = dateStr
-                    status = null
-                    attendanceStatus = null
-                    note = null
-                    salary = null
-                    data = null
-                    id = "fakeday-$dateStr"
-                }
-                result.add(WorkDayItem.WorkDay(fake))
-            }
-        }
-
-        return result
     }
 
 
@@ -213,6 +174,12 @@ class WorkSheetFragment : BaseFragment<FragmentWorkSheetBinding>(), WorkSheetCon
         return matrix
     }
 
+
+    private fun showBottomSheetInfo(entity:ReportWorkSheetDayEntity){
+        val bottomSheet = BottomSheetInfoAttendance.newInstance(entity.id)
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
+
+    }
 
     private fun showBottomSelectTimeReport() {
         val listener = object : Consumer<Pair<Int, Int>> {

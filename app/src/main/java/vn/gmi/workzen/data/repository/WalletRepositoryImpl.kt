@@ -26,7 +26,7 @@ class WalletRepositoryImpl(
     override suspend fun getWallets(): List<WalletEntity> {
         return withContext (dispatcher){
             val local = localDataSource.getAllWallet()
-            if( local.isNotEmpty() == true)
+            if( local.isNotEmpty() == true && local.size != 1)
                 local
             else
                 when(val result = remoteDataSource.getAllWallets().toApiResult()){
@@ -63,7 +63,11 @@ class WalletRepositoryImpl(
     override suspend fun createLinkPayment(userId: String, request: CreateLinkPaymentReq): LinkedWalletEntity {
        return withContext (dispatcher){
            when(val result = remoteDataSource.requestLinkWallet(userId,request).toApiResult()){
-               is ApiResult.Success -> result.data.mapToEntity()
+               is ApiResult.Success -> {
+                 val res =  result.data.mapToEntity()
+                   res.walletInfo?.let {  localDataSource.storeWallets(listOf(it)) }
+                   res
+               }
                is ApiResult.Error -> throw Exception(result.message)
            }
        }

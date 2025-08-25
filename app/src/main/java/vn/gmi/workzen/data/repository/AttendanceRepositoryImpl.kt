@@ -9,6 +9,7 @@ import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
+import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetDayEntity
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetMonthYearEntity
 import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity
 import vn.gmi.workzen.domain.repository.AttendanceRepository
@@ -106,6 +107,14 @@ class AttendanceRepositoryImpl @Inject constructor(
     override suspend fun getReportSalaryOfYearLocal(year: Int): StatisticSalaryOfYearEntity? {
         return withContext(dispatcher){
             val entity = attendanceLocalDataSource.getReportSalaryOfYear(year)
+            entity
+        }
+    }
+
+
+    override suspend fun getReportWorkSheetTheDayLocal(id: String): ReportWorkSheetDayEntity? {
+        return withContext(dispatcher){
+            val entity = attendanceLocalDataSource.getReportWorkSheetTheDay(id)
             entity
         }
     }

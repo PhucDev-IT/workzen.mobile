@@ -1,11 +1,13 @@
 package vn.gmi.workzen.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.gmi.workzen.core.base.BaseAdapter
 import vn.gmi.workzen.databinding.ItemSelectWalletViewBinding
+import vn.gmi.workzen.domain.entity.enums.WalletType
 import vn.gmi.workzen.domain.entity.wallet.LinkedWalletEntity
 
 class RvCheckBoxWalletLinkedAdapter : BaseAdapter<LinkedWalletEntity>() {
@@ -31,6 +33,10 @@ class RvCheckBoxWalletLinkedAdapter : BaseAdapter<LinkedWalletEntity>() {
             Glide.with(viewHolder.itemView.context)
                 .load(item.walletInfo?.logo)
                 .into(imgLogo)
+
+            if(item.walletInfo?.type == WalletType.SYSTEM_WALLET.name){
+                checkbox.visibility = View.INVISIBLE
+            }
 
             // Gán trạng thái checkbox
             checkbox.isChecked = holder.bindingAdapterPosition == selectedPosition

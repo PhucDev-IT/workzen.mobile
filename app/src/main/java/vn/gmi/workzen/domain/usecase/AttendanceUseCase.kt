@@ -5,6 +5,7 @@ import vn.gmi.workzen.data.models.request.attendance.CheckInRequestModel
 import vn.gmi.workzen.data.models.request.attendance.CheckoutReqModel
 import vn.gmi.workzen.data.models.response.attendance.GetWorkScheduleResModel
 import vn.gmi.workzen.domain.entity.attendance.MonthlyWorkOverviewEntity
+import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetDayEntity
 import vn.gmi.workzen.domain.entity.attendance.ReportWorkSheetMonthYearEntity
 import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity
 import vn.gmi.workzen.domain.repository.AttendanceRepository
@@ -61,5 +62,10 @@ class GetReportSalaryOfYearLocalUseCase(private val attendanceRepository: Attend
     override suspend fun invoke(params: Int): StatisticSalaryOfYearEntity? {
         return attendanceRepository.getReportSalaryOfYearLocal(params)
     }
+}
 
+class GetReportWorkSheetTheDayLocalUseCase(private val attendanceRepository: AttendanceRepository):  BaseUseCase<String, ReportWorkSheetDayEntity?>(){
+    override suspend fun invoke(params: String): ReportWorkSheetDayEntity? {
+        return  attendanceRepository.getReportWorkSheetTheDayLocal(params)
+    }
 }

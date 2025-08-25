@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.util.Consumer
 import androidx.recyclerview.widget.RecyclerView
 import vn.gmi.workzen.databinding.ItemWorkDayInfoBinding
 import vn.gmi.workzen.domain.entity.attendance.WorkDayItem
@@ -16,7 +17,7 @@ import vn.gmi.workzen.ui.home.models.EAttendanceType
 import vn.gmi.workzen.utils.DateUtils
 import java.time.LocalDate
 
-class WorkSheetCalendarAdapter : RecyclerView.Adapter<WorkSheetCalendarAdapter.WorkDayViewHolder>() {
+class WorkSheetCalendarAdapter(private val onClick: Consumer<ReportWorkSheetDayEntity>) : RecyclerView.Adapter<WorkSheetCalendarAdapter.WorkDayViewHolder>() {
     private var list: List<ReportWorkSheetDayEntity> = listOf()
 
 
@@ -26,7 +27,7 @@ class WorkSheetCalendarAdapter : RecyclerView.Adapter<WorkSheetCalendarAdapter.W
         notifyDataSetChanged()
     }
 
-    class WorkDayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class WorkDayViewHolder(view: View,private val onClick: Consumer<ReportWorkSheetDayEntity>) : RecyclerView.ViewHolder(view) {
         private val binding = ItemWorkDayInfoBinding.bind(view)
         private val dateNow = LocalDate.now()
 
@@ -63,7 +64,9 @@ class WorkSheetCalendarAdapter : RecyclerView.Adapter<WorkSheetCalendarAdapter.W
                     }
                 }
             }
-
+            binding.container.setOnClickListener {
+                onClick.accept(item)
+            }
             if(date == dateNow){
                 binding.container.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange))
             }
@@ -76,7 +79,7 @@ class WorkSheetCalendarAdapter : RecyclerView.Adapter<WorkSheetCalendarAdapter.W
         viewType: Int
     ): WorkDayViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_work_day_info, parent, false)
-        return WorkDayViewHolder(view)
+        return WorkDayViewHolder(view, onClick)
     }
 
     override fun onBindViewHolder(

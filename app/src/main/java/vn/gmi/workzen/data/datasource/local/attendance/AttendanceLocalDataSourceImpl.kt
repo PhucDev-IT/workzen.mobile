@@ -62,4 +62,9 @@ class AttendanceLocalDataSourceImpl : AttendanceLocalDataSource {
         val userId = MySharedPreferences.getStringValues(SharedPreferenceKey.KEY_USER_ID)
         return RealmProvider.realm.query(StatisticSalaryOfYearEntity::class, "year == $0 AND userId == $1", year,userId).first().find()?.copyFromRealm()
     }
+
+    override suspend fun getReportWorkSheetTheDay(id: String): ReportWorkSheetDayEntity? {
+        return RealmProvider.realm.query(ReportWorkSheetDayEntity::class, "id == $0", id)
+            .first().find()?.copyFromRealm()
+    }
 }
