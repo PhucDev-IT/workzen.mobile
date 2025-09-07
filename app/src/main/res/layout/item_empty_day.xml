@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_5sdp"
+    android:layout_columnWeight="1"
+    android:layout_margin="@dimen/_1sdp"
+    app:cardBackgroundColor="@color/white"
+    android:layout_gravity="fill_horizontal"
+    android:layout_height="@dimen/_50sdp">
+    <RelativeLayout
+        android:padding="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_day_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextView.Bold.Bold"
+            android:textSize="@dimen/text_size_small"
+
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/tv_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            style="@style/TextView.Medium.Medium"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/text_size_small"/>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

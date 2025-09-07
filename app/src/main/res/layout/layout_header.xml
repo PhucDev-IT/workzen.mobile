@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/toolbar"
+    app:navigationIconTint="@color/secondaryColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:navigationIcon="@drawable/baseline_navigate_before_24"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       style="@style/Text.Header"
+        android:layout_gravity="center"/>
+</com.google.android.material.appbar.MaterialToolbar>

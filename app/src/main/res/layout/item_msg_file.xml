@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginVertical="@dimen/_5sdp"
+    >
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/one_rounded"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="@dimen/_7sdp"/>
+    <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+        android:background="@color/primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_message"
+        app:corner_radius="@dimen/_7sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:corner_radius="@dimen/_7sdp">
+                <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:contentDescription="@string/todo"
+                    android:layout_height="@dimen/_30sdp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/image"/>
+            </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="File tài liệu"
+                android:textColor="@color/white"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                style="@style/TextView.Medium.Medium"/>
+        </LinearLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/_5sdp"
+            style="@style/TextView.Regular.Regular"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/TextView.Regular.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text=""
+            android:layout_margin="@dimen/_3sdp"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_size_small" />
+    </vn.gmi.workzen.widgets.roundcornerlayout.RoundCornerLinearLayout>
+</LinearLayout>

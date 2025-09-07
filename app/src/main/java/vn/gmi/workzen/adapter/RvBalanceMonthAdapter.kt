@@ -1,0 +1,40 @@
+package vn.gmi.workzen.adapter
+
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import vn.gmi.workzen.R
+import vn.gmi.workzen.core.base.BaseAdapter
+import vn.gmi.workzen.databinding.ItemBalanceMonthInfoBinding
+import vn.gmi.workzen.domain.entity.attendance.StatisticSalaryOfYearEntity.StatisticSalaryOfYearDataEntity
+import vn.gmi.workzen.utils.FormatUtils
+
+class RvBalanceMonthAdapter : BaseAdapter<StatisticSalaryOfYearDataEntity>() {
+
+    class ViewHolder(itemView:View):ItemViewHolder(itemView){
+        val binding = ItemBalanceMonthInfoBinding.bind(itemView)
+    }
+
+    override fun bindView(holder: ItemViewHolder, item: StatisticSalaryOfYearDataEntity) {
+        val view = holder as ViewHolder
+        Log.d("TAG", "bindView: $item")
+        with(view.binding){
+            tvMonth.text = "Tháng ${item.month}"
+            tvSalary.text =FormatUtils.numberFormat.format(item.totalSalary)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_balance_month_info,parent,false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        bindView(holder, list[position])
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+}

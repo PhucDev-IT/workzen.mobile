@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Workzen" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Màu chính -->
+        <item name="colorPrimary">@color/primary</item>
+
+        <!-- Màu phụ -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+
+
+        <!-- Nền -->
+        <item name="backgroundColor">@color/background</item>
+
+
+        <!-- Cảnh báo -->
+        <item name="colorError">@color/failed</item>
+        
+        <item name="android:textColor">@color/textPrimary</item>
+
+        <item name="buttonStyle">@style/App.Button.Base</item>
+
+    </style>
+
+    <style name="Theme.Workzen" parent="Base.Theme.Workzen" />
+</resources>

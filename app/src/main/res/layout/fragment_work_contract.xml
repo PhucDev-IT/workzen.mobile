@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp"
+    tools:context=".ui.profile.details.WorkContractFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên công việc"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/tv_job_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hình thức"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/shift_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian làm việc"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/shift_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời hạn hợp đồng"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/tv_contract_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chức vụ"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/tv_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mức lương cơ bản"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/tv_salary_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa điểm làm việc"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/tv_address_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Công ty/ Chi nhánh/ Phòng ban"
+            style="@style/TextView.Regular.Regular"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/textSecondary"/>
+        <TextView
+            android:id="@+id/tv_company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            style="@style/TextView.Medium.Medium"
+            android:textSize="@dimen/text_size_xnormal"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
+
+</LinearLayout>

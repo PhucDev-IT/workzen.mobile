@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".ui.account.MyQrCodeActivity">
+
+    <include
+        android:id="@+id/ll_header"
+        layout="@layout/layout_header"/>
+
+   <com.google.android.material.card.MaterialCardView
+       android:layout_below="@id/ll_header"
+       android:id="@+id/container_qr"
+       app:cardBackgroundColor="@color/transparent"
+       android:layout_width="wrap_content"
+     android:layout_centerHorizontal="true"
+       android:layout_marginTop="@dimen/_70sdp"
+       android:layout_height="wrap_content"
+       app:contentPadding="@dimen/_10sdp">
+       <ImageView
+           android:layout_width="@dimen/_200sdp"
+           android:layout_height="@dimen/_200sdp"
+           android:id="@+id/img_qrcode"
+           android:layout_gravity="center"
+           />
+
+   </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_id_qr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0374164756"
+        android:textSize="@dimen/text_size_xxxmedium"
+        style="@style/TextView.Bold.Bold"
+        android:textColor="@color/textPrimary"
+        android:layout_below="@id/container_qr"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/_10sdp"/>
+
+
+
+    <LinearLayout
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_select_image"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/baseline_photo_library_24"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Regular.Regular"
+                android:text="Chọn hình nền"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/baseline_arrow_circle_down_24"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Regular.Regular"
+                android:text="Tải xuống"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/baseline_share_24"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Regular.Regular"
+                android:text="Chia sẽ"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

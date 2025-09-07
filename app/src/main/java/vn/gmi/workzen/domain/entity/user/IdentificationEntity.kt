@@ -1,0 +1,32 @@
+package vn.gmi.workzen.domain.entity.user
+
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+
+class IdentificationEntity : RealmObject {
+    @PrimaryKey
+    var id:String = ""
+    var eidNumber: String? = null
+    var fullName: String? = null
+    var gender: String? = null
+    var dateOfBirth: String? = null
+    var dateOfIssue: String? = null
+    var dateOfExpiry: String? = null
+    var nationality: String? = null
+    var ethnicity: String? = null
+    var religion: String? = null
+    var placeOfOrigin: String? = null
+    var placeOfResidence: String? = null
+    var personalIdentification: String? = null
+    var fatherName: String? = null
+    var motherName: String? = null
+    var spouseName: String? = null
+    var oldEidNumber: String? = null
+    var dg2: String? = null
+    var isVerified: Boolean?=null
+    override fun toString(): String {
+        return "IdentificationEntity(id='$id', eidNumber=$eidNumber, fullName=$fullName, gender=$gender, dateOfBirth=$dateOfBirth, dateOfIssue=$dateOfIssue, dateOfExpiry=$dateOfExpiry, nationality=$nationality, ethnicity=$ethnicity, religion=$religion, placeOfOrigin=$placeOfOrigin, placeOfResidence=$placeOfResidence, personalIdentification=$personalIdentification, fatherName=$fatherName, motherName=$motherName, spouseName=$spouseName, oldEidNumber=$oldEidNumber,  isVerified=$isVerified)"
+    }
+
+
+}

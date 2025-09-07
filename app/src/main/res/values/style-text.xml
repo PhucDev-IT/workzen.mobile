@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TextView Style-->
+    <style name="DefaultTextView" parent="android:Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:textColor">@color/textPrimary</item>
+    </style>
+
+    <style name="TextView.Bold.Bold" parent="DefaultTextView">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:fontFamily">@font/helvetica_neue_bold</item>
+    </style>
+
+    <style name="TextView.Medium.Medium" parent="DefaultTextView">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:fontFamily">@font/helvetica_neue_medium</item>
+    </style>
+
+    <style name="TextView.Regular.Regular" parent="DefaultTextView">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:fontFamily">@font/helvetica_neue_regular</item>
+    </style>
+
+
+    <style name="Text.Header" parent="TextView.Bold.Bold">
+        <item name="android:textSize">@dimen/text_size_xxxmedium</item>
+    </style>
+
+    <style name="Text.Label" parent="TextView.Bold.Bold">
+
+    </style>
+
+    <style name="Text.Input" parent="TextView.Regular.Regular">
+        <item name="android:textSize">@dimen/_12sdp</item>
+    </style>
+
+</resources>
