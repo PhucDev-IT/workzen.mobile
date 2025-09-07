@@ -18,6 +18,7 @@ import vn.gmi.workzen.domain.usecase.ReportAttendanceByMonthYearLocalUseCase
 import vn.gmi.workzen.utils.DateUtils
 import vn.gmi.workzen.utils.FormatUtils
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,17 +55,20 @@ class BottomSheetInfoAttendance : BottomSheetDialogFragment (){
                 val result = getReportWorkSheetTheDayLocalUseCase.invoke(id)
 
                 binding.tvTime.text =  result?.workDate?.let {
-
                     "Thời gian: $it"
                 }?: ""
 
+
                 binding.tvTimeCheckin.text = result?.data?.checkIn?.let {
-                    FormatUtils.timeFormatter.format(it)
+                    val checkIn = LocalDateTime.parse(it)
+                    val time = checkIn.toLocalTime()
+                   time.toString()
                 }?: "N/A"
 
 
                 binding.tvTimeCheckout.text = result?.data?.checkOut?.let {
-                    FormatUtils.timeFormatter.format(it)
+                  val checkOut = LocalDateTime.parse(it)
+                    checkOut.toLocalTime().toString()
                 }?: "N/A"
                 binding.tvNote.text = result?.note
 

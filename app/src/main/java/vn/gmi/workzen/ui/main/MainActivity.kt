@@ -1,5 +1,7 @@
 package vn.gmi.workzen.ui.main
 
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +19,7 @@ import vn.gmi.workzen.core.base.BaseActivity
 import vn.gmi.workzen.data.database.RealmProvider
 import vn.gmi.workzen.databinding.ActivityMainBinding
 import vn.gmi.workzen.domain.entity.notification.Notification
+import vn.gmi.workzen.services.AppBroadcastReceiver
 import vn.gmi.workzen.manager.ChatWebsocketManager
 import vn.gmi.workzen.ui.home.HomeFragment
 import vn.gmi.workzen.ui.payroll.PayRollFragment
@@ -29,7 +32,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity<MainContract.View, MainContract.Presenter>(), MainContract.View {
     private lateinit var binding: ActivityMainBinding
     @Inject lateinit var mainPresenter: MainContract.Presenter
-
+    private val myBroadcast = AppBroadcastReceiver()
 
     override val layoutView: View
         get(){
@@ -133,6 +136,8 @@ class MainActivity : BaseActivity<MainContract.View, MainContract.Presenter>(), 
 
     override fun onStart() {
         super.onStart()
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver( myBroadcast,filter)
 
     }
 
@@ -141,5 +146,9 @@ class MainActivity : BaseActivity<MainContract.View, MainContract.Presenter>(), 
         ChatWebsocketManager.connect()
     }
 
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(myBroadcast)
+    }
 
 }
