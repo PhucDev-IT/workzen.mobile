@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -26,10 +27,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.media3.exoplayer.offline.DownloadService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import vn.gmi.workzen.BuildConfig
 import vn.gmi.workzen.R
 import vn.gmi.workzen.adapter.MessageTypeView
 import vn.gmi.workzen.adapter.RvMessageAdapter
@@ -48,6 +51,8 @@ import vn.gmi.workzen.domain.entity.enums.MessageType
 import vn.gmi.workzen.manager.ChatWebsocketManager
 import vn.gmi.workzen.manager.SessionManager
 import vn.gmi.workzen.networks.ApiService
+import vn.gmi.workzen.networks.api.EndPoints
+import vn.gmi.workzen.services.DownloadFileService
 import vn.gmi.workzen.ui.chat.details.MessageDetailsActivity
 import vn.gmi.workzen.utils.IntentData
 import vn.gmi.workzen.utils.Utils
@@ -81,6 +86,13 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     }
 
 
+
+    private val msgListener = object :  RvMessageAdapter.MessageListener{
+        override fun onDownload(message: MessageEntity) {
+            bindServiceDownload(message)
+        }
+    }
+
     override fun initViews() {
         enableEdgeToEdge()
 
@@ -105,7 +117,7 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         }
 
 
-        adapter = RvMessageAdapter()
+        adapter = RvMessageAdapter(msgListener)
         binding.rvChat.adapter = adapter
         binding.rvChat.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -182,6 +194,20 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
     }
 
 
+    private fun bindServiceDownload(message: MessageEntity){
+        val finalFilePath = message.files.first().filePath?.substringAfterLast("/")
+
+        val intent = Intent(this, DownloadFileService::class.java)
+        intent.putExtra("fileUrl","${BuildConfig.API_BASE_URL}${EndPoints.DOWNLOAD_FILE_STREAM}/${finalFilePath}")
+        intent.putExtra("fileName", message.files.first().fileName)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(this, intent)
+        } else {
+            startService(intent)
+        }
+    }
+
     override fun setListener() {
         binding.icSend.setOnClickListener(this)
         binding.imgAttachFile.setOnClickListener(this)
@@ -194,6 +220,8 @@ class MessengerActivity : BaseActivity<MessageContract.View, MessageContract.Pre
         binding.bottomAction.btnFile.setOnClickListener(this)
 
     }
+
+
 
     override fun onSingleClick(v: View?) {
         when (v) {

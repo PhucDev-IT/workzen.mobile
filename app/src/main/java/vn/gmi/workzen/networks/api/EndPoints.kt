@@ -52,5 +52,10 @@ class EndPoints {
         const val CREATE_TRANSACTION = "/api/users/{userId}/transactions"
 
         const val GET_WALLET_ID_BY_PHONE = "/api/wallets/exists"
+
+
+        //Download
+        const val DOWNLOAD_FILE = "api/files/download"
+        const val DOWNLOAD_FILE_STREAM = "api/files/stream"
     }
 }

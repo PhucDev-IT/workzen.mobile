@@ -1,12 +1,16 @@
 package vn.gmi.workzen.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.Toast
+import androidx.core.widget.PopupWindowCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -26,7 +30,7 @@ import java.time.Duration
 import vn.gmi.workzen.R
 import vn.gmi.workzen.core.extensions.asToList
 
-class RvMessageAdapter : BaseAdapter<MessageEntity>() {
+class RvMessageAdapter(private val onClick: MessageListener) : BaseAdapter<MessageEntity>() {
 
     private val currentUserId = SessionManager.profileState.value?.id
     private var currentSender: MessageEntity? = null
@@ -120,7 +124,10 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
                 .load(iconUrl)
                 .into(image)
 
-
+            holder.itemView.setOnLongClickListener {view->
+                showOptionMessage(holder.itemView.context, message, view)
+                true
+            }
         }
     }
 
@@ -211,6 +218,42 @@ class RvMessageAdapter : BaseAdapter<MessageEntity>() {
             msgTime != null && nextMsgTime != null -> Duration.between(msgTime, nextMsgTime).toMinutes() > 15
             else -> false
         }
+    }
+
+
+    private fun showOptionMessage(context: Context, message: MessageEntity, anchorView: View) {
+        val location = IntArray(2)
+        anchorView.getLocationOnScreen(location) // [x, y] của view trên màn hình
+
+        val x = location[0]
+        val y = location[1]
+
+        val popupView = LayoutInflater.from(context).inflate(R.layout.message_options, null)
+        val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        popupWindow.elevation = 10f
+        // Hiện popup ngay trên bubble
+        popupView.measure(
+            View.MeasureSpec.UNSPECIFIED,
+            View.MeasureSpec.UNSPECIFIED
+        )
+        val popupHeight = popupView.measuredHeight
+
+        popupWindow.showAtLocation(
+            anchorView,
+            Gravity.NO_GRAVITY,
+            x + anchorView.width / 2 - popupView.measuredWidth / 2,
+            y - popupHeight
+        )
+
+        popupView.findViewById<View>(R.id.ll_download).setOnClickListener {
+            onClick.onDownload(message)
+            popupWindow.dismiss()
+        }
+
+    }
+
+    interface MessageListener {
+        fun onDownload(message: MessageEntity)
     }
 }
 

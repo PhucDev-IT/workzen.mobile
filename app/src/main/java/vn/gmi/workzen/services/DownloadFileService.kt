@@ -34,10 +34,10 @@ class DownloadFileService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        return binder
+        return null
     }
 
-    @SuppressLint("ForegroundServiceType")
+
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val fileUrl = intent?.getStringExtra("fileUrl")
